@@ -1,0 +1,58 @@
+
+
+<resources>
+  <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <!--在默认主题里家一张 默认图片 否则 在首次启动的会白屏-->
+    <item name="android:windowBackground">@drawable/startpage</item>
+    <item name="android:windowNoTitle">true</item>
+  </style>
+  <!-- 蓝色为主色调 -->
+  <style name="MyThemeBlue" parent="Theme.AppCompat.Light.NoActionBar">
+
+    <!--选中状态icon的颜色和字体颜色-->
+    <item name="colorPrimary">@color/main_blue_light</item>
+    <item name="colorPrimaryDark">@color/main_blue_dark</item>
+    <item name="colorAccent">@color/main_blue_light</item>
+    <item name="android:windowBackground">@color/main_blue_light</item>
+    <!--正常状态下字体颜色和icon颜色-->
+    <item name="android:textColorPrimary">@color/main_white</item>
+  </style>
+
+
+  <!-- 黄色为主色调 -->
+  <style name="MyThemeYellow" parent="Theme.AppCompat.Light.NoActionBar">
+
+    <!--选中状态icon的颜色和字体颜色-->
+    <item name="colorPrimary">@color/main_yellow_light</item>
+    <item name="colorPrimaryDark">@color/main_yellow_dark</item>
+    <item name="colorAccent">@color/main_yellow_light</item>
+    <item name="android:windowBackground">@color/main_yellow_light</item>
+    <!--正常状态下字体颜色和icon颜色-->
+    <item name="android:textColorPrimary">@color/main_white</item>
+  </style>
+
+  <!-- 粉色为主色调 -->
+  <style name="MyThemePink" parent="Theme.AppCompat.Light.NoActionBar">
+
+    <!--选中状态icon的颜色和字体颜色-->
+    <item name="colorPrimary">@color/main_pink_light</item>
+    <item name="colorPrimaryDark">@color/main_pink_dark</item>
+    <item name="colorAccent">@color/main_pink_light</item>
+    <item name="android:windowBackground">@color/main_pink_light</item>
+    <!--正常状态下字体颜色和icon颜色-->
+    <item name="android:textColorPrimary">@color/main_white</item>
+  </style>
+
+
+  <!-- 绿色为主色调 -->
+  <style name="MyThemeGreen" parent="Theme.AppCompat.Light.NoActionBar">
+
+    <!--选中状态icon的颜色和字体颜色-->
+    <item name="colorPrimary">@color/main_green_light</item>
+    <item name="colorPrimaryDark">@color/main_green_dark</item>
+    <item name="colorAccent">@color/main_green_light</item>
+    <item name="android:windowBackground">@color/main_green_light</item>
+    <!--正常状态下字体颜色和icon颜色-->
+    <item name="android:textColorPrimary">@color/main_white</item>
+  </style>
+</resources>

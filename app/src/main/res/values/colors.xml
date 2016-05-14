@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ /*
+  ~  *
+  ~  *  *
+  ~  *  *  * ===================================
+  ~  *  *  * Copyright (c) 2016.
+  ~  *  *  * 作者：安卓猴
+  ~  *  *  * 微博：@安卓猴
+  ~  *  *  * 博客：http://sunjiajia.com
+  ~  *  *  * Github：https://github.com/opengit
+  ~  *  *  *
+  ~  *  *  * 注意**：如果您使用或者修改该代码，请务必保留此版权信息。
+  ~  *  *  * ===================================
+  ~  *  *
+  ~  *  *
+  ~  *
+  ~  */
+  -->
+
+<resources>
+
+  <color name="main_blue_light">#617df1</color>
+  <color name="main_blue_dark">#30459E</color>
+  <color name="main_white">#FFFFFF</color>
+  <color name="main_black">#000000</color>
+  <color name="main_black_grey">#6D6D6D</color>
+  <color name="fab_red">#a1a1a1</color>
+  <color name="main_brown">#994928</color>
+  <color name="d_grey">#e9e9e9</color>
+
+
+  <color name="main_yellow_light">#edd058</color>
+  <color name="main_yellow_dark">#f9cf28</color>
+
+  <color name="main_pink_light">#fc8dd7</color>
+  <color name="main_pink_dark">#f55be3</color>
+
+  <color name="main_green_light">#48ff4e</color>
+  <color name="main_green_dark">#21ff37</color>
+
+</resources>
