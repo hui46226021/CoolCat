@@ -1,5 +1,7 @@
 package com.zshgif.laugh.bean;
 
+import java.util.List;
+
 /**
  * Created by Administrator on 2016/5/10.
  */
@@ -8,14 +10,7 @@ public class GifitemBean {
      * id
      */
     private String id;
-    /**
-     * 会员头像
-     */
-    private String userProfile;
-    /**
-     * 用户昵称
-     */
-    private String username;
+
     /**
      * 内容
      */
@@ -40,18 +35,7 @@ public class GifitemBean {
      * gif图key
      */
     private String gifUrlKey;
-    /**
-     * 评论人名称
-     */
-    private String commentUserName;
-    /**
-     * 评论人头像
-     */
-    private String commentUserProfile;
-    /**
-     * 评论
-     */
-    private String comment;
+
     /**
      * 宽度
      */
@@ -60,6 +44,22 @@ public class GifitemBean {
      * 高度
      */
     private int height;
+    /**
+     * 多图图片集合
+     */
+    private List<PictureBean> large_image_list;
+    /**
+     * 图片类型 1 单张图片  3 单张GIF  5 多图
+     */
+    private int type;
+    /**
+     * 评论者
+     */
+    private CommentsBean comments;
+    /**
+     * 发布者
+     */
+    private ReleaseUser releaseUser;
 
     public String getId() {
         return id;
@@ -69,21 +69,6 @@ public class GifitemBean {
         this.id = id;
     }
 
-    public String getUserProfile() {
-        return userProfile;
-    }
-
-    public void setUserProfile(String userProfile) {
-        this.userProfile = userProfile;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     public String getContent() {
         return content;
@@ -133,30 +118,6 @@ public class GifitemBean {
         this.gifUrlKey = gifUrlKey;
     }
 
-    public String getCommentUserName() {
-        return commentUserName;
-    }
-
-    public void setCommentUserName(String commentUserName) {
-        this.commentUserName = commentUserName;
-    }
-
-    public String getCommentUserProfile() {
-        return commentUserProfile;
-    }
-
-    public void setCommentUserProfile(String commentUserProfile) {
-        this.commentUserProfile = commentUserProfile;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
     public int getWidth() {
         return width;
     }
@@ -173,5 +134,35 @@ public class GifitemBean {
         this.height = height;
     }
 
+    public List<PictureBean> getLarge_image_list() {
+        return large_image_list;
+    }
 
+    public void setLarge_image_list(List<PictureBean> large_image_list) {
+        this.large_image_list = large_image_list;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public CommentsBean getComments() {
+        return comments;
+    }
+
+    public void setComments(CommentsBean comments) {
+        this.comments = comments;
+    }
+
+    public ReleaseUser getReleaseUser() {
+        return releaseUser;
+    }
+
+    public void setReleaseUser(ReleaseUser releaseUser) {
+        this.releaseUser = releaseUser;
+    }
 }

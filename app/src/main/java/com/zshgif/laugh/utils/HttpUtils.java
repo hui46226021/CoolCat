@@ -136,7 +136,7 @@ public class HttpUtils {
             }
             if (listener != null) {
                 // 回调onFinish()方法
-                LogUtils.e("url", response);
+                LogUtils.e("url返回", response);
                 activty.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
