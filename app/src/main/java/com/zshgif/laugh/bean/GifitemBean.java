@@ -3,6 +3,7 @@ package com.zshgif.laugh.bean;
 import java.util.List;
 
 /**
+ * 图片项目实体类
  * Created by Administrator on 2016/5/10.
  */
 public class GifitemBean {
@@ -60,6 +61,12 @@ public class GifitemBean {
      * 发布者
      */
     private ReleaseUser releaseUser;
+
+
+
+
+
+
 
     public String getId() {
         return id;
