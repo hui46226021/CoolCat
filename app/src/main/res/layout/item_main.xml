@@ -73,6 +73,20 @@
 
 
     </GridView>
+    <ImageView
+        android:id="@+id/picture"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:src="@drawable/loadimage"
+        android:scaleType="centerCrop"/>
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/gif_picture"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/loadimage"
+        android:background="@drawable/loadimage"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"

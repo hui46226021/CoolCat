@@ -14,10 +14,13 @@ import com.zshgif.laugh.R;
 import com.zshgif.laugh.bean.GifitemBean;
 import com.zshgif.laugh.utils.LogUtils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import pl.droidsonroids.gif.GifDrawable;
 
 /**
  * GIF图片适配器
@@ -44,6 +47,14 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
         super(context, resource, objects);
         this.context =context;
         resourceId = resource;
+
+        byte[] rawGifBytes = null;
+        try {
+            GifDrawable gifFromBytes = new GifDrawable( rawGifBytes );
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

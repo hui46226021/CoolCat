@@ -29,4 +29,6 @@ dependencies {
     compile 'com.android.support:cardview-v7:23.3.0'
     compile 'com.android.support:recyclerview-v7:23.3.0'
     compile 'com.android.support:support-v4:23.3.0'
+   /* gif图片*/
+    compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.15'
 }

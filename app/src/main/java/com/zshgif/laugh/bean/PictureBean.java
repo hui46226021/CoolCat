@@ -5,6 +5,7 @@ package com.zshgif.laugh.bean;
  * Created by Administrator on 2016/5/15.
  */
 public class PictureBean {
+    private String id ;
     /**
      * 大图
      */
@@ -61,5 +62,14 @@ public class PictureBean {
         this.largeImageKey = largeImageKey;
         this.thumbImage = thumbImage;
         this.thumbImageKey = thumbImageKey;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

@@ -5,6 +5,8 @@ package com.zshgif.laugh.bean;
  * 评论对象
  */
 public class CommentsBean {
+
+    private String id;
     /**
      * 评论人名称
      */
@@ -52,5 +54,13 @@ public class CommentsBean {
 
     public void setCommentUserProfileKey(String commentUserProfileKey) {
         this.commentUserProfileKey = commentUserProfileKey;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

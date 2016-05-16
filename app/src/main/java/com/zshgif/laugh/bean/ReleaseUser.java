@@ -5,6 +5,7 @@ package com.zshgif.laugh.bean;
  * Created by Administrator on 2016/5/15.
  */
 public class ReleaseUser {
+    private String id;
     /**
      * 会员头像
      */
@@ -40,5 +41,13 @@ public class ReleaseUser {
 
     public void setUserProfileKey(String userProfileKey) {
         this.userProfileKey = userProfileKey;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
