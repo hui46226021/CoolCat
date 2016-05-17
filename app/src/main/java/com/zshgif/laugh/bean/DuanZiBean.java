@@ -3,10 +3,10 @@ package com.zshgif.laugh.bean;
 import java.util.List;
 
 /**
- * 图片项目实体类
+ * 段子项目实体类
  * Created by Administrator on 2016/5/10.
  */
-public class GifitemBean {
+public class DuanZiBean {
     /**
      * id
      */
@@ -20,33 +20,7 @@ public class GifitemBean {
      * 分类名称
      */
     private String category_name;
-    /**
-     * 第一张图地址
-     */
-    private String firstOne;
 
-    /**
-     * gif图地址
-     */
-    private String gifUrl;
-
-
-    /**
-     * 宽度
-     */
-    private int width;
-    /**
-     * 高度
-     */
-    private int height;
-    /**
-     * 多图图片集合
-     */
-    private List<PictureBean> large_image_list;
-    /**
-     * 图片类型 1 单张图片  3 单张GIF  5 多图
-     */
-    private int type;
     /**
      * 评论者
      */
@@ -99,57 +73,6 @@ public class GifitemBean {
         this.category_name = category_name;
     }
 
-    public String getFirstOne() {
-        return firstOne;
-    }
-
-    public void setFirstOne(String firstOne) {
-        this.firstOne = firstOne;
-    }
-
-
-
-    public String getGifUrl() {
-        return gifUrl;
-    }
-
-    public void setGifUrl(String gifUrl) {
-        this.gifUrl = gifUrl;
-    }
-
-
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public List<PictureBean> getLarge_image_list() {
-        return large_image_list;
-    }
-
-    public void setLarge_image_list(List<PictureBean> large_image_list) {
-        this.large_image_list = large_image_list;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
-    }
 
     public CommentsBean getComments() {
         return comments;

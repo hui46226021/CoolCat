@@ -15,10 +15,7 @@ public class CommentsBean {
      * 评论人头像
      */
     private String commentUserProfile;
-    /**
-     * 评论人头像Key
-     */
-    private String commentUserProfileKey;
+
     /**
      * 评论
      */
@@ -48,13 +45,7 @@ public class CommentsBean {
         this.comment = comment;
     }
 
-    public String getCommentUserProfileKey() {
-        return commentUserProfileKey;
-    }
 
-    public void setCommentUserProfileKey(String commentUserProfileKey) {
-        this.commentUserProfileKey = commentUserProfileKey;
-    }
 
     public String getId() {
         return id;

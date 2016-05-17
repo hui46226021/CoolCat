@@ -23,8 +23,10 @@ import android.view.View;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.zshgif.laugh.R;
+import com.zshgif.laugh.adapter.DuanZiAdapter;
 import com.zshgif.laugh.adapter.GifPaictureAdapter;
 import com.zshgif.laugh.adapter.MyViewPagerAdapter;
+import com.zshgif.laugh.fragment.DuanZiFragment;
 import com.zshgif.laugh.fragment.GifPictureFragment;
 import com.zshgif.laugh.fragment.MyFragment;
 import com.zshgif.laugh.utils.SnackbarUtil;
@@ -86,7 +88,8 @@ public class MyActivity extends BaseActivity
     //初始化填充到ViewPager中的Fragment集合
     mFragments = new ArrayList<>();
     mFragments.add(0, GifPictureFragment.newInstance());
-    for (int i = 1; i < mTitles.length; i++) {
+    mFragments.add(1, DuanZiFragment.newInstance());
+    for (int i = 2; i < mTitles.length; i++) {
       Bundle mBundle = new Bundle();
       mBundle.putInt("flag", i);
       MyFragment mFragment = new MyFragment();

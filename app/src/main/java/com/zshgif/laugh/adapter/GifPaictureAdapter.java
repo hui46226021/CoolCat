@@ -20,13 +20,17 @@ import com.lidroid.xutils.http.client.multipart.content.StringBody;
 import com.zshgif.laugh.R;
 import com.zshgif.laugh.acticty.ContextUtil;
 import com.zshgif.laugh.bean.GifitemBean;
+import com.zshgif.laugh.bean.PictureBean;
+import com.zshgif.laugh.fragment.GifPictureFragment;
 import com.zshgif.laugh.listener.NetworkBitmapCallbackListener;
+import com.zshgif.laugh.utils.HttpPictureUtils;
 import com.zshgif.laugh.utils.HttpUtils;
 import com.zshgif.laugh.utils.LogUtils;
 import com.zshgif.laugh.view.RoundedImageView;
 
 import java.io.IOException;
 import java.lang.ref.SoftReference;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -101,7 +105,7 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
         holder.gridView.setVisibility(View.GONE);
         holder.gif_picture.setVisibility(View.GONE);
         holder.gif_picture.setImageBitmap(null);
-        holder.picture.setImageBitmap(null);
+        holder.picture.setImageResource(R.drawable.bg);
 
         /**
          * 评论
@@ -131,21 +135,25 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
                 geiGifPicture(gifitemBean.getGifUrl(),holder.gif_picture,holder.picture,position);
                 break;
             case 5:
+                holder.picture.setVisibility(View.GONE);
+                holder.gif_picture.setVisibility(View.GONE);
+                holder.gridView.setVisibility(View.VISIBLE);
+                String [] from ={"image"};
+                int [] to = {R.id.image};
+                getData(gifitemBean.getLarge_image_list());
+                holder.gridView.setAdapter(new SimpleAdapter(context, data_list, R.layout.gridview, from, to));
                 break;
         }
 
-//        String [] from ={"image"};
-//        int [] to = {R.id.image};
-//        getData();
-//        holder.gridView.setAdapter(new SimpleAdapter(context, data_list, R.layout.gridview, from, to));
+
 
         return convertView;
     }
 
 
-    public List<Map<String, Object>> getData(){
+    public List<Map<String, Object>> getData(List<PictureBean> list){
         //cion和iconName的长度是相同的，这里任选其一都可以
-        for(int i=0;i<9;i++){
+        for(int i=0;i<list.size();i++){
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("image", R.drawable.loadimage);
             data_list.add(map);
@@ -195,21 +203,21 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
 
     void geiBitmap(String url,final ImageView imageView,final int position){
 
-        HttpUtils.getNetworkBitmap(url, new NetworkBitmapCallbackListener() {
+        HttpPictureUtils.getNetworkBitmap(position,url, new NetworkBitmapCallbackListener() {
             @Override
             public void onHttpFinish(byte[] bytes) {
 
                 if (bytes ==null){
                     return;
                 }
-                if (position!=onScreen&&position!=onScreen+1&&position!=onScreen-1){
-                    LogUtils.e("被拒绝","被拒绝");
+                if(!isload(position))  {
                     return;
                 }
+
                 Bitmap softReference =BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                SoftReference  aSoftRef = new  SoftReference( softReference );
-                softReference=null; //软引用
-                imageView.setImageBitmap((Bitmap) aSoftRef.get());
+                WeakReference  weakReference = new  WeakReference( softReference );
+                softReference=null; //弱引用
+                imageView.setImageBitmap((Bitmap) weakReference.get());
             }
 
             @Override
@@ -221,22 +229,21 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
 
     void geiGifPicture(String url,final GifImageView gifImageView,final ImageView imageView,final int position){
 
-        HttpUtils.getNetworkBitmap(url, new NetworkBitmapCallbackListener() {
+        HttpPictureUtils.getNetworkBitmap(position,url, new NetworkBitmapCallbackListener() {
             @Override
             public void onHttpFinish(byte[] bytes) {
 
                 if (bytes ==null){
                     return;
                 }
-                if (position!=onScreen&&position!=onScreen+1&&position!=onScreen-1){
-                    LogUtils.e("被拒绝","被拒绝");
+              if(!isload(position))  {
                     return;
                 }
                 try {
                     GifDrawable gifFromBytes = new GifDrawable( bytes );
-                    SoftReference  aSoftRef = new  SoftReference( gifFromBytes );
-                    gifFromBytes=null; //软引用
-                    gifImageView.setImageDrawable((Drawable) aSoftRef.get());
+                    WeakReference  weakReference = new WeakReference( gifFromBytes );
+                    gifFromBytes=null; //弱引用
+                    gifImageView.setImageDrawable((Drawable) weakReference.get());
                     gifImageView.setVisibility(View.VISIBLE);
                     imageView.setVisibility(View.GONE);
                 } catch (IOException e) {
@@ -262,5 +269,14 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
             linearParams.height = (int)(ContextUtil.getInstance().getScreenWidth()*0.9*ratio);
         }
         view.setLayoutParams(linearParams);
+    }
+
+    boolean isload(int position){
+
+        if (position<GifPictureFragment.FIRST_ONE||position>GifPictureFragment.LAST_ONE){
+            LogUtils.e("当前"+position,"第一个"+GifPictureFragment.FIRST_ONE+"--"+"最后一个"+GifPictureFragment.LAST_ONE);
+            return false;
+        }
+        return true;
     }
 }

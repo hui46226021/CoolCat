@@ -14,10 +14,7 @@ public class ReleaseUser {
      * 用户昵称
      */
     private String username;
-    /**
-     * 头像Key
-     */
-    private String userProfileKey;
+
 
     public String getUserProfile() {
         return userProfile;
@@ -35,13 +32,7 @@ public class ReleaseUser {
         this.username = username;
     }
 
-    public String getUserProfileKey() {
-        return userProfileKey;
-    }
 
-    public void setUserProfileKey(String userProfileKey) {
-        this.userProfileKey = userProfileKey;
-    }
 
     public String getId() {
         return id;

@@ -1,6 +1,8 @@
 package com.zshgif.laugh.fragment;
 
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -42,9 +44,18 @@ import java.util.Objects;
  */
 public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLayout.OnRefreshListener {
     @ViewInject(R.id.listview)
-    ListView listview;
+    public  ListView listview;
     @ViewInject(R.id.id_swiperefreshlayout)
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    public static GifPictureFragment instance;
+    /**
+     * listView显示在屏幕最上的
+     */
+    public static int FIRST_ONE;
+    /**
+     * listview显示在屏幕最下的
+     */
+    public static int LAST_ONE;
     /**
      * 图片对象 集合
      */
@@ -58,8 +69,9 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
 
 
     public static GifPictureFragment newInstance() {
-        GifPictureFragment fragment = new GifPictureFragment();
-        return fragment;
+        instance = new GifPictureFragment();
+
+        return instance;
     }
 
     @Override
@@ -89,9 +101,18 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
     /**
      *  设置控件
      */
+    @TargetApi(Build.VERSION_CODES.M)
     void settingView(){
         gifPaictureAdapter=   new GifPaictureAdapter(getActivity(),R.layout.item_main,list);
         listview.setAdapter(gifPaictureAdapter);
+        listview.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(View view, int i, int i1, int i2, int i3) {
+              FIRST_ONE =  listview.getFirstVisiblePosition();
+                LAST_ONE = listview.getLastVisiblePosition();
+
+            }
+        });
     }
 
     /**
@@ -194,6 +215,7 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
                     break;
                 case 5:
                     //多张图片集合
+                    morePicture(group,jsonObjectItem.getJSONArray("comments"));
                     break;
             }
 
@@ -219,12 +241,12 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
 
             String firstOne = jsonObject.getJSONObject("middle_image").getJSONArray("url_list").getJSONObject(0).getString("url");//第一张图片
             gifitemBean.setFirstOne(firstOne);
-            gifitemBean.setFirstOneKey(Md5.getMd5Quick(firstOne));
+
             if (jsonObject.getInt("type")==3){
                 // type =3的时候有个GIF的地址
                 String gifUrl = jsonObject.getJSONObject("large_image").getJSONArray("url_list").getJSONObject(0).getString("url");//gifUrl
                 gifitemBean.setGifUrl(gifUrl);
-                gifitemBean.setGifUrlKey(Md5.getMd5Quick(gifUrl));
+
             }
 
             gifitemBean.setWidth(jsonObject.getJSONObject("large_image").getInt("width"));
@@ -297,7 +319,7 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
         ReleaseUser releaseUser = new ReleaseUser();
         releaseUser.setUserProfile(userObject.getString("avatar_url"));
         releaseUser.setUsername(userObject.getString("name"));
-        releaseUser.setUserProfileKey(Md5.getMd5(userObject.getString("avatar_url"),true,"UTF-8"));
+
         gifitemBean.setReleaseUser(releaseUser);
 
         /**
@@ -309,7 +331,7 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
             commentsBean.setComment(commentsJson.getString("text"));
             commentsBean.setCommentUserName(commentsJson.getString("user_name"));
             commentsBean.setCommentUserProfile(commentsJson.getString("avatar_url"));
-            commentsBean.setCommentUserProfileKey(Md5.getMd5(commentsJson.getString("avatar_url"),true,"UTF-8"));
+
             gifitemBean.setComments(commentsBean);
         }
         list.add(gifitemBean);
