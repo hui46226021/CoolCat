@@ -83,16 +83,15 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
      * 初始化数据
      */
     void initData(){
-        for(int i = 0;i<30;i++){
-            list.add(new GifitemBean());
-        }
+
     }
 
     /**
      *  设置控件
      */
     void settingView(){
-        listview.setAdapter(new GifPaictureAdapter(getActivity(),R.layout.item_main,list));
+        gifPaictureAdapter=   new GifPaictureAdapter(getActivity(),R.layout.item_main,list);
+        listview.setAdapter(gifPaictureAdapter);
     }
 
     /**
@@ -124,7 +123,7 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
         HashMap<String,String> param = new HashMap<>();
         param.put("group_id","6496629855");
         param.put("item_id","6496629855");
-        param.put("count","100");
+        param.put("count","30");
         param.put("offset","0");
         param.put("iid","4079531978");
         param.put("device_id","5807013269");
@@ -200,6 +199,7 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
 
         }
         setToastMessage("更新了"+list.size()+"组图片└(^o^)┘");
+        gifPaictureAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -212,12 +212,17 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
             gifitemBean.setId("id");
             gifitemBean.setContent(jsonObject.getString("text"));//图片描述
             gifitemBean.setCategory_name(jsonObject.getString("category_name"));//分类
-            String firstOne = jsonObject.getJSONObject("middle_image").getJSONArray("url_list").getString(0);//第一张图片
+            gifitemBean.setDigg_count(jsonObject.getInt("digg_count"));
+            gifitemBean.setBury_count(jsonObject.getInt("bury_count"));
+            gifitemBean.setComments_count(jsonObject.getInt("comment_count"));
+            gifitemBean.setShare_url(jsonObject.getString("share_url"));
+
+            String firstOne = jsonObject.getJSONObject("middle_image").getJSONArray("url_list").getJSONObject(0).getString("url");//第一张图片
             gifitemBean.setFirstOne(firstOne);
             gifitemBean.setFirstOneKey(Md5.getMd5Quick(firstOne));
             if (jsonObject.getInt("type")==3){
                 // type =3的时候有个GIF的地址
-                String gifUrl = jsonObject.getJSONObject("large_image").getJSONArray("url_list").getString(0);//gifUrl
+                String gifUrl = jsonObject.getJSONObject("large_image").getJSONArray("url_list").getJSONObject(0).getString("url");//gifUrl
                 gifitemBean.setGifUrl(gifUrl);
                 gifitemBean.setGifUrlKey(Md5.getMd5Quick(gifUrl));
             }
@@ -234,7 +239,7 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
 
         } catch (JSONException e) {
             LogUtils.e("错误的JSON",jsonObject.toString());
-            e.printStackTrace();
+//            e.printStackTrace();
         }
 
     }
@@ -249,6 +254,11 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
             gifitemBean.setId("id");
             gifitemBean.setContent(jsonObject.getString("text"));//图片描述
             gifitemBean.setCategory_name(jsonObject.getString("category_name"));//分类
+            gifitemBean.setDigg_count(jsonObject.getInt("digg_count"));
+            gifitemBean.setBury_count(jsonObject.getInt("bury_count"));
+            gifitemBean.setComments_count(jsonObject.getInt("comment_count"));
+            gifitemBean.setShare_url(jsonObject.getString("share_url"));
+
 
             JSONArray thumbImageList = jsonObject.getJSONArray("thumb_image_list");
             JSONArray largeImageList = jsonObject.getJSONArray("large_image_list");

@@ -1,15 +1,20 @@
 package com.zshgif.laugh.utils;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 import android.widget.Toast;
 
 
 import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.client.multipart.content.StringBody;
 import com.zshgif.laugh.acticty.ContextUtil;
 import com.zshgif.laugh.acticty.SetThemeActivty;
 import com.zshgif.laugh.listener.HttpCallbackListener;
+import com.zshgif.laugh.listener.NetworkBitmapCallbackListener;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -24,11 +29,14 @@ import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.SocketTimeoutException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +53,8 @@ public class HttpUtils {
     public static HttpClient httpClient = null;
     private static int CONNECTION_TIMEOUT = 50000;// 设置连接超时时间3s
     private static int SO_TIMEOUT = 30000;// 数据传输超时时间30s
+
+
 
 
     /**
@@ -195,5 +205,101 @@ public class HttpUtils {
 
 
 
+
+    public static void getNetworkBitmap(final String url,final NetworkBitmapCallbackListener listener){
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//                byte[] bytes =  HttpUtils.getHttpBitmap(url);
+//                listener.onHttpFinish(bytes);
+//            }
+//        }).start();
+//       final byte[] bytes = null;
+
+
+
+        new AsyncTask<Void,Integer,byte[]>() {
+            @Override
+            protected byte[] doInBackground(Void... voids) {
+                /**
+                 * 先冲缓存中查找
+                 */
+                InputStream inputStream =  DiskLruCacheUtil.readFromDiskCache(url,ContextUtil.getInstance());
+                if(inputStream!=null){
+                    try {
+                        LogUtils.e("读取缓存",inputStream.toString());
+                        return HttpUtils.toByteArray(inputStream);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+
+                byte[]  bytes =  HttpUtils.getHttpBitmap(url);
+                DiskLruCacheUtil.writeToDiskCache(url,bytes,ContextUtil.getInstance());
+                return bytes;
+            }
+            @Override
+            protected void onPostExecute(byte[] bytes) {
+                listener.onHttpFinish(bytes);
+            }
+
+        }.execute();
+
+    }
+    /**
+     * 获取网落图片资源
+     * @param url
+     * @return
+     */
+    public static  byte[] getHttpBitmap(String url){
+
+        LogUtils.e("网络获取图片",url);
+        URL myFileURL;
+//        Bitmap bitmap=null;
+        byte[] bytes= null;
+        try{
+            myFileURL = new URL(url);
+            //获得连接
+            HttpURLConnection conn=(HttpURLConnection)myFileURL.openConnection();
+            //设置超时时间为6000毫秒，conn.setConnectionTiem(0);表示没有时间限制
+            conn.setConnectTimeout(6000);
+            //连接设置获得数据流
+            conn.setDoInput(true);
+            //不使用缓存
+            conn.setUseCaches(false);
+            //这句可有可无，没有影响
+            //conn.connect();
+            //得到数据流
+            InputStream is = conn.getInputStream();
+            //得到二进制数据
+            bytes = HttpUtils.toByteArray(is);
+//            bitmap = BitmapFactory.decodeStream(is);
+            //关闭数据流
+            is.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return bytes;
+
+    }
+
+    /**
+     * 将输入流转换为byt[]
+     * @param input
+     * @return
+     * @throws IOException
+     */
+    public static byte[] toByteArray(InputStream input) throws IOException {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        byte[] buffer = new byte[4096];
+        int n = 0;
+        while (-1 != (n = input.read(buffer))) {
+            output.write(buffer, 0, n);
+        }
+        return output.toByteArray();
+    }
 
 }

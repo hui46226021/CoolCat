@@ -21,13 +21,13 @@
       android:layout_height="wrap_content"
       android:orientation="horizontal">
     <com.zshgif.laugh.view.RoundedImageView
+        android:id="@+id/user_profile"
         android:layout_width="26dp"
         android:layout_height="26dp"
         android:background="@drawable/mrtx"
-
         android:layout_margin="10dp"/>
     <TextView
-        android:id="@+id/username"
+        android:id="@+id/user_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
@@ -63,8 +63,9 @@
         />
 
     <GridView
-        android:layout_margin="15dp"
         android:id="@+id/gridView"
+        android:visibility="gone"
+        android:layout_margin="15dp"
         android:layout_width="match_parent"
         android:numColumns="3"
         android:verticalSpacing="10dp"
@@ -75,25 +76,71 @@
     </GridView>
     <ImageView
         android:id="@+id/picture"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:src="@drawable/loadimage"
+        android:background="@drawable/loadimage"
         android:scaleType="centerCrop"/>
     <pl.droidsonroids.gif.GifImageView
         android:id="@+id/gif_picture"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/loadimage"
         android:background="@drawable/loadimage"
         />
+  <LinearLayout
+      android:id="@+id/comments_layout"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@color/d_grey"
+      android:visibility="gone"
+      android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+      <com.zshgif.laugh.view.RoundedImageView
+          android:id="@+id/comments_user_profile"
+          android:layout_width="26dp"
+          android:layout_height="26dp"
+          android:background="@drawable/mrtx"
+
+          android:layout_margin="10dp"/>
+      <TextView
+          android:id="@+id/comments_user"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+
+          android:layout_gravity="center"
+          android:gravity="center_vertical"
+          android:text="user_name"
+          android:textColor="@color/main_black_grey"
+          android:textSize="14sp"
+          />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/comments_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:gravity="left"
+        android:text="评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论"
+        android:textColor="@color/main_black"
+        android:textSize="15sp"
+        android:layout_marginBottom="16dp"
+        />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/d_grey"
+        android:background="@color/main_white"
         android:orientation="horizontal">
       <Button
+          android:id="@+id/digg_count"
           android:layout_width="wrap_content"
           android:layout_height="40dp"
           android:background="@null"
@@ -104,6 +151,7 @@
           android:textColor="@color/main_black_grey"
           />
       <Button
+          android:id="@+id/bury_count"
           android:layout_width="wrap_content"
           android:layout_height="40dp"
           android:background="@null"
@@ -114,6 +162,7 @@
           android:textColor="@color/main_black_grey"
           />
       <Button
+          android:id="@+id/comment_count"
           android:layout_width="wrap_content"
           android:layout_height="40dp"
           android:background="@null"

@@ -9,6 +9,7 @@ import android.os.Looper;
 import android.support.v7.app.AlertDialog;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.WindowManager;
 
 
 import com.zshgif.laugh.utils.RandomUtils;
@@ -19,9 +20,10 @@ import java.util.List;
  * 一般建议在自定义 Application 类里初始化。也可以在主 Activity 里。
  * Created by sh on 2015/9/9.
  */
-public class ContextUtil extends Application implements Thread.UncaughtExceptionHandler {
+public class ContextUtil extends Application  {
 
     private static ContextUtil instance;
+    WindowManager windowManager;
 
     public static ContextUtil getInstance() {
         return instance;
@@ -31,44 +33,48 @@ public class ContextUtil extends Application implements Thread.UncaughtException
     public void onCreate() {
         // TODO Auto-generated method stub
         super.onCreate();
-        Thread.setDefaultUncaughtExceptionHandler(this);
+//        Thread.setDefaultUncaughtExceptionHandler(this);
         instance = this;
+        windowManager = (WindowManager) instance.getSystemService(Context.WINDOW_SERVICE);
+
+
+         windowManager.getDefaultDisplay().getHeight();// 手机屏幕的高度
 
     }
 
 
-    @Override
-    public void uncaughtException(final Thread thread, final Throwable ex) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Looper.prepare();
-                AlertDialog.Builder builder = new AlertDialog.Builder(ContextUtil.this);
-                builder.setTitle("提示");
-                builder.setMessage(ex.getMessage()+"      是否发送错误报告");
-                builder.setCancelable(false);
-                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-
-                    }
-                });
-                builder.create().show();
-                Looper.loop();
-
-            }
-        }).start();
-
-
-
-    }
+//    @Override
+//    public void uncaughtException(final Thread thread, final Throwable ex) {
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                Looper.prepare();
+//                AlertDialog.Builder builder = new AlertDialog.Builder(ContextUtil.this);
+//                builder.setTitle("提示");
+//                builder.setMessage(ex.getMessage()+"      是否发送错误报告");
+//                builder.setCancelable(false);
+//                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//
+//                    }
+//                });
+//                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//
+//
+//                    }
+//                });
+//                builder.create().show();
+//                Looper.loop();
+//
+//            }
+//        }).start();
+//
+//
+//
+//    }
 
 
    public String getImei(){
@@ -90,5 +96,21 @@ public class ContextUtil extends Application implements Thread.UncaughtException
             editor.commit();
         }
         return imei;
+    }
+
+    /**
+     * 获取屏幕宽都
+     * @return
+     */
+    public int getScreenWidth(){
+        return  windowManager.getDefaultDisplay().getWidth();// 手机屏幕的宽度
+    }
+
+    /**
+     * 获取屏幕高度
+     * @return
+     */
+    public int getScreenHeight(){
+        return  windowManager.getDefaultDisplay().getHeight();// 手机屏幕的高度
     }
 }
