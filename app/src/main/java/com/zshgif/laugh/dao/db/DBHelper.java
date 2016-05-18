@@ -2,6 +2,7 @@ package com.zshgif.laugh.dao.db;
 
 import android.content.Context;
 
+import com.zshgif.laugh.fragment.BaseFragment;
 import com.zshgif.laugh.model.CommentsBean;
 import com.zshgif.laugh.dao.CommentsBeanDao;
 import com.zshgif.laugh.model.DuanZiBean;
@@ -74,14 +75,28 @@ public class DBHelper {
         LogUtils.e("ReleaseUser插入数据库",instance.releaseUserDao.insertOrReplace(releaseUse)+"");
     }
 
-    /** 查询所有的GifitemBean */
-    public static List<GifitemBean> loadAllGifitemBean() {
-        QueryBuilder<GifitemBean> query = instance.gifitemBeanDao.queryBuilder().orderDesc(GifitemBeanDao.Properties.Id);
+    /** 初始化GifitemBean */
+    /**
+     *
+     * @param id
+     * @return根据ID 查询 id前7个到最后一个倒叙
+     *
+     */
+    public static List<GifitemBean> loadAllGifitemBean(int id) {
+        QueryBuilder<GifitemBean> query = instance.gifitemBeanDao.queryBuilder()
+                .orderDesc(GifitemBeanDao.Properties.Id)
+                .where(GifitemBeanDao.Properties.Id.gt(id-BaseFragment.ALLOWANCE+""));
+
         List<GifitemBean> all = query.list();
 
         return all;
     }
     /** 查询所有的10条GifitemBean */
+    /**
+     *
+     * @param id
+     * @return
+     */
     public static List<GifitemBean> loadAllGifitemBeanPushTen(int id) {
         QueryBuilder<GifitemBean> query = instance.gifitemBeanDao.queryBuilder()
                 .orderDesc(GifitemBeanDao.Properties.Id)
@@ -93,18 +108,21 @@ public class DBHelper {
     }
     /** 查询所有的10条GifitemBean */
     public static List<DuanZiBean> loadAllDuanZiBeanDaoPushTen(int id) {
+
         QueryBuilder<DuanZiBean> query = instance.duanZiBeanDao.queryBuilder()
                 .orderDesc(DuanZiBeanDao.Properties.Id)
                 .where(DuanZiBeanDao.Properties.Id.gt(id-25+""),DuanZiBeanDao.Properties.Id.lt(id-5+""));
 
         List<DuanZiBean> all = query.list();
-
         return all;
     }
 
     /** 查询所有的DuanZiBean */
-    public static List<DuanZiBean> loadAllDuanZiBean() {
-        QueryBuilder<DuanZiBean> query = instance.duanZiBeanDao.queryBuilder().orderDesc(DuanZiBeanDao.Properties.Id);
+    public static List<DuanZiBean> loadAllDuanZiBean(int id) {
+        QueryBuilder<DuanZiBean> query = instance.duanZiBeanDao.queryBuilder()
+                .orderDesc(DuanZiBeanDao.Properties.Id)
+                .where(DuanZiBeanDao.Properties.Id.gt(id- BaseFragment.ALLOWANCE+""));
+
         List<DuanZiBean> all = query.list();
 
         return all;

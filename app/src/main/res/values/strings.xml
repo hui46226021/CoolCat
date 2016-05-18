@@ -4,6 +4,7 @@
     <string name="toolbar_title">酷猫</string>
     <string name="sing_out">退出</string>
     <string name="action_settings">设置主题</string>
+    <string name="clear">清除图片缓存</string>
     <string name="open">打开</string>
     <string name="close">关闭</string>
 

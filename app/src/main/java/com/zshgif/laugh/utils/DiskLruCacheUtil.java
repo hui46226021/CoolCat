@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.MessageDigest;
@@ -135,6 +136,18 @@ public class DiskLruCacheUtil {
 			e.printStackTrace();
 		}
 		return cacheKey;
+	}
+
+	public static long size(){
+		return mDiskLruCache.size();
+	}
+	public static void delete(){
+		try {
+			mDiskLruCache.delete();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
 

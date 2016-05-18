@@ -203,7 +203,10 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
     }
 
     void geiBitmap(String url,final ImageView imageView,final int position){
+        if(!isload(position))  {
 
+            return;
+        }
         HttpPictureUtils.getNetworkBitmap(baseFragment,position,url, new NetworkBitmapCallbackListener() {
             @Override
             public void onHttpFinish(byte[] bytes) {
@@ -228,7 +231,10 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
     }
 
     void geiGifPicture(String url,final GifImageView gifImageView,final ImageView imageView,final int position){
+        if(!isload(position))  {
 
+            return;
+        }
         HttpPictureUtils.getNetworkBitmap(baseFragment,position,url, new NetworkBitmapCallbackListener() {
             @Override
             public void onHttpFinish(byte[] bytes) {
@@ -276,6 +282,7 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
             LogUtils.e("当前"+position,"第一个"+baseFragment.FIRST_ONE+"--"+"最后一个"+baseFragment.LAST_ONE);
             return false;
         }
+        LogUtils.e("当前"+position,"第一个"+baseFragment.FIRST_ONE+"--"+"最后一个"+baseFragment.LAST_ONE+"通过");
         return true;
     }
 }

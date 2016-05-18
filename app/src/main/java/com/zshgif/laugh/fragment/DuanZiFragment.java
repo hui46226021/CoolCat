@@ -2,6 +2,7 @@ package com.zshgif.laugh.fragment;
 
 
 import android.annotation.TargetApi;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,6 +15,7 @@ import android.widget.ListView;
 
 import com.zshgif.laugh.model.CommentsBean;
 import com.zshgif.laugh.model.DuanZiBean;
+import com.zshgif.laugh.model.GifitemBean;
 import com.zshgif.laugh.model.ReleaseUser;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -44,6 +46,12 @@ public class DuanZiFragment extends BaseFragment  implements SwipeRefreshLayout.
     @ViewInject(R.id.id_swiperefreshlayout)
     private SwipeRefreshLayout mSwipeRefreshLayout;
     public static DuanZiFragment instance;
+    /**
+     * 数据储存
+     */
+    private SharedPreferences preferences;
+
+    public long first_one_id =6496629855l;
 
     /**
      * 图片对象 集合
@@ -75,16 +83,46 @@ public class DuanZiFragment extends BaseFragment  implements SwipeRefreshLayout.
         //初始化控件
         View view = inflater.inflate(R.layout.fragment_gif_picture, container, false);
         ViewUtils.inject(this, view);
-        initData();
-        settingView();
+        initOk =true;//初始化完成
         return view;
     }
+    @Override
+    protected void lazyLoad() {
+        if(!initOk || !isVisible) {
+            return;
+        }
+        initData();
+        settingView();
 
+    }
     /**
      * 初始化数据
      */
     void initData(){
-        list=  DBHelper.loadAllDuanZiBean();
+        /**
+         * 根据之前推出时候保存的 项目ID
+         */
+        preferences = getActivity().getSharedPreferences("duanzi", getActivity().MODE_PRIVATE);
+        int item_id = (int) preferences.getLong("item_id",-1l);
+        if (item_id==-1){
+            //如果之前 没有保存的ID 就刷新下
+            onRefresh();
+        }
+
+        /**
+         * 查询 id前7个到最后一个倒叙
+         */
+        list=  DBHelper.loadAllDuanZiBean(item_id);
+        if (list.size()==0){
+            return;
+        }
+        for (DuanZiBean gg:list){
+            LogUtils.e("查询出",gg.getId()+"");
+        }
+        /**
+         * 将当前第一个 项目的 段子ID 记录
+         */
+        try{ first_one_id = list.get(0).getNETid();}catch (Exception e){}
     }
 
     /**
@@ -94,6 +132,14 @@ public class DuanZiFragment extends BaseFragment  implements SwipeRefreshLayout.
     void settingView(){
         duanZiAdapter=   new DuanZiAdapter(getActivity(),R.layout.item_main,list,this);
         listview.setAdapter(duanZiAdapter);
+        /**
+         * 如果根据之前的ID 查出来的 大于7个 就定位到 原来的位置
+         *
+         * 查出ID的前7个倒叙 那原来的位置 就在倒数第7个
+         */
+        if (list.size()>BaseFragment.ALLOWANCE){
+            listview.setSelection(list.size()-BaseFragment.ALLOWANCE+1);
+        }
 
         listview.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -103,11 +149,23 @@ public class DuanZiFragment extends BaseFragment  implements SwipeRefreshLayout.
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                FIRST_ONE =  listview.getFirstVisiblePosition();
-                LAST_ONE = listview.getLastVisiblePosition();
-                if (LAST_ONE == (list.size()-5)){
-                    list.addAll(DBHelper.loadAllDuanZiBeanDaoPushTen(LAST_ONE)) ;
-                    duanZiAdapter.notifyDataSetChanged();
+                FIRST_ONE =  listview.getFirstVisiblePosition()-1;
+                LAST_ONE = listview.getLastVisiblePosition()+1;
+                /**
+                 * 当最后一个是倒数第五个的时候 加载
+                 */
+                if (listview.getLastVisiblePosition() == (list.size()-1-5)){
+                    /**
+                     * 根据当前屏幕里最后一个 元素 的 数据库id 查询 后5到后25条
+                     * 因为当前屏幕下面应该还有5个
+                     */
+                    int id = Integer.parseInt(list.get(LAST_ONE).getId()+"");
+                    List<DuanZiBean> listload= DBHelper.loadAllDuanZiBeanDaoPushTen(id) ;
+                    if (listload.size()>0){
+                        list.addAll(listload) ;
+                        duanZiAdapter.notifyDataSetChanged();
+                    }
+
                 }
             }
         });
@@ -256,5 +314,21 @@ public class DuanZiFragment extends BaseFragment  implements SwipeRefreshLayout.
         list.add(duanZiBean);
         DBHelper.insertIntoDuanZiBean(duanZiBean);
 
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        try {
+            SharedPreferences.Editor editor = preferences.edit();
+            //设置参数
+            editor.putLong("item_id",  list.get(FIRST_ONE).getId());
+            //提交
+            editor.commit();
+            LogUtils.e("保存段子",list.get(FIRST_ONE).getId()+"");
+        }catch (Exception e){
+
+        }
     }
 }

@@ -2,6 +2,7 @@ package com.zshgif.laugh.fragment;
 
 
 import android.annotation.TargetApi;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -45,6 +46,12 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
     @ViewInject(R.id.id_swiperefreshlayout)
     private SwipeRefreshLayout mSwipeRefreshLayout;
     public static GifPictureFragment instance;
+    /**
+     * 数据储存
+     */
+    private SharedPreferences preferences;
+
+    public long first_one_id =6496629855l;
 
     /**
      * 图片对象 集合
@@ -75,21 +82,49 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
                              Bundle savedInstanceState) {
         //初始化控件
         View view = inflater.inflate(R.layout.fragment_gif_picture, container, false);
+
         ViewUtils.inject(this, view);
-        initData();
-        settingView();
 
-
+        initOk =true;//初始化完成
+        lazyLoad();
         return view;
     }
+    @Override
+    protected void lazyLoad() {
+        if(!initOk || !isVisible) {
+            return;
+        }
+        initData();
+            settingView();
 
+    }
     /**
      * 初始化数据
      */
     void initData(){
-        list=  DBHelper.loadAllGifitemBean();
-
-        list=  DBHelper.loadAllGifitemBeanPushTen(20);
+        /**
+         * 根据之前推出时候保存的 项目ID
+         */
+        preferences = getActivity().getSharedPreferences("gifpicture", getActivity().MODE_PRIVATE);
+       int item_id = (int) preferences.getLong("item_id",-1l);
+        if (item_id==-1){
+            //如果之前 没有保存的ID 就刷新下
+            onRefresh();
+        }
+        /**
+         * 查询 id前7个到最后一个倒叙
+         */
+        list=  DBHelper.loadAllGifitemBean(item_id);
+        if (list.size()==0){
+            return;
+        }
+        /**
+         * 将当前第一个 项目的 段子ID 记录
+         */
+        try{ first_one_id = list.get(0).getNETid();}catch (Exception e){}
+        for (GifitemBean gg:list){
+            LogUtils.e("查询出",gg.getId()+"");
+        }
     }
 
     /**
@@ -99,6 +134,14 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
     void settingView(){
         gifPaictureAdapter=   new GifPaictureAdapter(getActivity(),R.layout.item_main,list,this);
         listview.setAdapter(gifPaictureAdapter);
+        /**
+         * 如果根据之前的ID 查出来的 大于7个 就定位到 原来的位置
+         *
+         * 查出ID的前7个倒叙 那原来的位置 就在倒数第7个
+         */
+        if (list.size()>BaseFragment.ALLOWANCE){
+            listview.setSelection(list.size()-BaseFragment.ALLOWANCE+1);
+        }
 
         listview.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -108,12 +151,25 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                FIRST_ONE =  listview.getFirstVisiblePosition();
-                LAST_ONE = listview.getLastVisiblePosition();
-                if (LAST_ONE == (list.size()-5)){
-                   list.addAll(DBHelper.loadAllGifitemBeanPushTen(LAST_ONE)) ;
-                    gifPaictureAdapter.notifyDataSetChanged();
+                FIRST_ONE =  listview.getFirstVisiblePosition()-1;
+                LAST_ONE = listview.getLastVisiblePosition()+1;
+                /**
+                 * 当最后一个是倒数第五个的时候 加载
+                 */
+                if (listview.getLastVisiblePosition() == (list.size()-1-5)){
+                    /**
+                     * 根据当前屏幕里最后一个 元素 的 数据库id 查询 后5到后25条
+                     * 因为当前屏幕下面应该还有5个
+                     */
+                  int id = Integer.parseInt(list.get(LAST_ONE).getId()+"");
+                  List listload=  DBHelper.loadAllGifitemBeanPushTen(id);
+                    if (listload.size()>0){
+                        list.addAll(listload) ;
+                        gifPaictureAdapter.notifyDataSetChanged();
+                    }
+
                 }
+
 
             }
         });
@@ -138,16 +194,10 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
     @Override
     public void onRefresh() {
         // 刷新时模拟数据的变化
-//        new Handler().postDelayed(new Runnable() {
-//            @Override public void run() {
-//                mSwipeRefreshLayout.setRefreshing(false);
-//                int temp = (int) (Math.random() * 10);
-//
-//            }
-//        }, 1000);
+
         HashMap<String,String> param = new HashMap<>();
-        param.put("group_id","6496629855");
-        param.put("item_id","6496629855");
+        param.put("group_id",first_one_id+"");
+        param.put("item_id",first_one_id+"");
         param.put("count","30");
         param.put("offset","0");
         param.put("iid","4079531978");
@@ -344,5 +394,20 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
         list.add(gifitemBean);
         DBHelper.insertIntoGifitemBean(gifitemBean);
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        try {
+        SharedPreferences.Editor editor = preferences.edit();
+        //设置参数
+        editor.putLong("item_id",  list.get(FIRST_ONE).getId());
+        //提交
+        editor.commit();
+        LogUtils.e("保存",list.get(FIRST_ONE).getId()+"");
+        }catch (Exception e){
+
+        }
     }
 }

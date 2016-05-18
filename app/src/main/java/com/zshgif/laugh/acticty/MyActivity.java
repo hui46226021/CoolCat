@@ -1,6 +1,7 @@
 
 package com.zshgif.laugh.acticty;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -9,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +25,8 @@ import com.zshgif.laugh.fragment.DuanZiFragment;
 import com.zshgif.laugh.fragment.GifPictureFragment;
 import com.zshgif.laugh.fragment.MyFragment;
 import com.zshgif.laugh.dao.db.DBHelper;
+import com.zshgif.laugh.utils.DiskLruCacheUtil;
+import com.zshgif.laugh.utils.LogUtils;
 import com.zshgif.laugh.utils.SnackbarUtil;
 
 import java.util.ArrayList;
@@ -146,6 +150,35 @@ public class MyActivity extends BaseActivity
 
     if(id == R.id.set_theme){
       startActivity(new Intent(this,SetThemeActivty.class));
+    }
+    if(id == R.id.clear){
+      AlertDialog.Builder builder = new AlertDialog.Builder(MyActivity.this);
+      builder.setTitle("提示");
+      long size = DiskLruCacheUtil.size();
+
+      builder.setMessage("清除图片缓存，将释放"+(size/1024/1024)+"M 空间");
+      builder.setCancelable(false);
+      builder.setPositiveButton("清除", new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+//                                //跳转下载链接
+
+          DiskLruCacheUtil.delete();
+//          new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//              while (DiskLruCacheUtil.size()>1000){
+//                LogUtils.e("内存",DiskLruCacheUtil.size()/1024/1024+"");
+//              }
+//
+//            }
+//          }).start();
+
+
+        }
+      });
+      builder.setNegativeButton("保留", null);
+      builder.create().show();
     }
 
     return super.onOptionsItemSelected(item);

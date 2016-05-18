@@ -46,6 +46,10 @@ public class HttpPictureUtils {
             @Override
             protected byte[] doInBackground(Void... voids) {
                 //让控件先出现30毫秒再开始加载图片 要不卡顿
+                if (!isload(position,baseFragment)){
+
+                    return null;
+                };
                 try {
                     Thread.sleep(30);
                 } catch (InterruptedException e) {
