@@ -12,14 +12,32 @@ public class DuanZiBean {
     private Long id;
     private long NETid;
     /** Not-null value. */
+    /**
+     * 内容
+     */
     private String content;
     /** Not-null value. */
+    /**
+     * 分类名称
+     */
     private String category_name;
     private int type;
+    /**
+     * 赞
+     */
     private int digg_count;
+    /**
+     * 鄙视
+     */
     private int bury_count;
+    /**
+     * 评论数
+     */
     private int comments_count;
     /** Not-null value. */
+    /**
+     * 分享地址
+     */
     private String share_url;
 
     /**

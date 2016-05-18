@@ -9,10 +9,19 @@ public class CommentsBean {
     private Long id;
     private long NETid;
     /** Not-null value. */
+    /**
+     * 评论人名称
+     */
     private String commentUserName;
     /** Not-null value. */
+    /**
+     * 评论人头像
+     */
     private String commentUserProfile;
     /** Not-null value. */
+    /**
+     * 评论
+     */
     private String comment;
 
     public CommentsBean() {

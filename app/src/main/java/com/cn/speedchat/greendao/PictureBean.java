@@ -8,8 +8,14 @@ public class PictureBean {
 
     private Long id;
     /** Not-null value. */
+    /**
+     * 大图
+     */
     private String largeImage;
     /** Not-null value. */
+    /**
+     * 小图
+     */
     private String thumbImage;
     private long large_image_listId;
 

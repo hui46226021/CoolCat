@@ -7,10 +7,19 @@ package com.cn.speedchat.greendao;
 public class ReleaseUser {
 
     private Long id;
+    /**
+     * 段子ID
+     */
     private long NETid;
     /** Not-null value. */
+    /**
+     * 用户昵称
+     */
     private String username;
     /** Not-null value. */
+    /**
+     * 会员头像
+     */
     private String userProfile;
 
     public ReleaseUser() {

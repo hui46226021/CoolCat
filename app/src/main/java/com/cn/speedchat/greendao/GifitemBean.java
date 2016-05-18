@@ -13,21 +13,57 @@ import de.greenrobot.dao.DaoException;
 public class GifitemBean {
 
     private Long id;
+    /**
+     * 内涵段子Id
+     */
     private long NETid;
     /** Not-null value. */
+    /**
+     * 内容
+     */
     private String content;
     /** Not-null value. */
+    /**
+     * 分类名称
+     */
     private String category_name;
     /** Not-null value. */
+    /**
+     * 第一张图地址
+     */
     private String firstOne;
+    /**
+     * gif图地址
+     */
     private String gifUrl;
+    /**
+     * 宽度
+     */
     private int width;
+    /**
+     * 高度
+     */
     private int height;
+    /**
+     * 图片类型 1 单张图片  3 单张GIF  5 多图
+     */
     private int type;
+    /**
+     * 赞
+     */
     private int digg_count;
+    /**
+     * 鄙视
+     */
     private int bury_count;
+    /**
+     * 评论数
+     */
     private int comments_count;
     /** Not-null value. */
+    /**
+     * 分享地址
+     */
     private String share_url;
 
     /** Used to resolve relations */
