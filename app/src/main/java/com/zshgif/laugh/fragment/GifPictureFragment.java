@@ -16,16 +16,18 @@ import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.cn.speedchat.greendao.CommentsBean;
+import com.cn.speedchat.greendao.GifitemBean;
+import com.cn.speedchat.greendao.PictureBean;
+import com.cn.speedchat.greendao.ReleaseUser;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.zshgif.laugh.R;
 import com.zshgif.laugh.adapter.GifPaictureAdapter;
-import com.zshgif.laugh.bean.CommentsBean;
-import com.zshgif.laugh.bean.GifitemBean;
-import com.zshgif.laugh.bean.PictureBean;
-import com.zshgif.laugh.bean.ReleaseUser;
+
 import com.zshgif.laugh.listener.HttpCallbackListener;
 import com.zshgif.laugh.utils.Constant;
+import com.zshgif.laugh.utils.DBHelper;
 import com.zshgif.laugh.utils.HttpUtils;
 import com.zshgif.laugh.utils.LogUtils;
 import com.zshgif.laugh.utils.encryption.Md5;
@@ -82,6 +84,8 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
         ViewUtils.inject(this, view);
         initData();
         settingView();
+
+
         return view;
     }
 
@@ -89,7 +93,9 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
      * 初始化数据
      */
     void initData(){
+        list=  DBHelper.loadAllGifitemBean();
 
+        list=  DBHelper.loadAllGifitemBeanPushTen(20);
     }
 
     /**
@@ -110,6 +116,10 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 FIRST_ONE =  listview.getFirstVisiblePosition();
                 LAST_ONE = listview.getLastVisiblePosition();
+                if (LAST_ONE == (list.size()-5)){
+                   list.addAll(DBHelper.loadAllGifitemBeanPushTen(LAST_ONE)) ;
+                    gifPaictureAdapter.notifyDataSetChanged();
+                }
 
             }
         });
@@ -231,7 +241,7 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
         GifitemBean gifitemBean = new GifitemBean();
         try {
             gifitemBean.setType(jsonObject.getInt("type"));//图片类型
-            gifitemBean.setId("id");
+            gifitemBean.setNETid(jsonObject.getLong("id"));
             gifitemBean.setContent(jsonObject.getString("text"));//图片描述
             gifitemBean.setCategory_name(jsonObject.getString("category_name"));//分类
             gifitemBean.setDigg_count(jsonObject.getInt("digg_count"));
@@ -273,7 +283,7 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
         GifitemBean gifitemBean = new GifitemBean();
         try {
             gifitemBean.setType(jsonObject.getInt("type"));//图片类型
-            gifitemBean.setId("id");
+            gifitemBean.setNETid(jsonObject.getLong("id"));
             gifitemBean.setContent(jsonObject.getString("text"));//图片描述
             gifitemBean.setCategory_name(jsonObject.getString("category_name"));//分类
             gifitemBean.setDigg_count(jsonObject.getInt("digg_count"));
@@ -292,9 +302,12 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
                 String largeImageUrl = largeImage.getString("url");
                 thumbImage =thumbImageList.getJSONObject(i);
                 String thumbImageUrl = thumbImage.getString("url");
-                picturelist.add(new PictureBean(largeImageUrl,Md5.getMd5Quick(largeImageUrl),thumbImageUrl,Md5.getMd5Quick(thumbImageUrl)));
+                PictureBean pictureBean =   new PictureBean();
+                pictureBean.setLargeImage(largeImageUrl);
+                pictureBean.setThumbImage(thumbImageUrl);
+                picturelist.add(pictureBean);
             }
-            gifitemBean.setLarge_image_list(picturelist);
+//            gifitemBean.setLarge_image_list(picturelist);
 
             /**
              * 发布者和评论  最后将项目对象放到集合
@@ -335,6 +348,7 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
             gifitemBean.setComments(commentsBean);
         }
         list.add(gifitemBean);
+        DBHelper.insertIntoGifitemBean(gifitemBean);
 
     }
 }

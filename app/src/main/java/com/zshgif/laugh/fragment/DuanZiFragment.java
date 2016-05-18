@@ -12,18 +12,18 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
+import com.cn.speedchat.greendao.CommentsBean;
+import com.cn.speedchat.greendao.DuanZiBean;
+import com.cn.speedchat.greendao.ReleaseUser;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.zshgif.laugh.R;
 import com.zshgif.laugh.adapter.DuanZiAdapter;
 import com.zshgif.laugh.adapter.GifPaictureAdapter;
-import com.zshgif.laugh.bean.CommentsBean;
-import com.zshgif.laugh.bean.DuanZiBean;
-import com.zshgif.laugh.bean.GifitemBean;
-import com.zshgif.laugh.bean.PictureBean;
-import com.zshgif.laugh.bean.ReleaseUser;
+
 import com.zshgif.laugh.listener.HttpCallbackListener;
 import com.zshgif.laugh.utils.Constant;
+import com.zshgif.laugh.utils.DBHelper;
 import com.zshgif.laugh.utils.HttpUtils;
 import com.zshgif.laugh.utils.LogUtils;
 import com.zshgif.laugh.utils.encryption.Md5;
@@ -86,7 +86,7 @@ public class DuanZiFragment extends BaseFragment  implements SwipeRefreshLayout.
      * 初始化数据
      */
     void initData(){
-
+        list=  DBHelper.loadAllDuanZiBean();
     }
 
     /**
@@ -107,6 +107,10 @@ public class DuanZiFragment extends BaseFragment  implements SwipeRefreshLayout.
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 FIRST_ONE =  listview.getFirstVisiblePosition();
                 LAST_ONE = listview.getLastVisiblePosition();
+                if (LAST_ONE == (list.size()-5)){
+                    list.addAll(DBHelper.loadAllDuanZiBeanDaoPushTen(LAST_ONE)) ;
+                    duanZiAdapter.notifyDataSetChanged();
+                }
             }
         });
     }
@@ -201,7 +205,7 @@ public class DuanZiFragment extends BaseFragment  implements SwipeRefreshLayout.
         try {
 
 
-            duanZiBean.setId("id");
+            duanZiBean.setNETid(jsonObject.getLong("id"));
             duanZiBean.setContent(jsonObject.getString("text"));//图片描述
             duanZiBean.setCategory_name(jsonObject.getString("category_name"));//分类
             duanZiBean.setDigg_count(jsonObject.getInt("digg_count"));
@@ -252,6 +256,7 @@ public class DuanZiFragment extends BaseFragment  implements SwipeRefreshLayout.
             duanZiBean.setComments(commentsBean);
         }
         list.add(duanZiBean);
+        DBHelper.insertIntoDuanZiBean(duanZiBean);
 
     }
 }

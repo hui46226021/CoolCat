@@ -29,6 +29,7 @@ import com.zshgif.laugh.adapter.MyViewPagerAdapter;
 import com.zshgif.laugh.fragment.DuanZiFragment;
 import com.zshgif.laugh.fragment.GifPictureFragment;
 import com.zshgif.laugh.fragment.MyFragment;
+import com.zshgif.laugh.utils.DBHelper;
 import com.zshgif.laugh.utils.SnackbarUtil;
 
 import java.util.ArrayList;
@@ -68,6 +69,7 @@ public class MyActivity extends BaseActivity
     setContentView(R.layout.activity_my);
     //初始化控件
     ViewUtils.inject(this);
+    DBHelper.getInstance(this);
 
     // 初始化mTitles、mFragments等ViewPager需要的数据
     //这里的数据都是模拟出来了，自己手动生成的，在项目中需要从网络获取数据
@@ -75,6 +77,8 @@ public class MyActivity extends BaseActivity
 
     // 对各种控件进行设置、适配、填充数据
     configViews();
+
+
   }
 
   /**

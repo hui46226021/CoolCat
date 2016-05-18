@@ -15,11 +15,10 @@ import android.widget.LinearLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.cn.speedchat.greendao.DuanZiBean;
 import com.zshgif.laugh.R;
 import com.zshgif.laugh.acticty.ContextUtil;
-import com.zshgif.laugh.bean.DuanZiBean;
-import com.zshgif.laugh.bean.GifitemBean;
-import com.zshgif.laugh.bean.PictureBean;
+
 import com.zshgif.laugh.fragment.BaseFragment;
 import com.zshgif.laugh.fragment.DuanZiFragment;
 import com.zshgif.laugh.fragment.GifPictureFragment;
