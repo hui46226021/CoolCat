@@ -8,13 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.cn.speedchat.greendao.PictureBean;
+import com.zshgif.laugh.model.PictureBean;
 import com.zshgif.laugh.R;
 
 import com.zshgif.laugh.fragment.BaseFragment;
-import com.zshgif.laugh.fragment.GifPictureFragment;
 import com.zshgif.laugh.listener.NetworkBitmapCallbackListener;
 import com.zshgif.laugh.utils.HttpPictureUtils;
 import com.zshgif.laugh.utils.LogUtils;

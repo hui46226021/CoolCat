@@ -1,8 +1,10 @@
-package com.cn.speedchat.greendao;
+package com.zshgif.laugh.model;
 
 import java.util.List;
-import com.cn.speedchat.greendao.DaoSession;
-import com.zshgif.laugh.utils.DBHelper;
+import com.zshgif.laugh.dao.db.DaoSession;
+import com.zshgif.laugh.dao.GifitemBeanDao;
+import com.zshgif.laugh.dao.PictureBeanDao;
+import com.zshgif.laugh.dao.db.DBHelper;
 
 import de.greenrobot.dao.DaoException;
 

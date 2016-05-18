@@ -4,22 +4,18 @@ package com.zshgif.laugh.fragment;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.cn.speedchat.greendao.CommentsBean;
-import com.cn.speedchat.greendao.GifitemBean;
-import com.cn.speedchat.greendao.PictureBean;
-import com.cn.speedchat.greendao.ReleaseUser;
+import com.zshgif.laugh.model.CommentsBean;
+import com.zshgif.laugh.model.GifitemBean;
+import com.zshgif.laugh.model.PictureBean;
+import com.zshgif.laugh.model.ReleaseUser;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.zshgif.laugh.R;
@@ -27,10 +23,9 @@ import com.zshgif.laugh.adapter.GifPaictureAdapter;
 
 import com.zshgif.laugh.listener.HttpCallbackListener;
 import com.zshgif.laugh.utils.Constant;
-import com.zshgif.laugh.utils.DBHelper;
+import com.zshgif.laugh.dao.db.DBHelper;
 import com.zshgif.laugh.utils.HttpUtils;
 import com.zshgif.laugh.utils.LogUtils;
-import com.zshgif.laugh.utils.encryption.Md5;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,7 +34,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Created by zhush on 2016/5/15

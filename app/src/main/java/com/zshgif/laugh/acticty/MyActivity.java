@@ -2,18 +2,13 @@
 package com.zshgif.laugh.acticty;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.graphics.ColorUtils;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,13 +18,11 @@ import android.view.View;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.zshgif.laugh.R;
-import com.zshgif.laugh.adapter.DuanZiAdapter;
-import com.zshgif.laugh.adapter.GifPaictureAdapter;
 import com.zshgif.laugh.adapter.MyViewPagerAdapter;
 import com.zshgif.laugh.fragment.DuanZiFragment;
 import com.zshgif.laugh.fragment.GifPictureFragment;
 import com.zshgif.laugh.fragment.MyFragment;
-import com.zshgif.laugh.utils.DBHelper;
+import com.zshgif.laugh.dao.db.DBHelper;
 import com.zshgif.laugh.utils.SnackbarUtil;
 
 import java.util.ArrayList;

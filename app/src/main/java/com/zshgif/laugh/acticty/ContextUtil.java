@@ -1,23 +1,16 @@
 package com.zshgif.laugh.acticty;
 
-import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Looper;
-import android.support.v7.app.AlertDialog;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.WindowManager;
 
 
-import com.cn.speedchat.greendao.DaoMaster;
-import com.cn.speedchat.greendao.DaoSession;
+import com.zshgif.laugh.dao.db.DaoMaster;
+import com.zshgif.laugh.dao.db.DaoSession;
 import com.zshgif.laugh.utils.RandomUtils;
-
-import java.util.List;
 
 /**
  * 一般建议在自定义 Application 类里初始化。也可以在主 Activity 里。

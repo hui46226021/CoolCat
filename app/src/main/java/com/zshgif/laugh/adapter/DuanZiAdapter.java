@@ -3,7 +3,6 @@ package com.zshgif.laugh.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,29 +11,21 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import com.cn.speedchat.greendao.DuanZiBean;
+import com.zshgif.laugh.model.DuanZiBean;
 import com.zshgif.laugh.R;
-import com.zshgif.laugh.acticty.ContextUtil;
 
 import com.zshgif.laugh.fragment.BaseFragment;
-import com.zshgif.laugh.fragment.DuanZiFragment;
-import com.zshgif.laugh.fragment.GifPictureFragment;
 import com.zshgif.laugh.listener.NetworkBitmapCallbackListener;
 import com.zshgif.laugh.utils.HttpPictureUtils;
-import com.zshgif.laugh.utils.LogUtils;
 import com.zshgif.laugh.view.RoundedImageView;
 
-import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
 
 

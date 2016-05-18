@@ -1,18 +1,18 @@
-package com.zshgif.laugh.utils;
+package com.zshgif.laugh.dao.db;
 
 import android.content.Context;
 
-import com.cn.speedchat.greendao.CommentsBean;
-import com.cn.speedchat.greendao.CommentsBeanDao;
-import com.cn.speedchat.greendao.DaoSession;
-import com.cn.speedchat.greendao.DuanZiBean;
-import com.cn.speedchat.greendao.DuanZiBeanDao;
-import com.cn.speedchat.greendao.GifitemBean;
-import com.cn.speedchat.greendao.GifitemBeanDao;
-import com.cn.speedchat.greendao.PictureBeanDao;
-import com.cn.speedchat.greendao.ReleaseUser;
-import com.cn.speedchat.greendao.ReleaseUserDao;
+import com.zshgif.laugh.model.CommentsBean;
+import com.zshgif.laugh.dao.CommentsBeanDao;
+import com.zshgif.laugh.model.DuanZiBean;
+import com.zshgif.laugh.dao.DuanZiBeanDao;
+import com.zshgif.laugh.model.GifitemBean;
+import com.zshgif.laugh.dao.GifitemBeanDao;
+import com.zshgif.laugh.dao.PictureBeanDao;
+import com.zshgif.laugh.model.ReleaseUser;
+import com.zshgif.laugh.dao.ReleaseUserDao;
 import com.zshgif.laugh.acticty.ContextUtil;
+import com.zshgif.laugh.utils.LogUtils;
 
 import java.util.List;
 

@@ -16,22 +16,18 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 
-import com.cn.speedchat.greendao.GifitemBean;
-import com.cn.speedchat.greendao.PictureBean;
-import com.lidroid.xutils.http.client.multipart.content.StringBody;
+import com.zshgif.laugh.model.GifitemBean;
+import com.zshgif.laugh.model.PictureBean;
 import com.zshgif.laugh.R;
 import com.zshgif.laugh.acticty.ContextUtil;
 
 import com.zshgif.laugh.fragment.BaseFragment;
-import com.zshgif.laugh.fragment.GifPictureFragment;
 import com.zshgif.laugh.listener.NetworkBitmapCallbackListener;
 import com.zshgif.laugh.utils.HttpPictureUtils;
-import com.zshgif.laugh.utils.HttpUtils;
 import com.zshgif.laugh.utils.LogUtils;
 import com.zshgif.laugh.view.RoundedImageView;
 
 import java.io.IOException;
-import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;

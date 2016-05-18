@@ -12,21 +12,19 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
-import com.cn.speedchat.greendao.CommentsBean;
-import com.cn.speedchat.greendao.DuanZiBean;
-import com.cn.speedchat.greendao.ReleaseUser;
+import com.zshgif.laugh.model.CommentsBean;
+import com.zshgif.laugh.model.DuanZiBean;
+import com.zshgif.laugh.model.ReleaseUser;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.zshgif.laugh.R;
 import com.zshgif.laugh.adapter.DuanZiAdapter;
-import com.zshgif.laugh.adapter.GifPaictureAdapter;
 
 import com.zshgif.laugh.listener.HttpCallbackListener;
 import com.zshgif.laugh.utils.Constant;
-import com.zshgif.laugh.utils.DBHelper;
+import com.zshgif.laugh.dao.db.DBHelper;
 import com.zshgif.laugh.utils.HttpUtils;
 import com.zshgif.laugh.utils.LogUtils;
-import com.zshgif.laugh.utils.encryption.Md5;
 
 import org.json.JSONArray;
 import org.json.JSONException;
