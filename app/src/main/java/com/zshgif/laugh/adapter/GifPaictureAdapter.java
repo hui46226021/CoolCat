@@ -21,6 +21,7 @@ import com.zshgif.laugh.R;
 import com.zshgif.laugh.acticty.ContextUtil;
 import com.zshgif.laugh.bean.GifitemBean;
 import com.zshgif.laugh.bean.PictureBean;
+import com.zshgif.laugh.fragment.BaseFragment;
 import com.zshgif.laugh.fragment.GifPictureFragment;
 import com.zshgif.laugh.listener.NetworkBitmapCallbackListener;
 import com.zshgif.laugh.utils.HttpPictureUtils;
@@ -48,6 +49,8 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
     private int resourceId;
     private Context context;
     private int onScreen;
+
+    private BaseFragment baseFragment;
     /**
      * 所有图片集合
      */
@@ -66,11 +69,12 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
 
 
 
-    public GifPaictureAdapter(Context context, int resource, List<GifitemBean> objects) {
+    public GifPaictureAdapter(Context context, int resource, List<GifitemBean> objects, BaseFragment baseFragment) {
         super(context, resource, objects);
         this.context =context;
         resourceId = resource;
         gifitemBeanList = objects;
+        this.baseFragment=baseFragment;
         
     }
 
@@ -203,7 +207,7 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
 
     void geiBitmap(String url,final ImageView imageView,final int position){
 
-        HttpPictureUtils.getNetworkBitmap(position,url, new NetworkBitmapCallbackListener() {
+        HttpPictureUtils.getNetworkBitmap(baseFragment,position,url, new NetworkBitmapCallbackListener() {
             @Override
             public void onHttpFinish(byte[] bytes) {
 
@@ -214,9 +218,8 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
                     return;
                 }
 
-                Bitmap softReference =BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                WeakReference  weakReference = new  WeakReference( softReference );
-                softReference=null; //弱引用
+
+                WeakReference  weakReference = new  WeakReference( BitmapFactory.decodeByteArray(bytes, 0, bytes.length) );//弱引用
                 imageView.setImageBitmap((Bitmap) weakReference.get());
             }
 
@@ -229,7 +232,7 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
 
     void geiGifPicture(String url,final GifImageView gifImageView,final ImageView imageView,final int position){
 
-        HttpPictureUtils.getNetworkBitmap(position,url, new NetworkBitmapCallbackListener() {
+        HttpPictureUtils.getNetworkBitmap(baseFragment,position,url, new NetworkBitmapCallbackListener() {
             @Override
             public void onHttpFinish(byte[] bytes) {
 
@@ -240,9 +243,8 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
                     return;
                 }
                 try {
-                    GifDrawable gifFromBytes = new GifDrawable( bytes );
-                    WeakReference  weakReference = new WeakReference( gifFromBytes );
-                    gifFromBytes=null; //弱引用
+
+                    WeakReference  weakReference = new WeakReference(  new GifDrawable( bytes ) );//弱引用
                     gifImageView.setImageDrawable((Drawable) weakReference.get());
                     gifImageView.setVisibility(View.VISIBLE);
                     imageView.setVisibility(View.GONE);
@@ -273,8 +275,8 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
 
     boolean isload(int position){
 
-        if (position<GifPictureFragment.FIRST_ONE||position>GifPictureFragment.LAST_ONE){
-            LogUtils.e("当前"+position,"第一个"+GifPictureFragment.FIRST_ONE+"--"+"最后一个"+GifPictureFragment.LAST_ONE);
+        if (position<baseFragment.FIRST_ONE||position>baseFragment.LAST_ONE){
+            LogUtils.e("当前"+position,"第一个"+baseFragment.FIRST_ONE+"--"+"最后一个"+baseFragment.LAST_ONE);
             return false;
         }
         return true;

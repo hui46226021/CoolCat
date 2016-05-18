@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -48,14 +49,7 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
     @ViewInject(R.id.id_swiperefreshlayout)
     private SwipeRefreshLayout mSwipeRefreshLayout;
     public static GifPictureFragment instance;
-    /**
-     * listView显示在屏幕最上的
-     */
-    public static int FIRST_ONE;
-    /**
-     * listview显示在屏幕最下的
-     */
-    public static int LAST_ONE;
+
     /**
      * 图片对象 集合
      */
@@ -103,12 +97,18 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
      */
     @TargetApi(Build.VERSION_CODES.M)
     void settingView(){
-        gifPaictureAdapter=   new GifPaictureAdapter(getActivity(),R.layout.item_main,list);
+        gifPaictureAdapter=   new GifPaictureAdapter(getActivity(),R.layout.item_main,list,this);
         listview.setAdapter(gifPaictureAdapter);
-        listview.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+
+        listview.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
-            public void onScrollChange(View view, int i, int i1, int i2, int i3) {
-              FIRST_ONE =  listview.getFirstVisiblePosition();
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                FIRST_ONE =  listview.getFirstVisiblePosition();
                 LAST_ONE = listview.getLastVisiblePosition();
 
             }

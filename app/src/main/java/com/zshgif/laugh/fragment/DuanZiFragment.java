@@ -9,6 +9,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ListView;
 
 import com.lidroid.xutils.ViewUtils;
@@ -45,14 +46,7 @@ public class DuanZiFragment extends BaseFragment  implements SwipeRefreshLayout.
     @ViewInject(R.id.id_swiperefreshlayout)
     private SwipeRefreshLayout mSwipeRefreshLayout;
     public static DuanZiFragment instance;
-    /**
-     * listView显示在屏幕最上的
-     */
-    public static int FIRST_ONE;
-    /**
-     * listview显示在屏幕最下的
-     */
-    public static int LAST_ONE;
+
     /**
      * 图片对象 集合
      */
@@ -100,14 +94,19 @@ public class DuanZiFragment extends BaseFragment  implements SwipeRefreshLayout.
      */
     @TargetApi(Build.VERSION_CODES.M)
     void settingView(){
-        duanZiAdapter=   new DuanZiAdapter(getActivity(),R.layout.item_main,list);
+        duanZiAdapter=   new DuanZiAdapter(getActivity(),R.layout.item_main,list,this);
         listview.setAdapter(duanZiAdapter);
-        listview.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(View view, int i, int i1, int i2, int i3) {
-              FIRST_ONE =  listview.getFirstVisiblePosition();
-                LAST_ONE = listview.getLastVisiblePosition();
 
+        listview.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                FIRST_ONE =  listview.getFirstVisiblePosition();
+                LAST_ONE = listview.getLastVisiblePosition();
             }
         });
     }

@@ -20,10 +20,10 @@ import com.zshgif.laugh.acticty.ContextUtil;
 import com.zshgif.laugh.bean.DuanZiBean;
 import com.zshgif.laugh.bean.GifitemBean;
 import com.zshgif.laugh.bean.PictureBean;
+import com.zshgif.laugh.fragment.BaseFragment;
 import com.zshgif.laugh.fragment.DuanZiFragment;
 import com.zshgif.laugh.fragment.GifPictureFragment;
 import com.zshgif.laugh.listener.NetworkBitmapCallbackListener;
-import com.zshgif.laugh.utils.DuanZiHttpPictureUtils;
 import com.zshgif.laugh.utils.HttpPictureUtils;
 import com.zshgif.laugh.utils.LogUtils;
 import com.zshgif.laugh.view.RoundedImageView;
@@ -47,6 +47,8 @@ public class DuanZiAdapter extends ArrayAdapter<DuanZiBean> {
     private int resourceId;
     private Context context;
     private int onScreen;
+
+    private BaseFragment baseFragment;
     /**
      * 所有图片集合
      */
@@ -65,12 +67,12 @@ public class DuanZiAdapter extends ArrayAdapter<DuanZiBean> {
 
 
 
-    public DuanZiAdapter(Context context, int resource, List<DuanZiBean> objects) {
+    public DuanZiAdapter(Context context, int resource, List<DuanZiBean> objects, BaseFragment baseFragment) {
         super(context, resource, objects);
         this.context =context;
         resourceId = resource;
         gifitemBeanList = objects;
-        
+       this.baseFragment=baseFragment;
     }
 
 
@@ -166,7 +168,7 @@ public class DuanZiAdapter extends ArrayAdapter<DuanZiBean> {
 
     void geiBitmap(String url,final ImageView imageView,final int position){
 
-        DuanZiHttpPictureUtils.getNetworkBitmap(position,url, new NetworkBitmapCallbackListener() {
+        HttpPictureUtils.getNetworkBitmap(baseFragment,position,url, new NetworkBitmapCallbackListener() {
             @Override
             public void onHttpFinish(byte[] bytes) {
 
@@ -195,8 +197,7 @@ public class DuanZiAdapter extends ArrayAdapter<DuanZiBean> {
 
     boolean isload(int position){
 
-        if (position< DuanZiFragment.FIRST_ONE||position>DuanZiFragment.LAST_ONE){
-            LogUtils.e("当前"+position,"第一个"+DuanZiFragment.FIRST_ONE+"--"+"最后一个"+DuanZiFragment.LAST_ONE);
+        if (position< baseFragment.FIRST_ONE||position>baseFragment.LAST_ONE){
             return false;
         }
         return true;

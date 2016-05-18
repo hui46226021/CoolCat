@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.zshgif.laugh.R;
 import com.zshgif.laugh.bean.PictureBean;
+import com.zshgif.laugh.fragment.BaseFragment;
 import com.zshgif.laugh.fragment.GifPictureFragment;
 import com.zshgif.laugh.listener.NetworkBitmapCallbackListener;
 import com.zshgif.laugh.utils.HttpPictureUtils;
@@ -29,11 +30,14 @@ public class GridViewAdapter extends ArrayAdapter<PictureBean> {
     List<PictureBean> list;
     int listPosition;
 
-    public GridViewAdapter(Context context, int resource, int textViewResourceId, List<PictureBean> objects,int listPosition) {
+    private BaseFragment baseFragment;
+
+    public GridViewAdapter(Context context, int resource, int textViewResourceId, List<PictureBean> objects,int listPosition, BaseFragment baseFragment) {
         super(context, resource, textViewResourceId, objects);
         this.context = context;
         this.listPosition = listPosition;
         list = objects;
+        this.baseFragment=baseFragment;
     }
 
 
@@ -63,7 +67,7 @@ public class GridViewAdapter extends ArrayAdapter<PictureBean> {
 
     void geiBitmap(String url,final ImageView imageView,final int position){
 
-        HttpPictureUtils.getNetworkBitmap(position,url, new NetworkBitmapCallbackListener() {
+        HttpPictureUtils.getNetworkBitmap(baseFragment,position,url, new NetworkBitmapCallbackListener() {
             @Override
             public void onHttpFinish(byte[] bytes) {
 
@@ -88,8 +92,8 @@ public class GridViewAdapter extends ArrayAdapter<PictureBean> {
     }
     boolean isload(int position){
 
-        if (position< GifPictureFragment.FIRST_ONE||position>GifPictureFragment.LAST_ONE){
-            LogUtils.e("当前"+position,"第一个"+GifPictureFragment.FIRST_ONE+"--"+"最后一个"+GifPictureFragment.LAST_ONE);
+        if (position< baseFragment.FIRST_ONE||position>baseFragment.LAST_ONE){
+            LogUtils.e("当前"+position,"第一个"+baseFragment.FIRST_ONE+"--"+"最后一个"+baseFragment.LAST_ONE);
             return false;
         }
         return true;

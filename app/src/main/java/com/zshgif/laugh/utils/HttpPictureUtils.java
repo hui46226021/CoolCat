@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.support.v4.util.LruCache;
 
 import com.zshgif.laugh.acticty.ContextUtil;
+import com.zshgif.laugh.fragment.BaseFragment;
 import com.zshgif.laugh.fragment.GifPictureFragment;
 import com.zshgif.laugh.listener.NetworkBitmapCallbackListener;
 
@@ -37,7 +38,7 @@ public class HttpPictureUtils {
      * @param url
      * @param listener
      */
-    public static void getNetworkBitmap(final int position,final String url,final NetworkBitmapCallbackListener listener){
+    public static void getNetworkBitmap(final BaseFragment baseFragment,final int position, final String url, final NetworkBitmapCallbackListener listener){
 
 
 
@@ -50,7 +51,8 @@ public class HttpPictureUtils {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                if (!isload(position)){
+                if (!isload(position,baseFragment)){
+
                     return null;
                 };
                 byte[]  bytes = null;
@@ -72,7 +74,8 @@ public class HttpPictureUtils {
                     }
 
                 }
-                if (!isload(position)){
+                if (!isload(position,baseFragment)){
+
                     return null;
                 };
 
@@ -100,7 +103,7 @@ public class HttpPictureUtils {
                     int n = 0;
                     while (-1 != (n = is.read(buffer))) {
                         output.write(buffer, 0, n);
-                        if (!isload(position)){
+                        if (!isload(position,baseFragment)){
                             conn.disconnect();
                             is.close();
                             return null;
@@ -161,8 +164,8 @@ public class HttpPictureUtils {
      * @param position
      * @return
      */
-   static boolean isload(int position){
-       if (position<GifPictureFragment.FIRST_ONE||position>GifPictureFragment.LAST_ONE){
+   static boolean isload(int position,BaseFragment baseFragment){
+       if (position<baseFragment.FIRST_ONE||position>baseFragment.LAST_ONE){
            return false;
        }
         return true;
