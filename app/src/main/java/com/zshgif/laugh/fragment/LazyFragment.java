@@ -29,7 +29,7 @@ public abstract class LazyFragment extends Fragment {
         lazyLoad();
     }
     protected abstract void lazyLoad();
-    protected  void unlazyLoad(){};
+    protected abstract void unlazyLoad();
     protected void onInvisible(){
         unlazyLoad();
     }

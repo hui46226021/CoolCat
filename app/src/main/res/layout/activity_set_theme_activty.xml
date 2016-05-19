@@ -17,34 +17,78 @@
         app:layout_scrollFlags="scroll|enterAlways"
         app:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         />
+    <android.support.v7.widget.CardView
 
+        style="@style/setThemeButton"
+        app:cardBackgroundColor="@color/main_yellow_dark"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="10dp"
+        app:cardMaxElevation="15dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
+
+        >
+    <Button
+        android:id="@+id/yellow"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+
+        android:onClick="onClick"
+        android:background="@null"/>
+    </android.support.v7.widget.CardView>
+    <android.support.v7.widget.CardView
+
+        style="@style/setThemeButton"
+        app:cardBackgroundColor="@color/main_blue_dark"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="10dp"
+        app:cardMaxElevation="15dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
+
+        >
     <Button
         android:id="@+id/blue"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_margin="15dp"
+        android:layout_height="50dp"
+
         android:onClick="onClick"
-        android:background="@color/main_blue_dark"/>
-    <Button
-    android:id="@+id/yellow"
-    android:layout_width="match_parent"
-    android:layout_height="40dp"
-    android:layout_margin="15dp"
-        android:onClick="onClick"
-    android:background="@color/main_yellow_dark"/>
+        android:background="@null"/></android.support.v7.widget.CardView>
+    <android.support.v7.widget.CardView
+
+        style="@style/setThemeButton"
+        app:cardBackgroundColor="@color/main_green_dark"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="10dp"
+        app:cardMaxElevation="15dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
+
+        >
     <Button
         android:id="@+id/green"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_margin="15dp"
+        android:layout_height="50dp"
         android:onClick="onClick"
-        android:background="@color/main_green_dark"/>
+        android:background="@null"/>
+    </android.support.v7.widget.CardView>
+    <android.support.v7.widget.CardView
+
+        style="@style/setThemeButton"
+        app:cardBackgroundColor="@color/main_pink_dark"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="10dp"
+        app:cardMaxElevation="15dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
+
+        >
     <Button
         android:id="@+id/pink"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_margin="15dp"
+        android:layout_height="50dp"
+
         android:onClick="onClick"
-        android:background="@color/main_pink_dark"/>
+        android:background="@null"/></android.support.v7.widget.CardView>
 
 </LinearLayout>

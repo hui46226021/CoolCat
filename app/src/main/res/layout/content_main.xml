@@ -111,11 +111,11 @@
       android:layout_height="wrap_content"
       android:layout_gravity="bottom|end"
       android:layout_margin="16dp"
-      android:src="@mipmap/ic_action_plusone"
+      android:src="@mipmap/icon_refresh"
       app:backgroundTint="@color/fab_red"
       app:elevation="6dp"
       app:fabSize="normal"
-      app:pressedTranslationZ="12dp"
+      app:pressedTranslationZ="25dp"
       app:rippleColor="@color/main_blue_dark"
       />
 

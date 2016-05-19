@@ -27,9 +27,10 @@ import javax.xml.parsers.SAXParserFactory;
  * Created by zhush on 2016/5/12.
  */
 public class BaseActivity extends AppCompatActivity {
-
+    SharedPreferences preferences ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        preferences = getSharedPreferences("theme",0);
         setMyTheme();
         super.onCreate(savedInstanceState);
     }
@@ -55,8 +56,8 @@ public class BaseActivity extends AppCompatActivity {
      * 设置主题
      */
     void setMyTheme(){
-        SharedPreferences preferences = getSharedPreferences("theme",0);
-        switch (preferences.getInt("theme",1)){
+
+        switch (preferences.getInt("theme",2)){
             case 1:
                 setTheme(R.style.MyThemeBlue);
                 break;
@@ -70,6 +71,41 @@ public class BaseActivity extends AppCompatActivity {
                 setTheme(R.style.MyThemeGreen);
                 break;
         }
+    }
+
+    int setThemeColor1(){
+        switch (preferences.getInt("theme",2)){
+            case 1:
+               return R.color.main_blue_dark;
+
+            case 2:
+                return R.color.main_yellow_dark;
+
+            case 3:
+                return R.color.main_pink_dark;
+
+            case 4:
+                return R.color.main_green_dark;
+
+        }
+        return R.color.main_blue_dark;
+    }
+    int setThemeColor2(){
+        switch (preferences.getInt("theme",2)){
+            case 1:
+                return R.color.main_blue_light;
+
+            case 2:
+                return R.color.main_yellow_light;
+
+            case 3:
+                return R.color.main_pink_light;
+
+            case 4:
+                return R.color.main_green_light;
+
+        }
+        return R.color.main_blue_dark;
     }
     /**
      * 弹出吐丝

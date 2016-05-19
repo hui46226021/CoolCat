@@ -102,6 +102,12 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
             settingView();
 
     }
+
+    @Override
+    protected void unlazyLoad() {
+        saveId();
+    }
+
     /**
      * 初始化数据
      */
@@ -113,6 +119,7 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
        int item_id = (int) preferences.getLong("item_id",-1l);
         if (item_id==-1){
             //如果之前 没有保存的ID 就刷新下
+            mSwipeRefreshLayout.setRefreshing(true);
             onRefresh();
         }
         /**
@@ -188,7 +195,7 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
         super.onActivityCreated(savedInstanceState);
 
         // 刷新时，指示器旋转后变化的颜色
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.main_yellow_light, R.color.main_yellow_dark);
+        mSwipeRefreshLayout.setColorSchemeResources(setThemeColor2(),setThemeColor1());
         mSwipeRefreshLayout.setOnRefreshListener(this);
     }
 
@@ -280,6 +287,8 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
         }
         setToastMessage("更新了"+list.size()+"组图片└(^o^)┘");
         gifPaictureAdapter.notifyDataSetChanged();
+        listview.setSelection(0);
+        FIRST_ONE =0;
     }
 
     /**
@@ -403,15 +412,26 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
     @Override
     public void onDestroy() {
         super.onDestroy();
+        saveId();
+    }
+
+    public void saveId(){
         try {
-        SharedPreferences.Editor editor = preferences.edit();
-        //设置参数
-        editor.putLong("item_id",  list.get(FIRST_ONE).getId());
-        //提交
-        editor.commit();
-        LogUtils.e("保存",list.get(FIRST_ONE).getId()+"");
+            SharedPreferences.Editor editor = preferences.edit();
+            //设置参数
+            editor.putLong("item_id",  list.get(FIRST_ONE).getId());
+            //提交
+            editor.commit();
+            LogUtils.e("保存",list.get(FIRST_ONE).getId()+"");
         }catch (Exception e){
 
         }
+    }
+    /**
+     * 刷新页面
+     */
+    public void refreshPage(){
+        mSwipeRefreshLayout.setRefreshing(true);
+        onRefresh();
     }
 }

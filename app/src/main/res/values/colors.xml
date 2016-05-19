@@ -33,10 +33,10 @@
   <color name="main_yellow_light">#edd058</color>
   <color name="main_yellow_dark">#f9cf28</color>
 
-  <color name="main_pink_light">#fc8dd7</color>
-  <color name="main_pink_dark">#f55be3</color>
+  <color name="main_pink_light">#f55e61</color>
+  <color name="main_pink_dark">#ea474a</color>
 
-  <color name="main_green_light">#48ff4e</color>
-  <color name="main_green_dark">#21ff37</color>
+  <color name="main_green_light">#78d288</color>
+  <color name="main_green_dark">#40aa53</color>
 
 </resources>

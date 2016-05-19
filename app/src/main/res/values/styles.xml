@@ -1,6 +1,7 @@
 
 
-<resources>
+<resources
+    >
   <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
     <!--在默认主题里家一张 默认图片 否则 在首次启动的会白屏-->
     <item name="android:windowBackground">@drawable/startpage</item>
@@ -54,5 +55,14 @@
     <item name="android:windowBackground">@color/main_green_light</item>
     <!--正常状态下字体颜色和icon颜色-->
     <item name="android:textColorPrimary">@color/main_white</item>
+  </style>
+
+  选择颜色cardview
+  <style name="setThemeButton">
+
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:layout_marginLeft">16dp</item>
+    <item name="android:layout_marginRight">16dp</item>
   </style>
 </resources>

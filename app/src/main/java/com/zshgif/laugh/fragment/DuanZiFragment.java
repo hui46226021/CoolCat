@@ -95,6 +95,10 @@ public class DuanZiFragment extends BaseFragment  implements SwipeRefreshLayout.
         settingView();
 
     }
+    @Override
+    protected void unlazyLoad() {
+        saveId();
+    }
     /**
      * 初始化数据
      */
@@ -106,6 +110,7 @@ public class DuanZiFragment extends BaseFragment  implements SwipeRefreshLayout.
         int item_id = (int) preferences.getLong("item_id",-1l);
         if (item_id==-1){
             //如果之前 没有保存的ID 就刷新下
+            mSwipeRefreshLayout.setRefreshing(true);
             onRefresh();
         }
 
@@ -180,7 +185,7 @@ public class DuanZiFragment extends BaseFragment  implements SwipeRefreshLayout.
         super.onActivityCreated(savedInstanceState);
 
         // 刷新时，指示器旋转后变化的颜色
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.main_yellow_light, R.color.main_yellow_dark);
+        mSwipeRefreshLayout.setColorSchemeResources(setThemeColor2(), setThemeColor1());
         mSwipeRefreshLayout.setOnRefreshListener(this);
     }
 
@@ -251,6 +256,8 @@ public class DuanZiFragment extends BaseFragment  implements SwipeRefreshLayout.
         }
         setToastMessage("更新了"+list.size()+"条段子└(^o^)┘");
         duanZiAdapter.notifyDataSetChanged();
+        listview.setSelection(0);
+        FIRST_ONE =0;
     }
 
     /**
@@ -316,10 +323,20 @@ public class DuanZiFragment extends BaseFragment  implements SwipeRefreshLayout.
 
     }
 
-
+    /**
+     * 刷新页面
+     */
+    public void refreshPage(){
+        mSwipeRefreshLayout.setRefreshing(true);
+        onRefresh();
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();
+            saveId();
+    }
+
+    public void saveId(){
         try {
             SharedPreferences.Editor editor = preferences.edit();
             //设置参数

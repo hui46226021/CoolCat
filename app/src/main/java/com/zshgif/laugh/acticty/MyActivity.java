@@ -60,6 +60,16 @@ public class MyActivity extends BaseActivity
   private List<Fragment> mFragments;
   // ViewPager的数据适配器
   private MyViewPagerAdapter mViewPagerAdapter;
+  /**
+   * 图片页面
+   */
+  private GifPictureFragment gifPictureFragment;
+  /**
+   * 段子页面
+   */
+  private DuanZiFragment duanZiFragment;
+
+  private int currentPage=0;//0 图片页面  1 段子页面
 
   @Override protected void onCreate(Bundle savedInstanceState) {
 
@@ -91,8 +101,10 @@ public class MyActivity extends BaseActivity
 
     //初始化填充到ViewPager中的Fragment集合
     mFragments = new ArrayList<>();
-    mFragments.add(0, GifPictureFragment.newInstance());
-    mFragments.add(1, DuanZiFragment.newInstance());
+    gifPictureFragment = GifPictureFragment.newInstance();
+    mFragments.add(0, gifPictureFragment);
+    duanZiFragment = DuanZiFragment.newInstance();
+    mFragments.add(1,duanZiFragment);
     for (int i = 2; i < mTitles.length; i++) {
       Bundle mBundle = new Bundle();
       mBundle.putInt("flag", i);
@@ -118,6 +130,7 @@ public class MyActivity extends BaseActivity
     // 给ViewPager添加页面动态监听器（为了让Toolbar中的Title可以变化相应的Tab的标题）
     mViewPager.addOnPageChangeListener(this);
 
+
     mTabLayout.setTabMode(MODE_FIXED);
     // 将TabLayout和ViewPager进行关联，让两者联动起来
     mTabLayout.setupWithViewPager(mViewPager);
@@ -126,6 +139,7 @@ public class MyActivity extends BaseActivity
 
     // 设置FloatingActionButton的点击事件
     mFloatingActionButton.setOnClickListener(this);
+    mFloatingActionButton.setRippleColor(setThemeColor1());
   }
 
 
@@ -189,6 +203,7 @@ public class MyActivity extends BaseActivity
 
   @Override public void onPageSelected(int position) {
     mToolbar.setTitle(mTitles[position]);
+    currentPage =position;
   }
 
   @Override
@@ -208,7 +223,18 @@ public class MyActivity extends BaseActivity
     switch (v.getId()) {
       // FloatingActionButton的点击事件
       case R.id.id_floatingactionbutton:
-        SnackbarUtil.show(v, getString(R.string.plusone), 0);
+//        SnackbarUtil.show(v, getString(R.string.plusone), 0);
+        /**
+         * 刷新
+         */
+        switch (currentPage){
+          case 0:
+            gifPictureFragment.refreshPage();
+            break;
+          case 1:
+            duanZiFragment.refreshPage();
+            break;
+        }
         break;
     }
 
