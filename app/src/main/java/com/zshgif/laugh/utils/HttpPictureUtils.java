@@ -3,6 +3,7 @@ package com.zshgif.laugh.utils;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.support.v4.util.LruCache;
+import android.view.View;
 
 import com.zshgif.laugh.acticty.ContextUtil;
 import com.zshgif.laugh.fragment.BaseFragment;
@@ -38,7 +39,7 @@ public class HttpPictureUtils {
      * @param url
      * @param listener
      */
-    public static void getNetworkBitmap(final BaseFragment baseFragment,final int position, final String url, final NetworkBitmapCallbackListener listener){
+    public static void getNetworkBitmap(final View view, final BaseFragment baseFragment, final int position, final String url, final NetworkBitmapCallbackListener listener){
 
 
 
@@ -50,6 +51,9 @@ public class HttpPictureUtils {
 
                     return null;
                 };
+
+
+
                 try {
                     Thread.sleep(30);
                 } catch (InterruptedException e) {
@@ -79,9 +83,10 @@ public class HttpPictureUtils {
 
                 }
                 if (!isload(position,baseFragment)){
-
                     return null;
                 };
+
+
 
                 LogUtils.e("网络获取图片",url);
                 URL myFileURL;
@@ -105,8 +110,12 @@ public class HttpPictureUtils {
 
                     byte[] buffer = new byte[4096];
                     int n = 0;
+
                     while (-1 != (n = is.read(buffer))) {
                         output.write(buffer, 0, n);
+
+
+
                         if (!isload(position,baseFragment)){
                             conn.disconnect();
                             is.close();
@@ -120,7 +129,7 @@ public class HttpPictureUtils {
                     //关闭数据流
                     is.close();
                 }catch(Exception e){
-                    e.printStackTrace();
+//                    e.printStackTrace();
                 }
                 try {
                     DiskLruCacheUtil.writeToDiskCache(url,bytes,ContextUtil.getInstance());
@@ -133,7 +142,15 @@ public class HttpPictureUtils {
             }
             @Override
             protected void onPostExecute(byte[] bytes) {
-                listener.onHttpFinish(bytes);
+                try{
+                    if (view.getTag().toString().equals(url)){
+                        listener.onHttpFinish(bytes);
+                    }else {
+                        LogUtils.e("错位了","原URL"+url+" 新URL"+url);
+                    }
+
+                }catch (Exception e){}
+
             }
 
 
@@ -157,9 +174,12 @@ public class HttpPictureUtils {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         byte[] buffer = new byte[4096];
         int n = 0;
-        while (-1 != (n = input.read(buffer))) {
-            output.write(buffer, 0, n);
-        }
+        try {
+            while (-1 != (n = input.read(buffer))) {
+                output.write(buffer, 0, n);
+            }
+        }catch (Exception e){}
+
         return output.toByteArray();
     }
 

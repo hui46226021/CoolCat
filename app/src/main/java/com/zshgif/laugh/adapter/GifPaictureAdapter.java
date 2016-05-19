@@ -203,11 +203,13 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
     }
 
     void geiBitmap(String url,final ImageView imageView,final int position){
+        imageView.setTag(url);
         if(!isload(position))  {
 
             return;
         }
-        HttpPictureUtils.getNetworkBitmap(baseFragment,position,url, new NetworkBitmapCallbackListener() {
+        HttpPictureUtils.getNetworkBitmap(imageView,baseFragment,position,url, new NetworkBitmapCallbackListener() {
+
             @Override
             public void onHttpFinish(byte[] bytes) {
 
@@ -231,11 +233,12 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
     }
 
     void geiGifPicture(String url,final GifImageView gifImageView,final ImageView imageView,final int position){
+        gifImageView.setTag(url);
         if(!isload(position))  {
 
             return;
         }
-        HttpPictureUtils.getNetworkBitmap(baseFragment,position,url, new NetworkBitmapCallbackListener() {
+        HttpPictureUtils.getNetworkBitmap(gifImageView,baseFragment,position,url, new NetworkBitmapCallbackListener() {
             @Override
             public void onHttpFinish(byte[] bytes) {
 
@@ -245,6 +248,8 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
               if(!isload(position))  {
                     return;
                 }
+
+
                 try {
 
                     WeakReference  weakReference = new WeakReference(  new GifDrawable( bytes ) );//弱引用

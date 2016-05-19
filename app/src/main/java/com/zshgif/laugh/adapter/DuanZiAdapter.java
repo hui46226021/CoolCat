@@ -157,8 +157,8 @@ public class DuanZiAdapter extends ArrayAdapter<DuanZiBean> {
     }
 
     void geiBitmap(String url,final ImageView imageView,final int position){
-
-        HttpPictureUtils.getNetworkBitmap(baseFragment,position,url, new NetworkBitmapCallbackListener() {
+        imageView.setTag(url);
+        HttpPictureUtils.getNetworkBitmap(imageView,baseFragment,position,url, new NetworkBitmapCallbackListener() {
             @Override
             public void onHttpFinish(byte[] bytes) {
 
