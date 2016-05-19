@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
+import com.google.code.microlog4android.Logger;
+import com.google.code.microlog4android.LoggerFactory;
 import com.zshgif.laugh.model.CommentsBean;
 import com.zshgif.laugh.model.GifitemBean;
 import com.zshgif.laugh.model.PictureBean;
@@ -52,6 +54,8 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
     private SharedPreferences preferences;
 
     public long first_one_id =6496629855l;
+
+
 
     /**
      * 图片对象 集合

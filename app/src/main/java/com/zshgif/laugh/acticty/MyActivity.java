@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 
+import com.google.code.microlog4android.config.PropertyConfigurator;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.zshgif.laugh.R;
@@ -66,6 +67,8 @@ public class MyActivity extends BaseActivity
     setContentView(R.layout.activity_my);
     //初始化控件
     ViewUtils.inject(this);
+    //启用日志
+    PropertyConfigurator.getConfigurator(this).configure();
     DBHelper.getInstance(this);
 
     // 初始化mTitles、mFragments等ViewPager需要的数据
