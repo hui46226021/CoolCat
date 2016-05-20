@@ -234,7 +234,7 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
                 mSwipeRefreshLayout.setRefreshing(false);
                 try {
                     analysisJSON(response);
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     setToastMessage("解析数据错误");
                     e.printStackTrace();
                 }
