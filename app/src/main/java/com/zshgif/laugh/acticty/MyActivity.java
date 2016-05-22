@@ -2,6 +2,7 @@
 package com.zshgif.laugh.acticty;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -55,10 +56,6 @@ public class MyActivity extends BaseActivity
   private ViewPager mViewPager;
   @ViewInject(R.id.id_floatingactionbutton)
   private FloatingActionButton mFloatingActionButton;
-  /**
-   * 清理垃圾进度条
-   */
-  ProgressBar mProgress;
 
 
   // TabLayout中的tab标题
@@ -121,6 +118,8 @@ public class MyActivity extends BaseActivity
       mFragment.setArguments(mBundle);
       mFragments.add(i, mFragment);
     }
+
+
   }
 
   /**
@@ -178,7 +177,7 @@ public class MyActivity extends BaseActivity
       startActivity(new Intent(this,SetThemeActivty.class));
     }
     if(id == R.id.clear){
-      AlertDialog.Builder builder = new AlertDialog.Builder(MyActivity.this);
+      AlertDialog.Builder builder = builder = new AlertDialog.Builder(MyActivity.this);
       builder.setTitle("提示");
       maxMemory = DiskLruCacheUtil.size();
 
@@ -188,7 +187,7 @@ public class MyActivity extends BaseActivity
         @Override
         public void onClick(DialogInterface dialog, int which) {
 //                                //跳转下载链接
-
+          cleanMemoryProgress();
           DiskLruCacheUtil.delete(MyActivity.this);
 
 
@@ -197,6 +196,8 @@ public class MyActivity extends BaseActivity
       });
       builder.setNegativeButton("保留", null);
       builder.create().show();
+      builder.create().dismiss();
+
     }
 
     return super.onOptionsItemSelected(item);
@@ -255,9 +256,8 @@ public class MyActivity extends BaseActivity
     DiskLruCacheUtil.open(this);
     maxMemory =DiskLruCacheUtil.size();
     if ((maxMemory/1024/1024)>=1000){
-      AlertDialog.Builder builder = new AlertDialog.Builder(MyActivity.this);
+      AlertDialog.Builder builder = builder = new AlertDialog.Builder(MyActivity.this);
       builder.setTitle("提示");
-
 
       builder.setMessage("您当前的图片缓存已大于1GB，过多无效的图片缓存会浪费您设备的存储空间");
 //      builder.setCancelable(false);
@@ -265,24 +265,16 @@ public class MyActivity extends BaseActivity
         @Override
         public void onClick(DialogInterface dialog, int which) {
 //                                //跳转下载链接
-
+          cleanMemoryProgress();
           DiskLruCacheUtil.delete(MyActivity.this);
 
-          android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(MyActivity.this);
-          builder.setTitle("正在清理");
 
-          final LayoutInflater inflater = LayoutInflater.from(MyActivity.this);
-          View v = inflater.inflate(R.layout.progress, null);
-          mProgress = (ProgressBar)v.findViewById(R.id.progress);
-
-          builder.setView(v);
-          builder.create().setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
-          builder.create().show();
 
         }
       });
       builder.setNegativeButton("我还要留着离线看", null);
       builder.create().show();
+      builder.create().dismiss();
     }
   }
 
@@ -293,6 +285,34 @@ public class MyActivity extends BaseActivity
 
   public void setDelectFileLength(long fileLength){
     cleanSize +=fileLength;
-    mProgress.setProgress((int)((cleanSize*100)/maxMemory));
+    try {
+      int progress = (int)((cleanSize*1000)/maxMemory);
+      dialog.incrementProgressBy(progress);
+      if (progress>=999){
+        cleanMemoryProgressDismiss();
+      }
+
+    }catch (Exception e){}
+
   }
+  ProgressDialog dialog =null;
+  void cleanMemoryProgress(){
+    if (dialog ==null){
+      dialog = new ProgressDialog(this);
+    }
+
+    dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);// 设置水平进度条
+    dialog.setCancelable(true);// 设置是否可以通过点击Back键取消
+    dialog.setCanceledOnTouchOutside(false);// 设置在点击Dialog外是否取消Dialog进度条
+//    dialog.setIcon(R.drawable.ic_launcher);// 设置提示的title的图标，默认是没有的
+    dialog.setTitle("提示");
+    dialog.setMax(1000);
+    dialog.show();
+
+  }
+  void cleanMemoryProgressDismiss(){
+
+    dialog.dismiss();
+  }
+
 }
