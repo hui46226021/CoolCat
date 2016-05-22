@@ -3,6 +3,9 @@ package com.zshgif.laugh.utils;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 
+import com.zshgif.laugh.acticty.ContextUtil;
+import com.zshgif.laugh.acticty.MyActivity;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,11 +19,13 @@ public class DiskLruCacheUtil {
 	 * @param context
 	 * @return
 	 */
-	private static DiskLruCache open(Context context){
+
+	public static DiskLruCache open(Context context){
 		try {//  data/data/com.android.httpclient10_21/cache/bitmap
 			File cacheDir=getDiskCacheDir(context,"bitmap");
 			if(!cacheDir.exists()){
 				cacheDir.mkdirs();
+
 			}
 			/**
 			 * 第一个参数：数据的缓存地址
@@ -43,6 +48,7 @@ public class DiskLruCacheUtil {
 	 */
 	public static void writeToDiskCache(final String url,final byte [] data,Context context){
 		mDiskLruCache =open(context);
+
 		new Thread(){
 			public void run() {
 				String key=hashKeyForDisk(url);
@@ -52,6 +58,7 @@ public class DiskLruCacheUtil {
 						OutputStream outputStream=editor.newOutputStream(0);
 						outputStream.write(data, 0, data.length);
 						editor.commit();
+						outputStream.close();
 					}
 					//
 					mDiskLruCache.flush();
@@ -141,12 +148,14 @@ public class DiskLruCacheUtil {
 	public static long size(){
 		return mDiskLruCache.size();
 	}
-	public static void delete(){
+	public static void delete(MyActivity context){
 		try {
-			mDiskLruCache.delete();
+			mDiskLruCache.delete(context);
+			DiskLruCacheUtil.open(context);
 
 		} catch (IOException e) {
 			e.printStackTrace();
+
 		}
 	}
 }

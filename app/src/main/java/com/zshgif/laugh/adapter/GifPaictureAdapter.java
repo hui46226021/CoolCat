@@ -1,8 +1,10 @@
 package com.zshgif.laugh.adapter;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
@@ -31,8 +34,10 @@ import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
@@ -53,9 +58,21 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
      */
     private List<GifitemBean> gifitemBeanList;
     /**
+     * 图片队列   最多存放20个图片对象 当图片超过20个的时候 取出一个recycle()
+     */
+    private Queue<Bitmap> queue = new LinkedList<Bitmap>();
+
+    /**
+     * GIF图片队列   最多存放3个图片对象 当图片超过3个的时候 停止动画
+     */
+    private Queue<GifDrawable> queue_gif = new LinkedList<GifDrawable>();
+    /**
      * 内部图片集合
      */
+
+
     private List<Map<String, Object>> data_list = new ArrayList<Map<String, Object>>();
+
     public GifPaictureAdapter(Context context, int resource) {
         super(context, resource);
     }
@@ -72,6 +89,7 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
         resourceId = resource;
         gifitemBeanList = objects;
         this.baseFragment=baseFragment;
+
         
     }
 
@@ -95,19 +113,25 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
          * 公用
          */
         GifitemBean  gifitemBean =  gifitemBeanList.get(position);
-        geiBitmap(gifitemBean.getReleaseUser().getUserProfile(),holder.user_profile,position);
         holder.user_name.setText(gifitemBean.getReleaseUser().getUsername());
         holder.tital.setText(gifitemBean.getContent());
         holder.digg_count.setText(gifitemBean.getDigg_count()+"");
         holder.bury_count.setText(gifitemBean.getBury_count()+"");
         holder.comment_count.setText(gifitemBean.getComments_count()+"");
+        holder.progressBar.setProgress(0);
+        holder.progressBar.setVisibility(View.INVISIBLE);
         holder.type.setText(gifitemBean.getCategory_name());
         holder.picture.setVisibility(View.GONE);
         holder.gridView.setVisibility(View.GONE);
         holder.gif_picture.setVisibility(View.GONE);
-        holder.gif_picture.setImageBitmap(null);
+        /**
+         * 初始化默认图片
+         */
+        holder.gif_picture.setImageResource(R.drawable.bg);
         holder.picture.setImageResource(R.drawable.bg);
-
+        holder.comments_user_profile.setImageResource(R.drawable.mrtx);
+        holder.user_profile.setImageResource(R.drawable.mrtx);
+        geiBitmap(gifitemBean.getReleaseUser().getUserProfile(),holder.user_profile,position);
         /**
          * 评论
          */
@@ -133,7 +157,7 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
                 calculateHeight( holder.picture,((double) gifitemBean.getHeight())/((double)gifitemBean.getWidth()));
                 calculateHeight( holder.gif_picture,((double) gifitemBean.getHeight())/((double)gifitemBean.getWidth()));
                 geiBitmap(gifitemBean.getFirstOne(),holder.picture,position);
-                geiGifPicture(gifitemBean.getGifUrl(),holder.gif_picture,holder.picture,position);
+                geiGifPicture(gifitemBean.getGifUrl(),holder.gif_picture,holder.picture,position,holder.progressBar);
                 break;
             case 5:
                 holder.picture.setVisibility(View.GONE);
@@ -184,6 +208,7 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
         Button digg_count;//点赞按钮
         Button bury_count;//鄙视按钮
         Button comment_count;//评论按钮
+        ProgressBar progressBar;//进度条
         public GifPaictureHodler(View view) {
             user_profile = (RoundedImageView) view.findViewById(R.id.user_profile);
             user_name = (TextView) view.findViewById(R.id.user_name);
@@ -199,6 +224,9 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
             digg_count = (Button) view.findViewById(R.id.digg_count);
             bury_count = (Button) view.findViewById(R.id.bury_count);
             comment_count = (Button) view.findViewById(R.id.comment_count);
+            progressBar = (ProgressBar) view.findViewById(R.id.progress);
+
+
         }
     }
 
@@ -208,7 +236,7 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
 
             return;
         }
-        HttpPictureUtils.getNetworkBitmap(imageView,baseFragment,position,url, new NetworkBitmapCallbackListener() {
+        HttpPictureUtils.getNetworkBitmap(null,imageView,baseFragment,position,url, new NetworkBitmapCallbackListener() {
 
             @Override
             public void onHttpFinish(byte[] bytes) {
@@ -223,6 +251,8 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
 
                 WeakReference  weakReference = new  WeakReference( BitmapFactory.decodeByteArray(bytes, 0, bytes.length) );//弱引用
                 imageView.setImageBitmap((Bitmap) weakReference.get());
+                queue.offer((Bitmap) weakReference.get());
+                recycleBitmap();
             }
 
             @Override
@@ -232,13 +262,15 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
         });
     }
 
-    void geiGifPicture(String url,final GifImageView gifImageView,final ImageView imageView,final int position){
+    void geiGifPicture(String url,final GifImageView gifImageView,final ImageView imageView,final int position,final ProgressBar progressBar){
+
+
         gifImageView.setTag(url);
         if(!isload(position))  {
 
             return;
         }
-        HttpPictureUtils.getNetworkBitmap(gifImageView,baseFragment,position,url, new NetworkBitmapCallbackListener() {
+        HttpPictureUtils.getNetworkBitmap(progressBar,gifImageView,baseFragment,position,url, new NetworkBitmapCallbackListener() {
             @Override
             public void onHttpFinish(byte[] bytes) {
 
@@ -248,18 +280,22 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
               if(!isload(position))  {
                     return;
                 }
-
+//                bytes =null;
 
                 try {
 
                     WeakReference  weakReference = new WeakReference(  new GifDrawable( bytes ) );//弱引用
+                    bytes = null;
                     gifImageView.setImageDrawable((Drawable) weakReference.get());
                     gifImageView.setVisibility(View.VISIBLE);
                     imageView.setVisibility(View.GONE);
+                    queue_gif.offer((GifDrawable) weakReference.get());
+                    stopGifDrawable();
                 } catch (IOException e) {
-                    e.printStackTrace();
+//                    e.printStackTrace();
                 }
-                imageView.setImageBitmap(BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
+
+
             }
 
             @Override
@@ -284,10 +320,45 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
     boolean isload(int position){
 
         if (position<baseFragment.FIRST_ONE||position>baseFragment.LAST_ONE){
-            LogUtils.e("当前"+position,"第一个"+baseFragment.FIRST_ONE+"--"+"最后一个"+baseFragment.LAST_ONE);
+//            LogUtils.e("当前"+position,"第一个"+baseFragment.FIRST_ONE+"--"+"最后一个"+baseFragment.LAST_ONE);
             return false;
         }
-        LogUtils.e("当前"+position,"第一个"+baseFragment.FIRST_ONE+"--"+"最后一个"+baseFragment.LAST_ONE+"通过");
+
         return true;
     }
+
+
+    synchronized void  recycleBitmap(){
+        if (queue.size()>20){
+
+            try {
+                Bitmap bitmap =  queue.poll();
+                bitmap.recycle();
+                bitmap =null;
+                LogUtils.e("删除了一张图片","当前size="+queue.size());
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+        }
+    }
+    synchronized void  stopGifDrawable(){
+        LogUtils.e("queue_gif长度",""+queue_gif.size());
+        if (queue_gif.size()>5){
+
+            try {
+                GifDrawable gifDrawable =  queue_gif.poll();
+                gifDrawable.stop();
+                gifDrawable.setCallback(null);
+                gifDrawable.recycle();
+                gifDrawable =null;
+                LogUtils.e("删除了一张GIF","当前size="+queue_gif.size());
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+
 }

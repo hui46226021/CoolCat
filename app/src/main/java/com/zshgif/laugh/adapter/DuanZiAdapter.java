@@ -47,6 +47,7 @@ public class DuanZiAdapter extends ArrayAdapter<DuanZiBean> {
      * 内部图片集合
      */
     private List<Map<String, Object>> data_list = new ArrayList<Map<String, Object>>();
+
     public DuanZiAdapter(Context context, int resource) {
         super(context, resource);
     }
@@ -63,6 +64,7 @@ public class DuanZiAdapter extends ArrayAdapter<DuanZiBean> {
         resourceId = resource;
         gifitemBeanList = objects;
        this.baseFragment=baseFragment;
+
     }
 
 
@@ -158,7 +160,7 @@ public class DuanZiAdapter extends ArrayAdapter<DuanZiBean> {
 
     void geiBitmap(String url,final ImageView imageView,final int position){
         imageView.setTag(url);
-        HttpPictureUtils.getNetworkBitmap(imageView,baseFragment,position,url, new NetworkBitmapCallbackListener() {
+        HttpPictureUtils.getNetworkBitmap(null,imageView,baseFragment,position,url, new NetworkBitmapCallbackListener() {
             @Override
             public void onHttpFinish(byte[] bytes) {
 

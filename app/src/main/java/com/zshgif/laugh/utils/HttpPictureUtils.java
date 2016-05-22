@@ -1,9 +1,11 @@
 package com.zshgif.laugh.utils;
 
+import android.app.ActivityManager;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.support.v4.util.LruCache;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.zshgif.laugh.acticty.ContextUtil;
 import com.zshgif.laugh.fragment.BaseFragment;
@@ -16,8 +18,13 @@ import org.apache.http.params.CoreConnectionPNames;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import pl.droidsonroids.gif.GifDrawable;
 
 /**
  * Created by Administrator on 2016/5/17.
@@ -26,29 +33,35 @@ public class HttpPictureUtils {
     /**
      * 图片缓存技术的核心类，用于缓存所有下载好的图片，在程序内存达到设定值时会将最少最近使用的图片移除掉。
      */
+
+
     private static LruCache<String, byte[]> mMemoryCache ;
     static {
-        // 获取应用程序最大可用内存
-        int maxMemory = (int) Runtime.getRuntime().maxMemory();
-        int cacheSize = maxMemory / 8;
-        mMemoryCache = new LruCache<>(cacheSize);
+//        // 获取应用程序最大可用内存
+//        int maxMemory = (int) Runtime.getRuntime().maxMemory();
+        /**
+         * 内存中最多放10找那个图片
+         */
+        mMemoryCache = new LruCache<>(10);
 
     }
+
+
     /**
      * 获取网络图片
      * @param url
      * @param listener
      */
-    public static void getNetworkBitmap(final View view, final BaseFragment baseFragment, final int position, final String url, final NetworkBitmapCallbackListener listener){
+    public static void getNetworkBitmap(final ProgressBar progressBar,final View view, final BaseFragment baseFragment, final int position, final String url, final NetworkBitmapCallbackListener listener){
 
 
 
-        new AsyncTask<Void,Integer,byte[]>() {
+           new AsyncTask<Void,Integer,byte[]>() {
             @Override
             protected byte[] doInBackground(Void... voids) {
                 //让控件先出现30毫秒再开始加载图片 要不卡顿
+                System.gc();
                 if (!isload(position,baseFragment)){
-
                     return null;
                 };
 
@@ -76,13 +89,16 @@ public class HttpPictureUtils {
                 if(inputStream!=null){
                     try {
                         LogUtils.e("读取硬盘缓存",inputStream.toString());
-                        return HttpPictureUtils.toByteArray(inputStream);
+                        bytes = HttpPictureUtils.toByteArray(inputStream);
+                        mMemoryCache.put(url, bytes);
+                        return bytes;
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
 
                 }
                 if (!isload(position,baseFragment)){
+
                     return null;
                 };
 
@@ -90,7 +106,9 @@ public class HttpPictureUtils {
 
                 LogUtils.e("网络获取图片",url);
                 URL myFileURL;
-
+                InputStream is = null;
+                ByteArrayOutputStream output = null;
+                WeakReference  weakReference = null;
                 try{
                     myFileURL = new URL(url);
                     //获得连接
@@ -104,51 +122,66 @@ public class HttpPictureUtils {
                     //这句可有可无，没有影响
                     //conn.connect();
                     //得到数据流
-                    InputStream is = conn.getInputStream();
+                    //数据总大小
+                    int length = conn.getContentLength();
+                    is = conn.getInputStream();
                     //获得byte[]
-                    ByteArrayOutputStream output = new ByteArrayOutputStream();
+                    output = new ByteArrayOutputStream();
 
                     byte[] buffer = new byte[4096];
                     int n = 0;
-
+                    int count = 0;
                     while (-1 != (n = is.read(buffer))) {
                         output.write(buffer, 0, n);
-
-
 
                         if (!isload(position,baseFragment)){
                             conn.disconnect();
                             is.close();
+                            output.close();
+                            this.cancel(true);
                             return null;
                         };
+                        //计算当前下载百分比
+                        count += n;
+                        publishProgress((int)(((float)count / length) * 100));
 
                     }
+                    buffer = null;
                     bytes = output.toByteArray();
+                    /**
+                     * 存入缓存
+                     */
 
-
-                    //关闭数据流
-                    is.close();
-                }catch(Exception e){
-//                    e.printStackTrace();
-                }
-                try {
                     DiskLruCacheUtil.writeToDiskCache(url,bytes,ContextUtil.getInstance());
                     mMemoryCache.put(url, bytes);
+
+
                 }catch (Exception e){
 
                 }
+                finally {
+                    //关闭数据流
+                    if (is!=null){
+                        try {
+                            is.close();
+                            output.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
 
-                return bytes;
+                }
+
+                return  bytes;
             }
             @Override
             protected void onPostExecute(byte[] bytes) {
                 try{
                     if (view.getTag().toString().equals(url)){
-                        listener.onHttpFinish(bytes);
-                    }else {
-                        LogUtils.e("错位了","原URL"+url+" 新URL"+url);
-                    }
 
+                        listener.onHttpFinish(bytes);
+                    }
+                    this.cancel(true);
                 }catch (Exception e){}
 
             }
@@ -156,10 +189,26 @@ public class HttpPictureUtils {
 
             @Override
             protected void onProgressUpdate(Integer... values) {
-                LogUtils.e("进度",values+"");
+
                 super.onProgressUpdate(values);
+                if (progressBar!=null){
+                    progressBar.setVisibility(View.VISIBLE);
+                    progressBar.setProgress(values[0]);
+                    if (values[0]==100){
+                        progressBar.setVisibility(View.INVISIBLE);
+                    }
+                }
             }
-        }.execute();
+
+               @Override
+               protected void onCancelled() {
+                   super.onCancelled();
+                       if (view.getTag().toString().equals(url)){
+                           listener.onHttpFinish(null);
+
+               }}
+           }.execute();
+
 
     }
 
@@ -171,14 +220,20 @@ public class HttpPictureUtils {
      * @throws IOException
      */
     public static byte[] toByteArray(InputStream input) throws IOException {
+
         ByteArrayOutputStream output = new ByteArrayOutputStream();
+
         byte[] buffer = new byte[4096];
         int n = 0;
         try {
             while (-1 != (n = input.read(buffer))) {
                 output.write(buffer, 0, n);
             }
-        }catch (Exception e){}
+        }catch (OutOfMemoryError e){
+            e.printStackTrace();
+            return null;
+
+        }
 
         return output.toByteArray();
     }
@@ -194,4 +249,9 @@ public class HttpPictureUtils {
        }
         return true;
     }
+
+
+
+
+
 }

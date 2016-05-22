@@ -66,28 +66,28 @@ public class GridViewAdapter extends ArrayAdapter<PictureBean> {
 
     void geiBitmap(String url,final ImageView imageView,final int position){
         imageView.setTag(url);
-        HttpPictureUtils.getNetworkBitmap(imageView,baseFragment,position,url, new NetworkBitmapCallbackListener() {
-            @Override
-            public void onHttpFinish(byte[] bytes) {
-
-                if (bytes ==null){
-                    return;
-                }
-                if(!isload(position))  {
-                    return;
-                }
-
-                Bitmap softReference = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                WeakReference weakReference = new  WeakReference( softReference );
-                softReference=null; //弱引用
-                imageView.setImageBitmap((Bitmap) weakReference.get());
-            }
-
-            @Override
-            public void onHttpError(Exception e) {
-
-            }
-        });
+//        httpPictureUtils.getNetworkBitmap(imageView,baseFragment,position,url, new NetworkBitmapCallbackListener() {
+//            @Override
+//            public void onHttpFinish(byte[] bytes) {
+//
+//                if (bytes ==null){
+//                    return;
+//                }
+//                if(!isload(position))  {
+//                    return;
+//                }
+//
+//                Bitmap softReference = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+//                WeakReference weakReference = new  WeakReference( softReference );
+//                softReference=null; //弱引用
+//                imageView.setImageBitmap((Bitmap) weakReference.get());
+//            }
+//
+//            @Override
+//            public void onHttpError(Exception e) {
+//
+//            }
+//        });
     }
     boolean isload(int position){
 

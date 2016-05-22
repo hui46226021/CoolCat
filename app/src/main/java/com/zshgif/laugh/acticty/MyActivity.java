@@ -1,6 +1,7 @@
 
 package com.zshgif.laugh.acticty;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,9 +13,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 
 
 import com.google.code.microlog4android.config.PropertyConfigurator;
@@ -52,6 +55,10 @@ public class MyActivity extends BaseActivity
   private ViewPager mViewPager;
   @ViewInject(R.id.id_floatingactionbutton)
   private FloatingActionButton mFloatingActionButton;
+  /**
+   * 清理垃圾进度条
+   */
+  ProgressBar mProgress;
 
 
   // TabLayout中的tab标题
@@ -60,6 +67,8 @@ public class MyActivity extends BaseActivity
   private List<Fragment> mFragments;
   // ViewPager的数据适配器
   private MyViewPagerAdapter mViewPagerAdapter;
+
+  long maxMemory;//当前硬盘里的最大存储
   /**
    * 图片页面
    */
@@ -171,25 +180,17 @@ public class MyActivity extends BaseActivity
     if(id == R.id.clear){
       AlertDialog.Builder builder = new AlertDialog.Builder(MyActivity.this);
       builder.setTitle("提示");
-      long size = DiskLruCacheUtil.size();
+      maxMemory = DiskLruCacheUtil.size();
 
-      builder.setMessage("清除图片缓存，将释放"+(size/1024/1024)+"M 空间");
-      builder.setCancelable(false);
+      builder.setMessage("清除图片缓存，将释放"+(maxMemory/1024/1024)+"M 空间");
+//      builder.setCancelable(false);
       builder.setPositiveButton("清除", new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
 //                                //跳转下载链接
 
-          DiskLruCacheUtil.delete();
-//          new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//              while (DiskLruCacheUtil.size()>1000){
-//                LogUtils.e("内存",DiskLruCacheUtil.size()/1024/1024+"");
-//              }
-//
-//            }
-//          }).start();
+          DiskLruCacheUtil.delete(MyActivity.this);
+
 
 
         }
@@ -246,5 +247,52 @@ public class MyActivity extends BaseActivity
   public void onBackPressed() {
     super.onBackPressed();
     WelcomeActivity.instance.finish();
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    DiskLruCacheUtil.open(this);
+    maxMemory =DiskLruCacheUtil.size();
+    if ((maxMemory/1024/1024)>=1000){
+      AlertDialog.Builder builder = new AlertDialog.Builder(MyActivity.this);
+      builder.setTitle("提示");
+
+
+      builder.setMessage("您当前的图片缓存已大于1GB，过多无效的图片缓存会浪费您设备的存储空间");
+//      builder.setCancelable(false);
+      builder.setPositiveButton("清除缓存", new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+//                                //跳转下载链接
+
+          DiskLruCacheUtil.delete(MyActivity.this);
+
+          android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(MyActivity.this);
+          builder.setTitle("正在清理");
+
+          final LayoutInflater inflater = LayoutInflater.from(MyActivity.this);
+          View v = inflater.inflate(R.layout.progress, null);
+          mProgress = (ProgressBar)v.findViewById(R.id.progress);
+
+          builder.setView(v);
+          builder.create().setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
+          builder.create().show();
+
+        }
+      });
+      builder.setNegativeButton("我还要留着离线看", null);
+      builder.create().show();
+    }
+  }
+
+  /**
+   *获取删除的文件大小
+   */
+  long cleanSize;
+
+  public void setDelectFileLength(long fileLength){
+    cleanSize +=fileLength;
+    mProgress.setProgress((int)((cleanSize*100)/maxMemory));
   }
 }

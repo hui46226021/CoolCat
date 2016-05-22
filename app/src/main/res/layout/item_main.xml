@@ -61,11 +61,17 @@
         android:textColor="@color/main_brown"
         android:textSize="11sp"
         />
-
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        style="?android:attr/progressBarStyleHorizontal"
+        />
     <GridView
         android:id="@+id/gridView"
         android:visibility="gone"
-        android:layout_margin="15dp"
+
         android:layout_width="match_parent"
         android:numColumns="3"
         android:verticalSpacing="10dp"
@@ -79,7 +85,7 @@
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
+
         android:background="@drawable/loadimage"
         android:scaleType="centerCrop"/>
     <pl.droidsonroids.gif.GifImageView
@@ -87,7 +93,7 @@
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="15dp"
+
         android:src="@drawable/loadimage"
         android:background="@drawable/loadimage"
         />

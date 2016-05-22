@@ -16,6 +16,8 @@
 
 package com.zshgif.laugh.utils;
 
+import com.zshgif.laugh.acticty.MyActivity;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedWriter;
 import java.io.Closeable;
@@ -260,9 +262,36 @@ public final class DiskLruCache implements Closeable {
             if (file.isDirectory()) {
                 deleteContents(file);
             }
+            LogUtils.e("文件大小",file.length()+"");
             if (!file.delete()) {
                 throw new IOException("failed to delete file: " + file);
             }
+
+
+        }
+    }
+
+    /**
+     *
+     * @param dir
+     * @throws IOException  页面上清除缓存
+     */
+    public static void deleteContents(File dir,MyActivity myActivity) throws IOException {
+        File[] files = dir.listFiles();
+        if (files == null) {
+            throw new IllegalArgumentException("not a directory: " + dir);
+        }
+        for (File file : files) {
+            if (file.isDirectory()) {
+                deleteContents(file);
+            }
+
+            myActivity.setDelectFileLength(file.length());
+            if (!file.delete()) {
+                throw new IOException("failed to delete file: " + file);
+            }
+
+
         }
     }
 
@@ -711,6 +740,17 @@ public final class DiskLruCache implements Closeable {
     public void delete() throws IOException {
         close();
         deleteContents(directory);
+
+    }
+
+    /**
+     * 页面上清除缓存
+     * @throws IOException
+     */
+    public void delete(MyActivity myActivity) throws IOException {
+        close();
+        deleteContents(directory,myActivity);
+
     }
 
     private void validateKey(String key) {
