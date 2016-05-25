@@ -205,7 +205,11 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
     @Override
     public void onRefresh() {
         // 刷新时模拟数据的变化
+        try {
+            first_one_id = list.get(0).getNETid();
+        }catch (Exception e){
 
+        }
         HashMap<String,String> param = new HashMap<>();
         param.put("group_id",first_one_id+"");
         param.put("item_id",first_one_id+"");
