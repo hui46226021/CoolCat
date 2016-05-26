@@ -8,6 +8,7 @@ import android.telephony.TelephonyManager;
 import android.view.WindowManager;
 
 
+import com.hyphenate.chat.EMOptions;
 import com.zshgif.laugh.dao.db.DaoMaster;
 import com.zshgif.laugh.dao.db.DaoSession;
 import com.zshgif.laugh.utils.RandomUtils;
@@ -42,6 +43,9 @@ public class ContextUtil extends Application  {
 
 
          windowManager.getDefaultDisplay().getHeight();// 手机屏幕的高度
+
+
+        EMOptions options = new EMOptions();
 
     }
 
