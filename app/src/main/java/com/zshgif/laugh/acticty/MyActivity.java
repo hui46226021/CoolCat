@@ -113,8 +113,8 @@ public class MyActivity extends BaseActivity
     mFragments.add(1,duanZiFragment);
 
 
-//    loginFragment = LoginFragment.newInstance();
-//    mFragments.add(2,loginFragment);
+    loginFragment = LoginFragment.newInstance();
+    mFragments.add(2,loginFragment);
   }
 
   /**

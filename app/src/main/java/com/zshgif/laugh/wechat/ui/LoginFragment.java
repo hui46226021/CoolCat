@@ -40,7 +40,7 @@ public class LoginFragment extends LazyFragment {
     private EditText usernameEditText;
     @ViewInject(R.id.password)
     private EditText passwordEditText;
-    String Tag =getActivity().getClass().getName();
+    String Tag ="LoginFragment";
 
     /**
      * 进度条
