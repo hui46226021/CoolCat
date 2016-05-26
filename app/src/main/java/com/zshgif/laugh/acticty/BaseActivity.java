@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 
+import com.hyphenate.easeui.controller.EaseUI;
 import com.zshgif.laugh.R;
 
 import java.io.InputStream;
@@ -113,5 +114,12 @@ public class BaseActivity extends AppCompatActivity {
      */
     public void setToastMessage(String message){
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // onresume时，取消notification显示
+//        EaseUI.getInstance().getNotifier().reset();
     }
 }

@@ -12,6 +12,7 @@ import com.hyphenate.chat.EMOptions;
 import com.zshgif.laugh.dao.db.DaoMaster;
 import com.zshgif.laugh.dao.db.DaoSession;
 import com.zshgif.laugh.utils.RandomUtils;
+import com.zshgif.laugh.wechat.DemoHelper;
 
 /**
  * 一般建议在自定义 Application 类里初始化。也可以在主 Activity 里。
@@ -29,6 +30,12 @@ public class ContextUtil extends Application  {
     //数据库名，表名是自动被创建的
     public static final String DB_NAME = "dbname.db";
 
+
+    /**
+     * 当前用户nickname,为了苹果推送不是userid而是昵称
+     */
+    public static String currentUserNick = "";
+
     public static ContextUtil getInstance() {
         return instance;
     }
@@ -45,7 +52,10 @@ public class ContextUtil extends Application  {
          windowManager.getDefaultDisplay().getHeight();// 手机屏幕的高度
 
 
-        EMOptions options = new EMOptions();
+        /**
+         * 初始化环信
+         */
+        DemoHelper.getInstance().init(instance);
 
     }
 

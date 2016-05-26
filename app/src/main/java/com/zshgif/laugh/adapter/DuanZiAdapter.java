@@ -18,7 +18,7 @@ import com.zshgif.laugh.R;
 
 import com.zshgif.laugh.fragment.BaseFragment;
 import com.zshgif.laugh.listener.NetworkBitmapCallbackListener;
-import com.zshgif.laugh.utils.HttpPictureUtils;
+import com.zshgif.laugh.http.HttpPictureUtils;
 import com.zshgif.laugh.view.RoundedImageView;
 
 import java.lang.ref.WeakReference;

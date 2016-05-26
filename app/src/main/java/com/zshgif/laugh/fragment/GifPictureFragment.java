@@ -13,8 +13,6 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
-import com.google.code.microlog4android.Logger;
-import com.google.code.microlog4android.LoggerFactory;
 import com.zshgif.laugh.model.CommentsBean;
 import com.zshgif.laugh.model.GifitemBean;
 import com.zshgif.laugh.model.PictureBean;
@@ -27,7 +25,7 @@ import com.zshgif.laugh.adapter.GifPaictureAdapter;
 import com.zshgif.laugh.listener.HttpCallbackListener;
 import com.zshgif.laugh.utils.Constant;
 import com.zshgif.laugh.dao.db.DBHelper;
-import com.zshgif.laugh.utils.HttpUtils;
+import com.zshgif.laugh.http.HttpUtils;
 import com.zshgif.laugh.utils.LogUtils;
 
 import org.json.JSONArray;

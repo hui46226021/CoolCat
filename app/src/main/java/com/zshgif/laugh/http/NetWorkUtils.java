@@ -1,4 +1,4 @@
-package com.zshgif.laugh.utils;
+package com.zshgif.laugh.http;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

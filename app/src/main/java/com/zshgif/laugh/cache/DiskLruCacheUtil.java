@@ -1,9 +1,8 @@
-package com.zshgif.laugh.utils;
+package com.zshgif.laugh.cache;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
 
-import com.zshgif.laugh.acticty.ContextUtil;
 import com.zshgif.laugh.acticty.MyActivity;
 
 import java.io.File;

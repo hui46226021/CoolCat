@@ -1,10 +1,8 @@
 package com.zshgif.laugh.adapter;
 
-import android.app.ActivityManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +24,7 @@ import com.zshgif.laugh.acticty.ContextUtil;
 
 import com.zshgif.laugh.fragment.BaseFragment;
 import com.zshgif.laugh.listener.NetworkBitmapCallbackListener;
-import com.zshgif.laugh.utils.HttpPictureUtils;
+import com.zshgif.laugh.http.HttpPictureUtils;
 import com.zshgif.laugh.utils.LogUtils;
 import com.zshgif.laugh.view.RoundedImageView;
 

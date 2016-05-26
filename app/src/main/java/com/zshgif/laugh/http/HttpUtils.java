@@ -1,27 +1,21 @@
-package com.zshgif.laugh.utils;
+package com.zshgif.laugh.http;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 import android.widget.Toast;
 
 
 import com.lidroid.xutils.exception.HttpException;
-import com.lidroid.xutils.http.client.multipart.content.StringBody;
 import com.zshgif.laugh.acticty.ContextUtil;
-import com.zshgif.laugh.acticty.SetThemeActivty;
 import com.zshgif.laugh.listener.HttpCallbackListener;
-import com.zshgif.laugh.listener.NetworkBitmapCallbackListener;
+import com.zshgif.laugh.utils.LogCollect;
+import com.zshgif.laugh.utils.LogUtils;
 
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
@@ -29,14 +23,8 @@ import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.SocketTimeoutException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

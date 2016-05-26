@@ -1,19 +1,15 @@
-package com.zshgif.laugh.utils;
+package com.zshgif.laugh.http;
 
-import android.app.ActivityManager;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.support.v4.util.LruCache;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import com.zshgif.laugh.acticty.ContextUtil;
+import com.zshgif.laugh.cache.DiskLruCacheUtil;
 import com.zshgif.laugh.fragment.BaseFragment;
-import com.zshgif.laugh.fragment.GifPictureFragment;
 import com.zshgif.laugh.listener.NetworkBitmapCallbackListener;
-
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.CoreConnectionPNames;
+import com.zshgif.laugh.utils.LogUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -21,10 +17,6 @@ import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import pl.droidsonroids.gif.GifDrawable;
 
 /**
  * Created by Administrator on 2016/5/17.

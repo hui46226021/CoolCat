@@ -1,7 +1,6 @@
 
 package com.zshgif.laugh.acticty;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,11 +13,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ProgressBar;
 
 
 import com.google.code.microlog4android.config.PropertyConfigurator;
@@ -28,11 +25,10 @@ import com.zshgif.laugh.R;
 import com.zshgif.laugh.adapter.MyViewPagerAdapter;
 import com.zshgif.laugh.fragment.DuanZiFragment;
 import com.zshgif.laugh.fragment.GifPictureFragment;
-import com.zshgif.laugh.fragment.MyFragment;
+
 import com.zshgif.laugh.dao.db.DBHelper;
-import com.zshgif.laugh.utils.DiskLruCacheUtil;
-import com.zshgif.laugh.utils.LogUtils;
-import com.zshgif.laugh.utils.SnackbarUtil;
+import com.zshgif.laugh.cache.DiskLruCacheUtil;
+import com.zshgif.laugh.wechat.ui.LoginFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,6 +70,10 @@ public class MyActivity extends BaseActivity
    * 段子页面
    */
   private DuanZiFragment duanZiFragment;
+  /**
+   * 登录界面
+   */
+  private LoginFragment loginFragment;
 
   private int currentPage=0;//0 图片页面  1 段子页面
 
@@ -111,15 +111,10 @@ public class MyActivity extends BaseActivity
     mFragments.add(0, gifPictureFragment);
     duanZiFragment = DuanZiFragment.newInstance();
     mFragments.add(1,duanZiFragment);
-    for (int i = 2; i < mTitles.length; i++) {
-      Bundle mBundle = new Bundle();
-      mBundle.putInt("flag", i);
-      MyFragment mFragment = new MyFragment();
-      mFragment.setArguments(mBundle);
-      mFragments.add(i, mFragment);
-    }
 
 
+//    loginFragment = LoginFragment.newInstance();
+//    mFragments.add(2,loginFragment);
   }
 
   /**

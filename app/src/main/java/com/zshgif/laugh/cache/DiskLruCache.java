@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package com.zshgif.laugh.utils;
+package com.zshgif.laugh.cache;
 
 import com.zshgif.laugh.acticty.MyActivity;
+import com.zshgif.laugh.utils.LogUtils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedWriter;

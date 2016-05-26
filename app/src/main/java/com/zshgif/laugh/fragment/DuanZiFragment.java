@@ -15,7 +15,6 @@ import android.widget.ListView;
 
 import com.zshgif.laugh.model.CommentsBean;
 import com.zshgif.laugh.model.DuanZiBean;
-import com.zshgif.laugh.model.GifitemBean;
 import com.zshgif.laugh.model.ReleaseUser;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -25,7 +24,7 @@ import com.zshgif.laugh.adapter.DuanZiAdapter;
 import com.zshgif.laugh.listener.HttpCallbackListener;
 import com.zshgif.laugh.utils.Constant;
 import com.zshgif.laugh.dao.db.DBHelper;
-import com.zshgif.laugh.utils.HttpUtils;
+import com.zshgif.laugh.http.HttpUtils;
 import com.zshgif.laugh.utils.LogUtils;
 
 import org.json.JSONArray;
