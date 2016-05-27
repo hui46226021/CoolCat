@@ -61,6 +61,6 @@ public class SetThemeActivty extends BaseActivity {
                 break;
         }
         edit.commit();
-        startActivity(new Intent(this,WelcomeActivity.class));
+        startActivity(new Intent(this,MyActivity.class));
     }
 }
