@@ -6,13 +6,18 @@ android {
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 23
+        targetSdkVersion 20
     }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
         }
     }
 }
@@ -25,4 +30,5 @@ dependencies {
     compile files('libs/hyphenatechat_3.1.2.jar')
     compile files('libs/MiPush_SDK_Client_2_2_19.jar')
     compile files('libs/org.apache.http.legacy.jar')
+
 }
