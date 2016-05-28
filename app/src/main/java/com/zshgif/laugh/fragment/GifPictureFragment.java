@@ -433,6 +433,7 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
      * 刷新页面
      */
     public void refreshPage(){
+        listview.setSelection(0);
         mSwipeRefreshLayout.setRefreshing(true);
         onRefresh();
     }
