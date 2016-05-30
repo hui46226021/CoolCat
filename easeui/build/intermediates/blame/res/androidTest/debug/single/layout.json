@@ -1,11 +1,11 @@
 [
     {
-        "merged": "D:\\gitProjects\\android\\CoolCat\\easeUI\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\ease_row_sent_message.xml",
-        "source": "D:\\gitProjects\\android\\CoolCat\\easeUI\\build\\intermediates\\bundles\\debug\\res\\layout\\ease_row_sent_message.xml"
-    },
-    {
         "merged": "D:\\gitProjects\\android\\CoolCat\\easeUI\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\ease_layout_chat_primary_menu.xml",
         "source": "D:\\gitProjects\\android\\CoolCat\\easeUI\\build\\intermediates\\bundles\\debug\\res\\layout\\ease_layout_chat_primary_menu.xml"
+    },
+    {
+        "merged": "D:\\gitProjects\\android\\CoolCat\\easeUI\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\ease_row_sent_message.xml",
+        "source": "D:\\gitProjects\\android\\CoolCat\\easeUI\\build\\intermediates\\bundles\\debug\\res\\layout\\ease_row_sent_message.xml"
     },
     {
         "merged": "D:\\gitProjects\\android\\CoolCat\\easeUI\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\ease_row_received_bigexpression.xml",
@@ -40,12 +40,12 @@
         "source": "D:\\gitProjects\\android\\CoolCat\\easeUI\\build\\intermediates\\bundles\\debug\\res\\layout\\ease_row_sent_file.xml"
     },
     {
-        "merged": "D:\\gitProjects\\android\\CoolCat\\easeUI\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\ease_search_bar.xml",
-        "source": "D:\\gitProjects\\android\\CoolCat\\easeUI\\build\\intermediates\\bundles\\debug\\res\\layout\\ease_search_bar.xml"
-    },
-    {
         "merged": "D:\\gitProjects\\android\\CoolCat\\easeUI\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\ease_row_received_voice_call.xml",
         "source": "D:\\gitProjects\\android\\CoolCat\\easeUI\\build\\intermediates\\bundles\\debug\\res\\layout\\ease_row_received_voice_call.xml"
+    },
+    {
+        "merged": "D:\\gitProjects\\android\\CoolCat\\easeUI\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\ease_search_bar.xml",
+        "source": "D:\\gitProjects\\android\\CoolCat\\easeUI\\build\\intermediates\\bundles\\debug\\res\\layout\\ease_search_bar.xml"
     },
     {
         "merged": "D:\\gitProjects\\android\\CoolCat\\easeUI\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\ease_row_sent_video.xml",
