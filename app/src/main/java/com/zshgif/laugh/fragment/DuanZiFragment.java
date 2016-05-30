@@ -327,6 +327,7 @@ public class DuanZiFragment extends BaseFragment  implements SwipeRefreshLayout.
      */
     public void refreshPage(){
         mSwipeRefreshLayout.setRefreshing(true);
+        listview.setSelection(0);
         onRefresh();
     }
     @Override
