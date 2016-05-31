@@ -9,6 +9,7 @@ import android.view.WindowManager;
 
 
 import com.hyphenate.chat.EMOptions;
+import com.squareup.leakcanary.LeakCanary;
 import com.zshgif.laugh.dao.db.DaoMaster;
 import com.zshgif.laugh.dao.db.DaoSession;
 import com.zshgif.laugh.utils.RandomUtils;
@@ -44,6 +45,8 @@ public class ContextUtil extends Application  {
     public void onCreate() {
         // TODO Auto-generated method stub
         super.onCreate();
+        //检查内存泄漏
+        LeakCanary.install(this);
 //        Thread.setDefaultUncaughtExceptionHandler(this);
         instance = this;
         windowManager = (WindowManager) instance.getSystemService(Context.WINDOW_SERVICE);
