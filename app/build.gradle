@@ -41,4 +41,9 @@ dependencies {
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.15'
     compile 'com.parse.bolts:bolts-android:1.2.0'
 
+
+//    检查内存泄漏
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
 }
