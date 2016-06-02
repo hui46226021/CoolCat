@@ -140,12 +140,12 @@
         "source": "D:\\gitProject\\CoolCat\\easeui\\src\\main\\res\\layout\\ease_fragment_chat.xml"
     },
     {
-        "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\release\\layout\\ease_row_sent_video_call.xml",
-        "source": "D:\\gitProject\\CoolCat\\easeui\\src\\main\\res\\layout\\ease_row_sent_video_call.xml"
-    },
-    {
         "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\release\\layout\\ease_row_sent_voice_call.xml",
         "source": "D:\\gitProject\\CoolCat\\easeui\\src\\main\\res\\layout\\ease_row_sent_voice_call.xml"
+    },
+    {
+        "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\release\\layout\\ease_row_sent_video_call.xml",
+        "source": "D:\\gitProject\\CoolCat\\easeui\\src\\main\\res\\layout\\ease_row_sent_video_call.xml"
     },
     {
         "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\release\\layout\\ease_widget_contact_list.xml",

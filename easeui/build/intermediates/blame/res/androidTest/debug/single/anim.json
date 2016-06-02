@@ -28,12 +28,12 @@
         "source": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\bundles\\debug\\res\\anim\\slide_out_to_right.xml"
     },
     {
-        "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\voice_to_icon.xml",
-        "source": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\bundles\\debug\\res\\anim\\voice_to_icon.xml"
-    },
-    {
         "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\fade_out.xml",
         "source": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\bundles\\debug\\res\\anim\\fade_out.xml"
+    },
+    {
+        "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\voice_to_icon.xml",
+        "source": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\bundles\\debug\\res\\anim\\voice_to_icon.xml"
     },
     {
         "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\push_top_out.xml",

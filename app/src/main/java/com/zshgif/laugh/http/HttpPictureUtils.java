@@ -46,7 +46,9 @@ public class HttpPictureUtils {
      */
     public static void getNetworkBitmap(final ProgressBar progressBar,final View view, final BaseFragment baseFragment, final int position, final String url, final NetworkBitmapCallbackListener listener){
 
-
+            if (url==null){
+                return;
+            }
 
            new AsyncTask<Void,Integer,byte[]>() {
             @Override
@@ -69,6 +71,7 @@ public class HttpPictureUtils {
                     return null;
                 };
                 byte[]  bytes = null;
+
                 bytes = mMemoryCache.get(url);
                 if (bytes!=null){
                     LogUtils.e("读取LruCache缓存",bytes.toString());

@@ -284,12 +284,12 @@
         "source": "D:\\gitProject\\CoolCat\\easeui\\src\\main\\res\\drawable-hdpi\\ease_mm_listitem_pressed.9.png"
     },
     {
-        "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ee_17.png",
-        "source": "D:\\gitProject\\CoolCat\\easeui\\src\\main\\res\\drawable-hdpi\\ee_17.png"
-    },
-    {
         "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ee_21.png",
         "source": "D:\\gitProject\\CoolCat\\easeui\\src\\main\\res\\drawable-hdpi\\ee_21.png"
+    },
+    {
+        "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ee_17.png",
+        "source": "D:\\gitProject\\CoolCat\\easeui\\src\\main\\res\\drawable-hdpi\\ee_17.png"
     },
     {
         "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ee_33.png",

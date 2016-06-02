@@ -201,6 +201,11 @@ public class MyActivity extends BaseActivity
   @Override public void onPageSelected(int position) {
     mToolbar.setTitle(mTitles[position]);
     currentPage =position;
+    if (position==0||position==1){
+      mFloatingActionButton.setVisibility(View.VISIBLE);
+    }else {
+      mFloatingActionButton.setVisibility(View.GONE);
+    }
   }
 
   @Override

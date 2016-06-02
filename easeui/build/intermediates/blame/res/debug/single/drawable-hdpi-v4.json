@@ -16,12 +16,12 @@
         "source": "D:\\gitProject\\CoolCat\\easeui\\src\\main\\res\\drawable-hdpi\\ease_msg_state_fail_resend_pressed.png"
     },
     {
-        "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ease_record_animate_03.png",
-        "source": "D:\\gitProject\\CoolCat\\easeui\\src\\main\\res\\drawable-hdpi\\ease_record_animate_03.png"
-    },
-    {
         "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ease_search_clear_pressed.png",
         "source": "D:\\gitProject\\CoolCat\\easeui\\src\\main\\res\\drawable-hdpi\\ease_search_clear_pressed.png"
+    },
+    {
+        "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ease_record_animate_03.png",
+        "source": "D:\\gitProject\\CoolCat\\easeui\\src\\main\\res\\drawable-hdpi\\ease_record_animate_03.png"
     },
     {
         "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ease_slidetab_bg_press.9.png",
@@ -164,12 +164,12 @@
         "source": "D:\\gitProject\\CoolCat\\easeui\\src\\main\\res\\drawable-hdpi\\ease_appitem_del_btn_normal.png"
     },
     {
-        "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ee_35.png",
-        "source": "D:\\gitProject\\CoolCat\\easeui\\src\\main\\res\\drawable-hdpi\\ee_35.png"
-    },
-    {
         "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ease_chatfrom_bg_normal.9.png",
         "source": "D:\\gitProject\\CoolCat\\easeui\\src\\main\\res\\drawable-hdpi\\ease_chatfrom_bg_normal.9.png"
+    },
+    {
+        "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ee_35.png",
+        "source": "D:\\gitProject\\CoolCat\\easeui\\src\\main\\res\\drawable-hdpi\\ee_35.png"
     },
     {
         "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ease_chatting_setmode_voice_btn_pressed.png",
@@ -376,12 +376,12 @@
         "source": "D:\\gitProject\\CoolCat\\easeui\\src\\main\\res\\drawable-hdpi\\ease_seabar_input.9.png"
     },
     {
-        "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ee_9.png",
-        "source": "D:\\gitProject\\CoolCat\\easeui\\src\\main\\res\\drawable-hdpi\\ee_9.png"
-    },
-    {
         "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ease_location_msg.9.png",
         "source": "D:\\gitProject\\CoolCat\\easeui\\src\\main\\res\\drawable-hdpi\\ease_location_msg.9.png"
+    },
+    {
+        "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ee_9.png",
+        "source": "D:\\gitProject\\CoolCat\\easeui\\src\\main\\res\\drawable-hdpi\\ee_9.png"
     },
     {
         "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ee_3.png",
