@@ -72,12 +72,12 @@
         "source": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\ease_delete_expression.png"
     },
     {
-        "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\ease_chat_press_speak_btn_pressed.9.png",
-        "source": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\ease_chat_press_speak_btn_pressed.9.png"
-    },
-    {
         "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\ease_default_expression.png",
         "source": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\ease_default_expression.png"
+    },
+    {
+        "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\ease_chat_press_speak_btn_pressed.9.png",
+        "source": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\ease_chat_press_speak_btn_pressed.9.png"
     },
     {
         "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\ease_app_panel_video_icon.9.png",

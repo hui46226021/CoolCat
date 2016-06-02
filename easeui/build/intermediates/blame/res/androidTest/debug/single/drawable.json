@@ -12,12 +12,12 @@
         "source": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable\\ease_btn_blue_normal_shape.xml"
     },
     {
-        "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\ease_chatfrom_bg.xml",
-        "source": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable\\ease_chatfrom_bg.xml"
-    },
-    {
         "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\ease_btn_cancel_bj.xml",
         "source": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable\\ease_btn_cancel_bj.xml"
+    },
+    {
+        "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\ease_chatfrom_bg.xml",
+        "source": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable\\ease_chatfrom_bg.xml"
     },
     {
         "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\ease_search_clear.xml",

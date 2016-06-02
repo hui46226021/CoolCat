@@ -176,12 +176,12 @@
         "source": "D:\\gitProject\\CoolCat\\easeui\\src\\main\\res\\drawable-hdpi\\ease_chatting_setmode_voice_btn_pressed.png"
     },
     {
-        "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ease_show_head_toast_bg.9.png",
-        "source": "D:\\gitProject\\CoolCat\\easeui\\src\\main\\res\\drawable-hdpi\\ease_show_head_toast_bg.9.png"
-    },
-    {
         "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ease_to_group_details_normal.png",
         "source": "D:\\gitProject\\CoolCat\\easeui\\src\\main\\res\\drawable-hdpi\\ease_to_group_details_normal.png"
+    },
+    {
+        "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ease_show_head_toast_bg.9.png",
+        "source": "D:\\gitProject\\CoolCat\\easeui\\src\\main\\res\\drawable-hdpi\\ease_show_head_toast_bg.9.png"
     },
     {
         "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ease_record_animate_09.png",
@@ -376,12 +376,12 @@
         "source": "D:\\gitProject\\CoolCat\\easeui\\src\\main\\res\\drawable-hdpi\\ease_seabar_input.9.png"
     },
     {
-        "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ease_location_msg.9.png",
-        "source": "D:\\gitProject\\CoolCat\\easeui\\src\\main\\res\\drawable-hdpi\\ease_location_msg.9.png"
-    },
-    {
         "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ee_9.png",
         "source": "D:\\gitProject\\CoolCat\\easeui\\src\\main\\res\\drawable-hdpi\\ee_9.png"
+    },
+    {
+        "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ease_location_msg.9.png",
+        "source": "D:\\gitProject\\CoolCat\\easeui\\src\\main\\res\\drawable-hdpi\\ease_location_msg.9.png"
     },
     {
         "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ee_3.png",

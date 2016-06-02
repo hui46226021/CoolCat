@@ -128,12 +128,12 @@
         "source": "D:\\gitProject\\CoolCat\\easeui\\src\\main\\res\\layout\\ease_row_sent_location.xml"
     },
     {
-        "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\debug\\layout\\ease_row_sent_file.xml",
-        "source": "D:\\gitProject\\CoolCat\\easeui\\src\\main\\res\\layout\\ease_row_sent_file.xml"
-    },
-    {
         "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\debug\\layout\\ease_activity_show_file.xml",
         "source": "D:\\gitProject\\CoolCat\\easeui\\src\\main\\res\\layout\\ease_activity_show_file.xml"
+    },
+    {
+        "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\debug\\layout\\ease_row_sent_file.xml",
+        "source": "D:\\gitProject\\CoolCat\\easeui\\src\\main\\res\\layout\\ease_row_sent_file.xml"
     },
     {
         "merged": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\debug\\layout\\ease_activity_show_big_image.xml",
