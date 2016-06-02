@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -32,7 +33,7 @@ import com.zshgif.laugh.wechat.db.DemoDBManager;
  *
  * 登录页面
  */
-public class LoginFragment extends LazyFragment {
+public class LoginFragment extends LazyFragment implements View.OnClickListener{
     /**
      *
      */
@@ -40,6 +41,10 @@ public class LoginFragment extends LazyFragment {
     private EditText usernameEditText;
     @ViewInject(R.id.password)
     private EditText passwordEditText;
+    @ViewInject(R.id.login_button)
+    private Button login_button;
+    @ViewInject(R.id.register_button)
+    private Button register_button;
     String Tag ="LoginFragment";
 
     /**
@@ -74,7 +79,10 @@ public class LoginFragment extends LazyFragment {
     /**
      * 初始化
      */
+
     void init(){
+        login_button.setOnClickListener(this);
+        register_button.setOnClickListener(this);
 
         // 如果用户名改变，清空密码
         usernameEditText.addTextChangedListener(new TextWatcher() {
@@ -105,9 +113,9 @@ public class LoginFragment extends LazyFragment {
     /**
      * 登录
      *
-     * @param view
+     * @param
      */
-    public void login(View view) {
+    public void login() {
         //检查网络
         if (!EaseCommonUtils.isNetWorkConnected(getActivity())) {
             Toast.makeText(getActivity(), R.string.network_isnot_available, Toast.LENGTH_SHORT).show();
@@ -198,14 +206,6 @@ public class LoginFragment extends LazyFragment {
     }
 
 
-    /**
-     * 注册
-     *
-     * @param view
-     */
-    public void register(View view) {
-        startActivityForResult(new Intent(getActivity(), RegisterActivity.class), 0);
-    }
 
 
 
@@ -217,5 +217,17 @@ public class LoginFragment extends LazyFragment {
     @Override
     protected void unlazyLoad() {
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.login_button:
+                login();
+                break;
+            case R.id.register_button:
+                startActivityForResult(new Intent(getActivity(), RegisterActivity.class), 0);
+                break;
+        }
     }
 }
