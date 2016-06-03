@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "D:\\gitProject\\CoolCat\\easeui\\build\\intermediates\\res\\merged\\debug\\values-large-v4\\values-large-v4.xml",
+        "outputFile": "D:\\gitProjects\\android\\CoolCat\\easeUI\\build\\intermediates\\res\\merged\\debug\\values-large-v4\\values-large-v4.xml",
         "map": [
             {
                 "to": {
@@ -11,13 +11,13 @@
                     "endOffset": 103
                 },
                 "from": {
-                    "file": "D:\\gitProject\\CoolCat\\easeui\\src\\main\\res\\values-large\\ease_dimens.xml",
+                    "file": "D:\\gitProjects\\android\\CoolCat\\easeUI\\src\\main\\res\\values-large\\ease_dimens.xml",
                     "position": {
                         "startLine": 19,
                         "startColumn": 4,
-                        "startOffset": 682,
+                        "startOffset": 663,
                         "endColumn": 52,
-                        "endOffset": 730
+                        "endOffset": 711
                     }
                 }
             },
@@ -30,13 +30,13 @@
                     "endOffset": 157
                 },
                 "from": {
-                    "file": "D:\\gitProject\\CoolCat\\easeui\\src\\main\\res\\values-large\\ease_dimens.xml",
+                    "file": "D:\\gitProjects\\android\\CoolCat\\easeUI\\src\\main\\res\\values-large\\ease_dimens.xml",
                     "position": {
                         "startLine": 20,
                         "startColumn": 4,
-                        "startOffset": 736,
+                        "startOffset": 716,
                         "endColumn": 53,
-                        "endOffset": 785
+                        "endOffset": 765
                     }
                 }
             }
