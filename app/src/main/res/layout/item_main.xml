@@ -62,6 +62,7 @@
         android:textSize="11sp"
         />
     <ProgressBar
+        android:visibility="gone"
         android:id="@+id/progress"
         android:layout_marginTop="15dp"
         android:layout_width="match_parent"

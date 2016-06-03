@@ -270,20 +270,26 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
                 continue;
             }
             JSONObject group =jsonObjectItem.getJSONObject("group");
-            int type = group.getInt("type");
+            int type = group.getInt("media_type");
             switch (type){
                 case 1:
                     //普通单张 图片
                     singlePicture(group,jsonObjectItem.getJSONArray("comments"));
                     break;
-                case 3:
+                case 2:
                     //GIF 图片
                     singlePicture(group,jsonObjectItem.getJSONArray("comments"));
+                    break;
+                case 3:
+                    //视频
+
                     break;
                 case 5:
                     //多张图片集合
                     morePicture(group,jsonObjectItem.getJSONArray("comments"));
                     break;
+                default:
+                    LogUtils.e("其他 media_type=",type+"");
             }
 
         }
@@ -294,12 +300,12 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
     }
 
     /**
-     * 单张图片解析 type =1  type =3 GIF
+     * 单张图片解析 media_type =1  media_type =2 GIF
      */
     private void singlePicture(JSONObject jsonObject,JSONArray comments){
         GifitemBean gifitemBean = new GifitemBean();
         try {
-            gifitemBean.setType(jsonObject.getInt("type"));//图片类型
+            gifitemBean.setType(jsonObject.getInt("media_type"));//图片类型
             gifitemBean.setNETid(jsonObject.getLong("id"));
             gifitemBean.setContent(jsonObject.getString("text"));//图片描述
             gifitemBean.setCategory_name(jsonObject.getString("category_name"));//分类
@@ -308,14 +314,20 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
             gifitemBean.setComments_count(jsonObject.getInt("comment_count"));
             gifitemBean.setShare_url(jsonObject.getString("share_url"));
 
-            String firstOne = jsonObject.getJSONObject("middle_image").getJSONArray("url_list").getJSONObject(0).getString("url");//第一张图片
-            gifitemBean.setFirstOne(firstOne);
 
-            if (jsonObject.getInt("type")==3){
+
+            if (jsonObject.getInt("media_type")==2){
                 // type =3的时候有个GIF的地址
+                String firstOne = jsonObject.getJSONObject("middle_image").getJSONArray("url_list").getJSONObject(0).getString("url");//第一张图片
+                gifitemBean.setFirstOne(firstOne);
                 String gifUrl = jsonObject.getJSONObject("large_image").getJSONArray("url_list").getJSONObject(0).getString("url");//gifUrl
                 gifitemBean.setGifUrl(gifUrl);
 
+            }
+            if(jsonObject.getInt("media_type")==1){
+                // type =1单张图片
+                String firstOne = jsonObject.getJSONObject("large_image").getJSONArray("url_list").getJSONObject(0).getString("url");//第一张图片
+                gifitemBean.setFirstOne(firstOne);
             }
 
             gifitemBean.setWidth(jsonObject.getJSONObject("large_image").getInt("width"));

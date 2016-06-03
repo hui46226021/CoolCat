@@ -150,7 +150,7 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
                 calculateHeight( holder.picture,((double) gifitemBean.getHeight())/((double)gifitemBean.getWidth()));
                 geiBitmap(gifitemBean.getFirstOne(),holder.picture,position);
                 break;
-            case 3:
+            case 2:
                 holder.picture.setVisibility(View.VISIBLE);
                 calculateHeight( holder.picture,((double) gifitemBean.getHeight())/((double)gifitemBean.getWidth()));
                 calculateHeight( holder.gif_picture,((double) gifitemBean.getHeight())/((double)gifitemBean.getWidth()));
