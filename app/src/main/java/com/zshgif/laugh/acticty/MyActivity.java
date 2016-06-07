@@ -29,6 +29,7 @@ import com.zshgif.laugh.fragment.GifPictureFragment;
 import com.zshgif.laugh.dao.db.DBHelper;
 import com.zshgif.laugh.cache.DiskLruCacheUtil;
 import com.zshgif.laugh.wechat.ui.LoginFragment;
+import com.zshgif.laugh.wechat.ui.MainFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,9 +72,9 @@ public class MyActivity extends BaseActivity
    */
   private DuanZiFragment duanZiFragment;
   /**
-   * 登录界面
+   * 聊天页面
    */
-  private LoginFragment loginFragment;
+  private MainFragment mainFragment;
 
   private int currentPage=0;//0 图片页面  1 段子页面
 
@@ -113,8 +114,8 @@ public class MyActivity extends BaseActivity
     mFragments.add(1,duanZiFragment);
 
 
-    loginFragment = LoginFragment.newInstance();
-    mFragments.add(2,loginFragment);
+    mainFragment = MainFragment.newInstance();
+    mFragments.add(2,mainFragment);
   }
 
   /**

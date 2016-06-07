@@ -33,6 +33,11 @@ dependencies {
      *  云后台服务
      */
     compile files('libs/Parse-1.9.4.jar')
+
+//    检查内存泄漏
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:design:23.3.0'
     compile 'com.android.support:cardview-v7:23.3.0'
@@ -40,10 +45,4 @@ dependencies {
     compile 'com.android.support:support-v4:23.3.0'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.15'
     compile 'com.parse.bolts:bolts-android:1.2.0'
-
-
-//    检查内存泄漏
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
-    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
 }

@@ -181,6 +181,8 @@ public class LoginFragment extends LazyFragment implements View.OnClickListener{
                 DemoHelper.getInstance().getUserProfileManager().asyncGetCurrentUserInfo();
 
                 //TODO  登录后操作
+                    MainFragment.newInstance().loginSuccess();
+
             }
 
             @Override
