@@ -4,7 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CoolCat.iml" filepath="$PROJECT_DIR$/CoolCat.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/easeUI/easeUI.iml" filepath="$PROJECT_DIR$/easeUI/easeUI.iml" />
+      <module fileurl="file://$PROJECT_DIR$/easeui/easeUI.iml" filepath="$PROJECT_DIR$/easeui/easeUI.iml" />
       <module fileurl="file://$PROJECT_DIR$/laugh.iml" filepath="$PROJECT_DIR$/laugh.iml" />
     </modules>
   </component>
