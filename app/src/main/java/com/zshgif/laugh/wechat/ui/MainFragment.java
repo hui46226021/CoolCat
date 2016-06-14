@@ -129,9 +129,15 @@ public class MainFragment extends Fragment implements View.OnClickListener{
 
      View view =   inflater.inflate(R.layout.fragment_main, container, false);
         initView(view);
+        /**
+         * 被踢
+         */
         if (getActivity().getIntent().getBooleanExtra(Constant.ACCOUNT_CONFLICT, false) && !isConflictDialogShow) {
             showConflictDialog();
         } else if (getActivity().getIntent().getBooleanExtra(Constant.ACCOUNT_REMOVED, false) && !isAccountRemovedDialogShow) {
+            /**
+             * 退出
+             */
             showAccountRemovedDialog();
         }
         inviteMessgeDao = new InviteMessgeDao(getActivity());
@@ -382,13 +388,13 @@ public class MainFragment extends Fragment implements View.OnClickListener{
         public void onContactDeleted(final String username) {
             getActivity().runOnUiThread(new Runnable() {
                 public void run() {
-//                    if (ChatActivity.activityInstance != null && ChatActivity.activityInstance.toChatUsername != null &&
-//                            username.equals(ChatActivity.activityInstance.toChatUsername)) {
-//                        String st10 = getResources().getString(R.string.have_you_removed);
-//                        Toast.makeText(MainActivity.this, ChatActivity.activityInstance.getToChatUsername() + st10, Toast.LENGTH_LONG)
-//                                .show();
-//                        ChatActivity.activityInstance.finish();
-//                    }
+                    if (ChatActivity.activityInstance != null && ChatActivity.activityInstance.toChatUsername != null &&
+                            username.equals(ChatActivity.activityInstance.toChatUsername)) {
+                        String st10 = getResources().getString(R.string.have_you_removed);
+                        Toast.makeText(getActivity(), ChatActivity.activityInstance.getToChatUsername() + st10, Toast.LENGTH_LONG)
+                                .show();
+                        ChatActivity.activityInstance.finish();
+                    }
                 }
             });
         }

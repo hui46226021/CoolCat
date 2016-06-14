@@ -26,8 +26,12 @@ import com.hyphenate.util.NetUtils;
 import com.hyphenate.easeui.ui.EaseConversationListFragment;
 import com.hyphenate.easeui.widget.EaseConversationList.EaseConversationListHelper;
 import com.zshgif.laugh.R;
+import com.zshgif.laugh.utils.Constant;
 import com.zshgif.laugh.wechat.db.InviteMessgeDao;
 
+/**
+ * 会话页面
+ */
 public class ConversationListFragment extends EaseConversationListFragment {
 
     private TextView errorText;
@@ -55,19 +59,19 @@ public class ConversationListFragment extends EaseConversationListFragment {
                     Toast.makeText(getActivity(), R.string.Cant_chat_with_yourself, Toast.LENGTH_LONG).show();
                 else {
                     // 进入聊天页面
-//                    Intent intent = new Intent(getActivity(), ChatActivity.class);
-//                    if(conversation.isGroup()){
-//                        if(conversation.getType() == EMConversationType.ChatRoom){
-//                            // it's group chat
-//                            intent.putExtra(Constant.EXTRA_CHAT_TYPE, Constant.CHATTYPE_CHATROOM);
-//                        }else{
-//                            intent.putExtra(Constant.EXTRA_CHAT_TYPE, Constant.CHATTYPE_GROUP);
-//                        }
-//
-//                    }
-//                    // it's single chat
-//                    intent.putExtra(Constant.EXTRA_USER_ID, username);
-//                    startActivity(intent);
+                    Intent intent = new Intent(getActivity(), ChatActivity.class);
+                    if(conversation.isGroup()){
+                        if(conversation.getType() == EMConversationType.ChatRoom){
+                            // it's group chat
+                            intent.putExtra(Constant.EXTRA_CHAT_TYPE, Constant.CHATTYPE_CHATROOM);
+                        }else{
+                            intent.putExtra(Constant.EXTRA_CHAT_TYPE, Constant.CHATTYPE_GROUP);
+                        }
+
+                    }
+                    // it's single chat
+                    intent.putExtra(Constant.EXTRA_USER_ID, username);
+                    startActivity(intent);
                 }
             }
         });

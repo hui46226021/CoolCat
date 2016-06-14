@@ -118,7 +118,7 @@ public class ContactListFragment extends EaseContactListFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String username = ((EaseUser)listView.getItemAtPosition(position)).getUsername();
                 // demo中直接进入聊天页面，实际一般是进入用户详情页
-//                startActivity(new Intent(getActivity(), ChatActivity.class).putExtra("userId", username));
+                startActivity(new Intent(getActivity(), ChatActivity.class).putExtra("userId", username));
             }
         });
 
@@ -172,22 +172,22 @@ public class ContactListFragment extends EaseContactListFragment {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-//            case R.id.application_item:
-//                // 进入申请与通知页面
+            case R.id.application_item:
+                // 进入申请与通知页面
 //                startActivity(new Intent(getActivity(), NewFriendsMsgActivity.class));
-//                break;
-//            case R.id.group_item:
-//                // 进入群聊列表页面
-//                startActivity(new Intent(getActivity(), GroupsActivity.class));
-//                break;
-//            case R.id.chat_room_item:
-//                //进入聊天室列表页面
+                break;
+            case R.id.group_item:
+                // 进入群聊列表页面
+                startActivity(new Intent(getActivity(), GroupsActivity.class));
+                break;
+            case R.id.chat_room_item:
+                //进入聊天室列表页面
 //                startActivity(new Intent(getActivity(), PublicChatRoomsActivity.class));
-//                break;
-//            case R.id.robot_item:
-//                //进入Robot列表页面
+                break;
+            case R.id.robot_item:
+                //进入Robot列表页面
 //                startActivity(new Intent(getActivity(), RobotsActivity.class));
-//                break;
+                break;
 
             default:
                 break;

@@ -16,4 +16,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="em_user_remove">此用户已被移除</string>
+    <string name="join_need_owner_approval">加入公开群需要群主同意</string>
+    <string name="invite_join_group">邀请加入群：</string>
 </resources>

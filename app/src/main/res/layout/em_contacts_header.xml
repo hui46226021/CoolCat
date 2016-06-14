@@ -21,6 +21,7 @@
         app:contactItemName="@string/group_chat" />
 
     <com.zshgif.laugh.wechat.widget.ContactItemView
+        android:visibility="gone"
         android:id="@+id/chat_room_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,6 +29,7 @@
         app:contactItemName="@string/chat_room" />
 
     <com.zshgif.laugh.wechat.widget.ContactItemView
+        android:visibility="gone"
         android:id="@+id/robot_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

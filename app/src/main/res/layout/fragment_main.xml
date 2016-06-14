@@ -15,10 +15,11 @@
         android:gravity="center"
         android:orientation="vertical" >
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/btn_container_conversation"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:orientation="vertical"
             android:layout_weight="1" >
 
             <Button
@@ -28,8 +29,8 @@
                 android:background="@drawable/em_main_bottom_item_bg"
                 android:drawableTop="@drawable/em_tab_chat_bg"
 
-                android:paddingBottom="2dip"
-                android:paddingTop="7dip"
+                android:paddingBottom="100dip"
+                android:paddingTop="100dp"
                 android:gravity="center"
                 android:scaleType="matrix"
                 android:text="@string/session"
@@ -41,20 +42,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="1dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="-100dp"
                 android:background="@drawable/em_unread_count_bg"
                 android:gravity="center"
                 android:text="7"
                 android:textColor="@android:color/white"
                 android:textSize="12sp"
                 android:visibility="invisible" />
-        </RelativeLayout>
+        </LinearLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/btn_container_address_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:orientation="vertical"
             android:layout_weight="1" >
 
             <Button
@@ -63,8 +65,8 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/em_main_bottom_item_bg"
                 android:drawableTop="@drawable/em_tab_contact_list_bg"
-                android:paddingBottom="2dip"
-                android:paddingTop="7dip"
+                android:paddingBottom="100dip"
+                android:paddingTop="100dp"
                 android:scaleType="matrix"
                 android:text="@string/address_book"
                 android:textColor="@color/em_main_botton_text_color"
@@ -75,10 +77,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="-100dp"
                 android:background="@drawable/em_unread_dot"
                 android:visibility="visible" />
-        </RelativeLayout>
+        </LinearLayout>
 
 
     </LinearLayout>
