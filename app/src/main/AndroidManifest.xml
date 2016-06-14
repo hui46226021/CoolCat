@@ -36,6 +36,7 @@
         android:allowBackup="true"
         android:label="@string/app_name"
         android:largeHeap="true"
+        android:icon="@mipmap/logo"
         android:theme="@style/AppTheme">
         <activity
             android:name=".acticty.MyActivity"
@@ -150,7 +151,7 @@
             android:name=".wechat.ui.AddContactActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateVisible"
-            android:theme="@style/horizontal_slide" >
+             >
         </activity>
     </application>
 

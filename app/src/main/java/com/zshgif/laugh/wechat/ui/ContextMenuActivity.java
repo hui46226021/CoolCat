@@ -22,9 +22,10 @@ import com.hyphenate.chat.EMMessage;
 
 import com.hyphenate.easeui.ui.EaseBaseActivity;
 import com.zshgif.laugh.R;
+import com.zshgif.laugh.acticty.BaseActivity;
 import com.zshgif.laugh.utils.Constant;
 
-public class ContextMenuActivity extends EaseBaseActivity {
+public class ContextMenuActivity extends BaseActivity {
     public static final int RESULT_CODE_COPY = 1;
     public static final int RESULT_CODE_DELETE = 2;
     public static final int RESULT_CODE_FORWARD = 3;

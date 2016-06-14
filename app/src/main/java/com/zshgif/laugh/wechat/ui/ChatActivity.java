@@ -8,6 +8,7 @@ import com.hyphenate.easeui.ui.EaseBaseActivity;
 import com.hyphenate.easeui.ui.EaseChatFragment;
 import com.hyphenate.util.EasyUtils;
 import com.zshgif.laugh.R;
+import com.zshgif.laugh.acticty.BaseActivity;
 import com.zshgif.laugh.acticty.MyActivity;
 import com.zshgif.laugh.wechat.runtimepermissions.PermissionsManager;
 
@@ -15,7 +16,7 @@ import com.zshgif.laugh.wechat.runtimepermissions.PermissionsManager;
  * 聊天页面，需要fragment的使用{@link #EaseChatFragment}
  *
  */
-public class ChatActivity extends EaseBaseActivity {
+public class ChatActivity extends BaseActivity {
     public static ChatActivity activityInstance;
     private EaseChatFragment chatFragment;
     String toChatUsername;

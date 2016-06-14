@@ -20,6 +20,7 @@ import android.widget.ListView;
 
 import com.hyphenate.easeui.ui.EaseBaseActivity;
 import com.zshgif.laugh.R;
+import com.zshgif.laugh.acticty.BaseActivity;
 import com.zshgif.laugh.wechat.adapter.NewFriendsMsgAdapter;
 import com.zshgif.laugh.wechat.db.InviteMessgeDao;
 import com.zshgif.laugh.wechat.domain.InviteMessage;
@@ -30,7 +31,7 @@ import java.util.List;
  * 申请与通知
  *
  */
-public class NewFriendsMsgActivity extends EaseBaseActivity {
+public class NewFriendsMsgActivity extends BaseActivity {
 	private ListView listView;
 
 	@Override

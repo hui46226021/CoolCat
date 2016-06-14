@@ -35,6 +35,7 @@ import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.ui.EaseBaseActivity;
 import com.hyphenate.easeui.widget.EaseSidebar;
 import com.zshgif.laugh.R;
+import com.zshgif.laugh.acticty.BaseActivity;
 import com.zshgif.laugh.utils.Constant;
 import com.zshgif.laugh.wechat.DemoHelper;
 
@@ -46,7 +47,7 @@ import java.util.List;
 /**
  * 新建群组选择好友
  */
-public class GroupPickContactsActivity extends EaseBaseActivity {
+public class GroupPickContactsActivity extends BaseActivity {
 	private ListView listView;
 	/** 是否为一个新建的群组 */
 	protected boolean isCreatingNewGroup;

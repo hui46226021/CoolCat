@@ -31,12 +31,13 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.ui.EaseBaseActivity;
 import com.hyphenate.easeui.widget.EaseAlertDialog;
 import com.zshgif.laugh.R;
+import com.zshgif.laugh.acticty.BaseActivity;
 import com.zshgif.laugh.wechat.DemoHelper;
 
 /**
  * 添加好友
  */
-public class AddContactActivity extends EaseBaseActivity{
+public class AddContactActivity extends BaseActivity {
 	private EditText editText;
 	private LinearLayout searchedUserLayout;
 	private TextView nameText,mTextView;
@@ -48,6 +49,7 @@ public class AddContactActivity extends EaseBaseActivity{
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.em_activity_add_contact);
 		mTextView = (TextView) findViewById(R.id.add_list_friends);

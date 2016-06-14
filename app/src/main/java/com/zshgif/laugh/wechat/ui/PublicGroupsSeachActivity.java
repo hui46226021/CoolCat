@@ -17,11 +17,12 @@ import com.hyphenate.chat.EMGroup;
 import com.hyphenate.easeui.ui.EaseBaseActivity;
 import com.hyphenate.exceptions.HyphenateException;
 import com.zshgif.laugh.R;
+import com.zshgif.laugh.acticty.BaseActivity;
 
 /**
  * 公开群搜索页面
  */
-public class PublicGroupsSeachActivity extends EaseBaseActivity{
+public class PublicGroupsSeachActivity extends BaseActivity {
     private RelativeLayout containerLayout;
     private EditText idET;
     private TextView nameText;

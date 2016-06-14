@@ -33,11 +33,12 @@ import com.hyphenate.easeui.ui.EaseBaseActivity;
 import com.hyphenate.easeui.widget.EaseAlertDialog;
 import com.hyphenate.exceptions.HyphenateException;
 import com.zshgif.laugh.R;
+import com.zshgif.laugh.acticty.BaseActivity;
 
 /**
  * 新建群
  */
-public class NewGroupActivity extends EaseBaseActivity {
+public class NewGroupActivity extends BaseActivity {
 	private EditText groupNameEditText;
 	private ProgressDialog progressDialog;
 	private EditText introductionEditText;

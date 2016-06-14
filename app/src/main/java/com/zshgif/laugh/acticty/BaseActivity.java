@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 
 import com.hyphenate.easeui.controller.EaseUI;
+import com.hyphenate.easeui.ui.EaseBaseActivity;
 import com.zshgif.laugh.R;
 
 import java.io.InputStream;
@@ -23,11 +24,11 @@ import java.util.Map;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-/**
+/**AppCompatActivity
  * activity基类
  * Created by zhush on 2016/5/12.
  */
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends EaseBaseActivity {
     SharedPreferences preferences ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -29,11 +29,12 @@ import com.hyphenate.chat.EMGroupInfo;
 import com.hyphenate.easeui.ui.EaseBaseActivity;
 import com.hyphenate.exceptions.HyphenateException;
 import com.zshgif.laugh.R;
+import com.zshgif.laugh.acticty.BaseActivity;
 
 /**
  * 群聊简单信息
  */
-public class GroupSimpleDetailActivity extends EaseBaseActivity {
+public class GroupSimpleDetailActivity extends BaseActivity {
 	private Button btn_add_group;
 	private TextView tv_admin;
 	private TextView tv_name;

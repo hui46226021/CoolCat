@@ -39,11 +39,12 @@ import com.hyphenate.chat.EMGroupInfo;
 import com.hyphenate.easeui.ui.EaseBaseActivity;
 import com.hyphenate.exceptions.HyphenateException;
 import com.zshgif.laugh.R;
+import com.zshgif.laugh.acticty.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PublicGroupsActivity extends EaseBaseActivity {
+public class PublicGroupsActivity extends BaseActivity {
 	private ProgressBar pb;
 	private ListView listView;
 	private GroupsAdapter adapter;

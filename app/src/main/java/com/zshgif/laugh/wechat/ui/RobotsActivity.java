@@ -38,6 +38,7 @@ import com.hyphenate.chat.EMContact;
 import com.hyphenate.easeui.ui.EaseBaseActivity;
 import com.hyphenate.exceptions.HyphenateException;
 import com.zshgif.laugh.R;
+import com.zshgif.laugh.acticty.BaseActivity;
 import com.zshgif.laugh.wechat.DemoHelper;
 import com.zshgif.laugh.wechat.db.UserDao;
 import com.zshgif.laugh.wechat.domain.RobotUser;
@@ -47,7 +48,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RobotsActivity extends EaseBaseActivity {
+public class RobotsActivity extends BaseActivity {
 
 	public static final String TAG = RobotsActivity.class.getSimpleName();
 

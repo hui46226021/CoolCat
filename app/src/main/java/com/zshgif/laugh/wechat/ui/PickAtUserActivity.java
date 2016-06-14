@@ -17,6 +17,7 @@ import com.hyphenate.easeui.ui.EaseBaseActivity;
 import com.hyphenate.easeui.ui.EaseBaseFragment;
 import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.zshgif.laugh.R;
+import com.zshgif.laugh.acticty.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,7 +27,7 @@ import java.util.List;
 /**
  * 选择用户
  */
-public class PickAtUserActivity extends EaseBaseActivity{
+public class PickAtUserActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);

@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -73,6 +74,10 @@ public class MainFragment extends Fragment implements View.OnClickListener{
     private LocalBroadcastManager broadcastManager;
     private int index;
 
+    /**
+     * 按钮布局
+     */
+    private LinearLayout buttonLayout;
 
     public MainFragment() {
         // Required empty public constructor
@@ -112,6 +117,9 @@ public class MainFragment extends Fragment implements View.OnClickListener{
             }
         }
 
+        View view =   inflater.inflate(R.layout.fragment_main, container, false);
+        initView(view);
+
         if (savedInstanceState != null && savedInstanceState.getBoolean(Constant.ACCOUNT_REMOVED, false)) {
             // 防止被移除后，没点确定按钮然后按了home键，长期在后台又进app导致的crash
             // 三个fragment里加的判断同理
@@ -127,8 +135,7 @@ public class MainFragment extends Fragment implements View.OnClickListener{
             return null;
         }
 
-     View view =   inflater.inflate(R.layout.fragment_main, container, false);
-        initView(view);
+
         /**
          * 被踢
          */
@@ -278,6 +285,7 @@ public class MainFragment extends Fragment implements View.OnClickListener{
         mTabs[1].setOnClickListener(this);
         // 把第一个tab设为选中状态
         mTabs[0].setSelected(true);
+        buttonLayout = (LinearLayout) view.findViewById(R.id.main_bottom);
     }
 
 
@@ -411,9 +419,19 @@ public class MainFragment extends Fragment implements View.OnClickListener{
     }
 
     public void loginSuccess(){
-        getChildFragmentManager().beginTransaction().add(R.id.fragment_container, conversationListFragment)
-                .add(R.id.fragment_container, contactListFragment).hide(contactListFragment).show(conversationListFragment)
-                .commit();
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                buttonLayout.setVisibility(View.VISIBLE);
+                getChildFragmentManager().beginTransaction().add(R.id.fragment_container, conversationListFragment)
+                        .add(R.id.fragment_container, contactListFragment).hide(contactListFragment).show(conversationListFragment)
+                        .commit();
+            }
+        });
+
+
+
+
 
     }
 
@@ -425,6 +443,7 @@ public class MainFragment extends Fragment implements View.OnClickListener{
         loginFragment = LoginFragment.newInstance();
         transaction.replace(R.id.fragment_container, loginFragment);
         transaction.commit();
+        buttonLayout.setVisibility(View.GONE);
     }
 
 

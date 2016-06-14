@@ -35,12 +35,13 @@ import com.hyphenate.chat.EMGroup;
 import com.hyphenate.easeui.ui.EaseBaseActivity;
 import com.hyphenate.exceptions.HyphenateException;
 import com.zshgif.laugh.R;
+import com.zshgif.laugh.acticty.BaseActivity;
 import com.zshgif.laugh.utils.Constant;
 import com.zshgif.laugh.wechat.adapter.GroupAdapter;
 
 import java.util.List;
 
-public class GroupsActivity extends EaseBaseActivity {
+public class GroupsActivity extends BaseActivity {
 	public static final String TAG = "GroupsActivity";
 	private ListView groupListView;
 	protected List<EMGroup> grouplist;
