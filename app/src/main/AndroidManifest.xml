@@ -140,6 +140,18 @@
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide"
             ></activity>
+        <!-- 新的朋友邀请消息页面 -->
+        <activity
+            android:name=".wechat.ui.NewFriendsMsgActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/horizontal_slide" ></activity>
+        <!-- 添加好友 -->
+        <activity
+            android:name=".wechat.ui.AddContactActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible"
+            android:theme="@style/horizontal_slide" >
+        </activity>
     </application>
 
 </manifest>

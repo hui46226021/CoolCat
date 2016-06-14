@@ -174,7 +174,7 @@ public class ContactListFragment extends EaseContactListFragment {
             switch (v.getId()) {
             case R.id.application_item:
                 // 进入申请与通知页面
-//                startActivity(new Intent(getActivity(), NewFriendsMsgActivity.class));
+                startActivity(new Intent(getActivity(), NewFriendsMsgActivity.class));
                 break;
             case R.id.group_item:
                 // 进入群聊列表页面

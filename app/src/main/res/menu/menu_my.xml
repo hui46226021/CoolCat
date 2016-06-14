@@ -11,6 +11,11 @@
       android:orderInCategory="100"
       app:showAsAction="never"/>
   <item
+      android:id="@+id/add_Contact"
+      android:title="@string/add_Contact"
+      android:orderInCategory="100"
+      app:showAsAction="never"/>
+  <item
       android:id="@+id/clear"
       android:title="@string/clear"
       android:orderInCategory="100"

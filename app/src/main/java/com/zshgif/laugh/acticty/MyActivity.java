@@ -28,6 +28,7 @@ import com.zshgif.laugh.fragment.GifPictureFragment;
 
 import com.zshgif.laugh.dao.db.DBHelper;
 import com.zshgif.laugh.cache.DiskLruCacheUtil;
+import com.zshgif.laugh.wechat.ui.AddContactActivity;
 import com.zshgif.laugh.wechat.ui.LoginFragment;
 import com.zshgif.laugh.wechat.ui.MainFragment;
 
@@ -167,6 +168,9 @@ public class MyActivity extends BaseActivity
 
     if (id == R.id.sign_out) {
       onBackPressed();
+    }
+    if (id == R.id.add_Contact) {
+      startActivity(new Intent(this, AddContactActivity.class));
     }
 
     if(id == R.id.set_theme){
