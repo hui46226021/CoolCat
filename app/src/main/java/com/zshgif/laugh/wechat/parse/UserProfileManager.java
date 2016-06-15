@@ -136,8 +136,9 @@ public class UserProfileManager {
 		return isSuccess;
 	}
 
-	public void updateCurrentUserRegisterNickName(final String nickname) {
-		PreferenceManager.getInstance().setCurrentUserNick(nickname);
+	public void updateCurrentUserRegisterNickName(String username ,final String nickname) {
+		 ParseManager.getInstance().updateRegisterParseNickName(username,nickname);
+
 	}
 
 

@@ -85,6 +85,25 @@ public class ParseManager {
 		return false;
 	}
 
+	/**
+	 * 注册的时候设置昵称
+	 * @param nickname
+	 * @return
+     */
+	public void updateRegisterParseNickName(final String username,final String nickname) {
+
+		ParseObject	pUser = new ParseObject(CONFIG_TABLE_NAME);
+				pUser.put(CONFIG_USERNAME, username);
+				pUser.put(CONFIG_NICK, nickname);
+				try {
+					pUser.save();
+				} catch (ParseException e1) {
+					e1.printStackTrace();
+					EMLog.e(TAG, "parse error " + e1.getMessage());
+				}
+
+	}
+
 	public void getContactInfos(List<String> usernames, final EMValueCallBack<List<EaseUser>> callback) {
 		ParseQuery<ParseObject> pQuery = ParseQuery.getQuery(CONFIG_TABLE_NAME);
 		pQuery.whereContainedIn(CONFIG_USERNAME, usernames);
