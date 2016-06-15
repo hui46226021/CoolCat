@@ -113,6 +113,7 @@
     <string name="password">密码</string>
     <string name="register">注册</string>
     <string name="confirmpassword">确认密码</string>
+    <string name="nick_name">昵称</string>
     <string name="downwaiting">正在下载文件请稍后</string>
     <string name="mute">静音</string>
     <string name="Hands_free">免提</string>
@@ -222,6 +223,7 @@
     <string name="Open_the_equipment_failure">打开设备失败!</string>
     <string name="Confirm_password_cannot_be_empty">确认密码不能为空!</string>
     <string name="Two_input_password">两次输入的密码不一致，请重新输入!</string>
+    <string name="setnick_name">请输入昵称!!</string>
     <string name="Is_the_registered">正在注册...</string>
     <string name="Registered_successfully">注册成功</string>
     <string name="network_anomalies">网络异常，请检查网络！</string>

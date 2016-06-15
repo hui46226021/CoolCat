@@ -2,25 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_yellow_light"
+    android:background="?attr/colorPrimary"
     android:orientation="vertical" >
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1" >
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerInParent="true"
-            android:src="@drawable/em_welcom_logo" />
-    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dip"
+        android:layout_gravity="center"
+        android:gravity="center"
         android:layout_weight="3" >
 
         <RelativeLayout
@@ -49,6 +40,7 @@
                 android:hint="@string/user_name"
                 android:paddingLeft="10dip"
                 android:singleLine="true"
+                android:inputType="number"
                 android:textColor="#000"
                 android:textSize="18sp" />
         </RelativeLayout>

@@ -68,6 +68,8 @@ public class MyActivity extends BaseActivity
   private MyViewPagerAdapter mViewPagerAdapter;
 
   long maxMemory;//当前硬盘里的最大存储
+
+  static MyActivity myActivity;
   /**
    * 图片页面
    */
@@ -87,6 +89,7 @@ public class MyActivity extends BaseActivity
 
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_my);
+    myActivity = this;
     //初始化控件
     ViewUtils.inject(this);
     //启用日志

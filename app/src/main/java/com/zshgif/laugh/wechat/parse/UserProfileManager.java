@@ -136,6 +136,12 @@ public class UserProfileManager {
 		return isSuccess;
 	}
 
+	public void updateCurrentUserRegisterNickName(final String nickname) {
+		PreferenceManager.getInstance().setCurrentUserNick(nickname);
+	}
+
+
+
 	public String uploadUserAvatar(byte[] data) {
 		String avatarUrl = ParseManager.getInstance().uploadParseAvatar(data);
 		if (avatarUrl != null) {
