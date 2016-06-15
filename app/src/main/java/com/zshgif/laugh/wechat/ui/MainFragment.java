@@ -147,6 +147,7 @@ public class MainFragment extends Fragment implements View.OnClickListener{
              */
             showAccountRemovedDialog();
         }
+
         inviteMessgeDao = new InviteMessgeDao(getActivity());
         userDao = new UserDao(getActivity());
         conversationListFragment = new ConversationListFragment();
@@ -168,13 +169,14 @@ public class MainFragment extends Fragment implements View.OnClickListener{
         if(!is_login){
             goLoginPage();
         }
+
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
+        updateUnreadAddressLable();
     }
 
     /**

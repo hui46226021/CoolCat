@@ -12,7 +12,9 @@ import android.widget.TextView;
 
 import com.zshgif.laugh.R;
 
-
+/**
+ * 列表里的自定义控件
+ */
 public class ContactItemView extends LinearLayout{
 
     private TextView unreadMsgView;
