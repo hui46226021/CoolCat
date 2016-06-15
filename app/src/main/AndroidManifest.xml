@@ -153,6 +153,12 @@
             android:windowSoftInputMode="stateVisible"
              >
         </activity>
+        <!-- 点击用户头像 -->
+        <activity
+            android:name=".wechat.ui.UserProfileActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/horizontal_slide"
+            ></activity>
     </application>
 
 </manifest>

@@ -263,9 +263,9 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
     @Override
     public void onAvatarClick(String username) {
         //头像点击事件
-//        Intent intent = new Intent(getActivity(), UserProfileActivity.class);
-//        intent.putExtra("username", username);
-//        startActivity(intent);
+        Intent intent = new Intent(getActivity(), UserProfileActivity.class);
+        intent.putExtra("username", username);
+        startActivity(intent);
     }
     
     @Override
