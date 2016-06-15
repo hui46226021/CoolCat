@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Handler;
 import android.os.Message;
@@ -216,5 +217,13 @@ public class PhoneContactsActivity extends BaseActivity {
         progressDialog = builder.create();
         progressDialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
         progressDialog.show();
+    }
+    public void shareShow() {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_TEXT, "我擦擦擦擦啊擦擦擦擦擦擦\n" +
+                "我擦擦擦擦啊擦擦擦擦擦擦！\nhttp://www.baidu.com");
+        intent.setType("text/plain");
+        startActivity(intent);
     }
 }

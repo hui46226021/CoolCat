@@ -58,11 +58,18 @@ public class PhoneContactsAdapter extends ArrayAdapter<PhoneConteacts> {
         holder.button.setText(phoneConteacts.isState()?"添加好友":"邀请好友");
         holder.button.setBackgroundColor(phoneConteacts.isState()? Color.parseColor("#11cd6e"):Color.parseColor("#a9b7b7"));
         final String phone = phoneConteacts.getPhone();
+        final boolean state = phoneConteacts.isState();
         holder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(state){
+                    context.addContact(phone);
+                }else {
+                    context.shareShow();
+                }
 
-                context.addContact(phone);
+
+
             }
         });
         return convertView;
