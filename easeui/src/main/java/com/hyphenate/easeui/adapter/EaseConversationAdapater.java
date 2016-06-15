@@ -27,9 +27,11 @@ import com.hyphenate.chat.EMGroupManager;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.R;
 import com.hyphenate.easeui.domain.EaseUser;
+import com.hyphenate.easeui.model.EaseAtMessageHelper;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.easeui.utils.EaseSmileUtils;
 import com.hyphenate.easeui.utils.EaseUserUtils;
+import com.hyphenate.easeui.widget.EaseConversationList.EaseConversationListHelper;
 import com.hyphenate.util.DateUtils;
 
 /**
@@ -91,6 +93,7 @@ public class EaseConversationAdapater extends ArrayAdapter<EMConversation> {
             holder.avatar = (ImageView) convertView.findViewById(R.id.avatar);
             holder.msgState = convertView.findViewById(R.id.msg_state);
             holder.list_itease_layout = (RelativeLayout) convertView.findViewById(R.id.list_itease_layout);
+            holder.motioned = (TextView) convertView.findViewById(R.id.mentioned);
             convertView.setTag(holder);
         }
         holder.list_itease_layout.setBackgroundResource(R.drawable.ease_mm_listitem);
@@ -101,6 +104,12 @@ public class EaseConversationAdapater extends ArrayAdapter<EMConversation> {
         String username = conversation.getUserName();
         
         if (conversation.getType() == EMConversationType.GroupChat) {
+            String groupId = conversation.getUserName();
+            if(EaseAtMessageHelper.get().hasAtMeMsg(groupId)){
+                holder.motioned.setVisibility(View.VISIBLE);
+            }else{
+                holder.motioned.setVisibility(View.GONE);
+            }
             // 群聊消息，显示群聊头像
             holder.avatar.setImageResource(R.drawable.ease_group_icon);
             EMGroup group = EMClient.getInstance().groupManager().getGroup(username);
@@ -125,9 +134,15 @@ public class EaseConversationAdapater extends ArrayAdapter<EMConversation> {
         if (conversation.getAllMsgCount() != 0) {
             // 把最后一条消息的内容作为item的message内容
             EMMessage lastMessage = conversation.getLastMessage();
+            String content = null;
+            if(cvsListHelper != null){
+                content = cvsListHelper.onSetItemSecondaryText(lastMessage);
+            }
             holder.message.setText(EaseSmileUtils.getSmiledText(getContext(), EaseCommonUtils.getMessageDigest(lastMessage, (this.getContext()))),
                     BufferType.SPANNABLE);
-
+            if(content != null){
+                holder.message.setText(content);
+            }
             holder.time.setText(DateUtils.getTimestampString(new Date(lastMessage.getMsgTime())));
             if (lastMessage.direct() == EMMessage.Direct.SEND && lastMessage.status() == EMMessage.Status.FAIL) {
                 holder.msgState.setVisibility(View.VISIBLE);
@@ -272,7 +287,12 @@ public class EaseConversationAdapater extends ArrayAdapter<EMConversation> {
         }
 
     }
-    
+
+    private EaseConversationListHelper cvsListHelper;
+
+    public void setCvsListHelper(EaseConversationListHelper cvsListHelper){
+        this.cvsListHelper = cvsListHelper;
+    }
     
     private static class ViewHolder {
         /** 和谁的聊天记录 */
@@ -289,7 +309,7 @@ public class EaseConversationAdapater extends ArrayAdapter<EMConversation> {
         View msgState;
         /** 整个list中每一行总布局 */
         RelativeLayout list_itease_layout;
-
+        TextView motioned;
     }
 }
 

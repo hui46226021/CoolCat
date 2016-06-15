@@ -46,7 +46,7 @@ public class ContextUtil extends Application  {
         // TODO Auto-generated method stub
         super.onCreate();
         //检查内存泄漏
-        LeakCanary.install(this);
+//        LeakCanary.install(this);
 //        Thread.setDefaultUncaughtExceptionHandler(this);
         instance = this;
         windowManager = (WindowManager) instance.getSystemService(Context.WINDOW_SERVICE);

@@ -3,8 +3,10 @@
 
     <string name="toolbar_title">酷猫</string>
     <string name="sing_out">退出</string>
-    <string name="action_settings">设置主题</string>
-    <string name="clear">清除图片缓存</string>
+    <string name="action_settings">主题</string>
+    <string name="add_Contact">添加好友</string>
+    <string name="clear">清除缓存</string>
+    <string name="setting">设置</string>
     <string name="open">打开</string>
     <string name="close">关闭</string>
     <string name="register">注册</string>
@@ -15,5 +17,18 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
+    <string name="em_user_remove">此用户已被移除</string>
+    <string name="join_need_owner_approval">加入公开群需要群主同意</string>
+    <string name="invite_join_group">邀请加入群：</string>
+    <string name="refuse">拒绝</string>
+    <string name="accept_join_group">同意加入群：</string>
+    <string name="refuse_join_group">拒绝加入群：</string>
+    <string name="Are_agree_with">正在同意...</string>
+    <string name="Are_refuse_with">正在拒绝...</string>
+    <string name="Refuse_with_failure">拒绝失败:</string>
+    <string name="user_already_in_contactlist">此用户已是你好友(被拉黑状态)，从黑名单列表中移出即可</string>
+    <string name="change">零钱</string>
+    <string name="delete_msg_when_exit_group">退出群组时删除聊天数据</string>
+    <string name="auto_accept_group_invitation">自动同意群组加群邀请</string>
+    <string name="adaptive_video_encode">视频自适应码率编码</string>
 </resources>

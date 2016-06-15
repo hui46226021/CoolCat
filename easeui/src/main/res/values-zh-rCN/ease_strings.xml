@@ -82,6 +82,7 @@
     <string name="save_new_nickname">保存</string>
     <string name="nickname_description">设置此昵称以后，在与iOS客户端demo聊天过程中，iOS一侧会显示此昵称而不是环信ID，如果对方使用安卓客户端则此设置不生效</string>
     <string name="group_chat">群聊</string>
+    <string name="phone_chat">手机联系人</string>
     <string name="chat_room">聊天室</string>
     <string name="add_friend">添加好友</string>
     <string name="search">搜索</string>
@@ -113,6 +114,7 @@
     <string name="password">密码</string>
     <string name="register">注册</string>
     <string name="confirmpassword">确认密码</string>
+    <string name="nick_name">昵称</string>
     <string name="downwaiting">正在下载文件请稍后</string>
     <string name="mute">静音</string>
     <string name="Hands_free">免提</string>
@@ -222,6 +224,7 @@
     <string name="Open_the_equipment_failure">打开设备失败!</string>
     <string name="Confirm_password_cannot_be_empty">确认密码不能为空!</string>
     <string name="Two_input_password">两次输入的密码不一致，请重新输入!</string>
+    <string name="setnick_name">请输入昵称!!</string>
     <string name="Is_the_registered">正在注册...</string>
     <string name="Registered_successfully">注册成功</string>
     <string name="network_anomalies">网络异常，请检查网络！</string>
@@ -258,6 +261,7 @@
     <string name="Is_download_voice_click_later">正在下载语音，稍后点击</string>
     <string name="Send_the_following_pictures">发送以下图片？</string>
     <string name="search_new">搜</string>
+    <string name="were_mentioned">[有人@我]</string>
     
     <string name="Delete_the_contact">删除联系人</string>
     <string name="Move_into_the_blacklist_new">移入到黑名单</string>
@@ -288,7 +292,7 @@
     <string name="searching">正在搜索..</string>
     <string name="hanging_up">正在挂断..</string>
     <string name="illegal_user_name">用户名不合法</string>
-    <string name="robot_chat">环信小助手</string>
+    <string name="robot_chat">酷猫小助手</string>
     <string name="title_user_profile">个人资料</string>
     <string name="nickname">昵称</string>
     <string name="dl_title_upload_photo">上传头像</string>

@@ -1,5 +1,7 @@
 package com.zshgif.laugh.acticty;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
@@ -13,7 +15,9 @@ import android.widget.Toast;
 
 
 import com.hyphenate.easeui.controller.EaseUI;
+import com.hyphenate.easeui.ui.EaseBaseActivity;
 import com.zshgif.laugh.R;
+import com.zshgif.laugh.utils.Constant;
 
 import java.io.InputStream;
 import java.util.HashMap;
@@ -23,11 +27,11 @@ import java.util.Map;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-/**
+/**AppCompatActivity
  * activity基类
  * Created by zhush on 2016/5/12.
  */
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends EaseBaseActivity {
     SharedPreferences preferences ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,5 +125,33 @@ public class BaseActivity extends AppCompatActivity {
         super.onResume();
         // onresume时，取消notification显示
 //        EaseUI.getInstance().getNotifier().reset();
+    }
+
+
+
+
+    ProgressDialog progressDialog = null;
+
+    /**
+     * 显示进度对话框
+     */
+    public void showProgressDialog(String message) {
+        closeProgressDialog();
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(this);
+
+            progressDialog.setMessage(message);
+            progressDialog.setCanceledOnTouchOutside(false);
+        }
+        progressDialog.show();
+    }
+
+    /**
+     * 关闭进度对话框
+     */
+    public void closeProgressDialog() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
     }
 }

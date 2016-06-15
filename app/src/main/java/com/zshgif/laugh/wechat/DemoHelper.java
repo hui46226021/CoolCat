@@ -38,7 +38,9 @@ import com.hyphenate.easeui.model.EaseNotifier.EaseNotificationInfoProvider;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.util.EMLog;
+import com.zshgif.laugh.acticty.MyActivity;
 import com.zshgif.laugh.utils.Constant;
+import com.zshgif.laugh.utils.LogUtils;
 import com.zshgif.laugh.wechat.db.DemoDBManager;
 import com.zshgif.laugh.wechat.db.InviteMessgeDao;
 import com.zshgif.laugh.wechat.db.UserDao;
@@ -710,20 +712,21 @@ public class DemoHelper {
      * 账号在别的设备登录
      */
     protected void onConnectionConflict(){
-//        Intent intent = new Intent(appContext, MainActivity.class);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        intent.putExtra(Constant.ACCOUNT_CONFLICT, true);
-//        appContext.startActivity(intent);
+
+        Intent intent = new Intent(appContext, MyActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(Constant.ACCOUNT_CONFLICT, true);
+        appContext.startActivity(intent);
     }
     
     /**
      * 账号被移除
      */
     protected void onCurrentAccountRemoved(){
-//        Intent intent = new Intent(appContext, MainActivity.class);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        intent.putExtra(Constant.ACCOUNT_REMOVED, true);
-//        appContext.startActivity(intent);
+        Intent intent = new Intent(appContext, MyActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(Constant.ACCOUNT_REMOVED, true);
+        appContext.startActivity(intent);
     }
 	
 	private EaseUser getUserInfo(String username){

@@ -5,17 +5,7 @@
 
     android:orientation="vertical" >
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1" >
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:src="@drawable/em_welcom_logo" />
-    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,6 +13,8 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_weight="1.5"
+        android:layout_gravity="center"
+        android:gravity="center"
         android:orientation="vertical" >
 
         <RelativeLayout
@@ -52,6 +44,7 @@
                 android:textColor="#000"
                 android:paddingLeft="10dip"
                 android:singleLine="true"
+                android:inputType="number"
                 android:textSize="18sp" />
         </RelativeLayout>
 
@@ -119,6 +112,38 @@
                 android:textSize="18sp" />
         </RelativeLayout>
 
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:background="#fff" >
+
+            <ImageView
+                android:id="@+id/iv_password3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dip"
+                android:src="@drawable/nickname" />
+
+            <EditText
+                android:id="@+id/nick_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/iv_password3"
+                android:background="@null"
+                android:hint="@string/nick_name"
+                android:textColor="#000"
+                android:paddingLeft="10dip"
+                android:singleLine="true"
+                android:textSize="18sp" />
+        </RelativeLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -133,7 +158,9 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/em_button_login_bg"
+
+                android:background="?attr/colorPrimary"
+
                 android:onClick="register"
                 android:paddingBottom="7dp"
                 android:paddingTop="7dp"
@@ -141,6 +168,7 @@
                 android:textColor="@android:color/white"
                 android:textSize="20sp" />
         </LinearLayout>
+        <!--android:background="@drawable/em_button_login_bg"-->
     </LinearLayout>
 
 </LinearLayout>

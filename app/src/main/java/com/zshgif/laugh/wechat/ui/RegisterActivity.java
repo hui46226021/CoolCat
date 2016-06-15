@@ -26,7 +26,7 @@ public class RegisterActivity extends BaseActivity {
     private EditText userNameEditText;
     private EditText passwordEditText;
     private EditText confirmPwdEditText;
-
+    private EditText nick_name;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +34,7 @@ public class RegisterActivity extends BaseActivity {
         userNameEditText = (EditText) findViewById(R.id.username);
         passwordEditText = (EditText) findViewById(R.id.password);
         confirmPwdEditText = (EditText) findViewById(R.id.confirm_password);
+        nick_name = (EditText) findViewById(R.id.nick_name);
     }
 
     /**
@@ -60,7 +61,11 @@ public class RegisterActivity extends BaseActivity {
         } else if (!pwd.equals(confirm_pwd)) {
             Toast.makeText(this, getResources().getString(R.string.Two_input_password), Toast.LENGTH_SHORT).show();
             return;
+        }else if (TextUtils.isEmpty(nick_name.getText())) {
+            Toast.makeText(this, getResources().getString(R.string.setnick_name), Toast.LENGTH_SHORT).show();
+            return;
         }
+
 
         if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(pwd)) {
             final ProgressDialog pd = new ProgressDialog(this);
@@ -72,12 +77,14 @@ public class RegisterActivity extends BaseActivity {
                     try {
                         // 调用sdk注册方法
                         EMClient.getInstance().createAccount(username, pwd);
+
                         runOnUiThread(new Runnable() {
                             public void run() {
                                 if (!RegisterActivity.this.isFinishing())
                                     pd.dismiss();
                                 // 保存用户名
                                 DemoHelper.getInstance().setCurrentUserName(username);
+                                DemoHelper.getInstance().getUserProfileManager().updateCurrentUserRegisterNickName(username,nick_name.getText()+"");
                                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.Registered_successfully), Toast.LENGTH_SHORT).show();
                                 finish();
                             }
@@ -111,4 +118,5 @@ public class RegisterActivity extends BaseActivity {
     public void back(View view) {
         finish();
     }
+
 }

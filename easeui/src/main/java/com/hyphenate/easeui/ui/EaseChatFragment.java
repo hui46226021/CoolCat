@@ -1,7 +1,29 @@
 package com.hyphenate.easeui.ui;
 
-import java.io.File;
-import java.util.List;
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
+import android.provider.MediaStore;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.hyphenate.EMChatRoomChangeListener;
 import com.hyphenate.EMMessageListener;
@@ -18,9 +40,8 @@ import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.R;
 import com.hyphenate.easeui.controller.EaseUI;
 import com.hyphenate.easeui.domain.EaseEmojicon;
+import com.hyphenate.easeui.model.EaseAtMessageHelper;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
-import com.hyphenate.easeui.utils.EaseImageUtils;
-import com.hyphenate.easeui.utils.EaseSmileUtils;
 import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.hyphenate.easeui.widget.EaseAlertDialog;
 import com.hyphenate.easeui.widget.EaseAlertDialog.AlertDialogUser;
@@ -34,30 +55,8 @@ import com.hyphenate.easeui.widget.chatrow.EaseCustomChatRowProvider;
 import com.hyphenate.util.EMLog;
 import com.hyphenate.util.PathUtil;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
-import android.provider.MediaStore;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
-import android.text.ClipboardManager;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.ListView;
-import android.widget.Toast;
+import java.io.File;
+import java.util.List;
 
 /**
  * 可以直接new出来使用的聊天对话页面fragment，
@@ -68,7 +67,7 @@ import android.widget.Toast;
  * 参数传入示例可查看demo里的ChatActivity
  *
  */
-public class EaseChatFragment extends EaseBaseFragment {
+public class EaseChatFragment extends EaseBaseFragment implements EMMessageListener {
     protected static final String TAG = "EaseChatFragment";
     protected static final int REQUEST_CODE_MAP = 1;
     protected static final int REQUEST_CODE_CAMERA = 2;
@@ -275,8 +274,8 @@ public class EaseChatFragment extends EaseBaseFragment {
     }
     
     protected void onMessageListInit(){
-        messageList.init(toChatUsername, chatType, chatFragmentListener != null ? 
-                chatFragmentListener.onSetCustomChatRowProvider() : null);
+        messageList.init(toChatUsername, chatType, chatFragmentHelper != null ? 
+                chatFragmentHelper.onSetCustomChatRowProvider() : null);
         //设置list item里的控件的点击事件
         setListItemClickListener();
         
@@ -298,8 +297,15 @@ public class EaseChatFragment extends EaseBaseFragment {
             
             @Override
             public void onUserAvatarClick(String username) {
-                if(chatFragmentListener != null){
-                    chatFragmentListener.onAvatarClick(username);
+                if(chatFragmentHelper != null){
+                    chatFragmentHelper.onAvatarClick(username);
+                }
+            }
+            
+            @Override
+            public void onUserAvatarLongClick(String username) {
+                if(chatFragmentHelper != null){
+                    chatFragmentHelper.onAvatarLongClick(username);
                 }
             }
             
@@ -319,18 +325,19 @@ public class EaseChatFragment extends EaseBaseFragment {
             @Override
             public void onBubbleLongClick(EMMessage message) {
                 contextMenuMessage = message;
-                if(chatFragmentListener != null){
-                    chatFragmentListener.onMessageBubbleLongClick(message);
+                if(chatFragmentHelper != null){
+                    chatFragmentHelper.onMessageBubbleLongClick(message);
                 }
             }
             
             @Override
             public boolean onBubbleClick(EMMessage message) {
-                if(chatFragmentListener != null){
-                    return chatFragmentListener.onMessageBubbleClick(message);
+                if(chatFragmentHelper != null){
+                    return chatFragmentHelper.onMessageBubbleClick(message);
                 }
                 return false; 
             }
+
         });
     }
 
@@ -408,60 +415,6 @@ public class EaseChatFragment extends EaseBaseFragment {
     }
 
 
-    EMMessageListener msgListener = new EMMessageListener() {
-		
-		@Override
-		public void onMessageReceived(List<EMMessage> messages) {
-
-		    for (EMMessage message : messages) {
-                String username = null;
-                // 群组消息
-                if (message.getChatType() == ChatType.GroupChat || message.getChatType() == ChatType.ChatRoom) {
-                    username = message.getTo();
-                } else {
-                    // 单聊消息
-                    username = message.getFrom();
-                }
-    
-                // 如果是当前会话的消息，刷新聊天页面
-                if (username.equals(toChatUsername)) {
-                    messageList.refreshSelectLast();
-                    // 声音和震动提示有新消息
-                    EaseUI.getInstance().getNotifier().viberateAndPlayTone(message);
-                } else {
-                    // 如果消息不是和当前聊天ID的消息
-                    EaseUI.getInstance().getNotifier().onNewMsg(message);
-                }
-		    }
-		}
-        
-		@Override
-        public void onCmdMessageReceived(List<EMMessage> messages) {
-            
-        }
-        
-		@Override
-		public void onMessageReadAckReceived(List<EMMessage> messages) {
-	        if(isMessageListInited) {
-	            messageList.refresh();
-		    }
-		}
-		
-		@Override
-		public void onMessageDeliveryAckReceived(List<EMMessage> message) {
-            if(isMessageListInited) {
-                messageList.refresh();
-            }
-		}
-		
-		@Override
-		public void onMessageChanged(EMMessage message, Object change) {
-            if(isMessageListInited) {
-                messageList.refresh();
-            }
-		}
-	};
-	
     @Override
     public void onResume() {
         super.onResume();
@@ -469,7 +422,11 @@ public class EaseChatFragment extends EaseBaseFragment {
             messageList.refresh();
         EaseUI.getInstance().pushActivity(getActivity());
         // register the event listener when enter the foreground
-        EMClient.getInstance().chatManager().addMessageListener(msgListener);
+        EMClient.getInstance().chatManager().addMessageListener(this);
+        
+        if(chatType == EaseConstant.CHATTYPE_GROUP){
+            EaseAtMessageHelper.get().removeAtMeGroup(toChatUsername);
+        }
     }
     
     @Override
@@ -477,7 +434,7 @@ public class EaseChatFragment extends EaseBaseFragment {
         super.onStop();
         // unregister this event listener when this activity enters the
         // background
-        EMClient.getInstance().chatManager().removeMessageListener(msgListener);
+        EMClient.getInstance().chatManager().removeMessageListener(this);
 
         // 把此activity 从foreground activity 列表里移除
         EaseUI.getInstance().popActivity(getActivity());
@@ -486,6 +443,7 @@ public class EaseChatFragment extends EaseBaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        
         if (groupListener != null) {
             EMClient.getInstance().groupManager().removeGroupChangeListener(groupListener);
         }
@@ -496,6 +454,7 @@ public class EaseChatFragment extends EaseBaseFragment {
         if(chatRoomChangeListener != null){
             EMClient.getInstance().chatroomManager().removeChatRoomChangeListener(chatRoomChangeListener);
         }
+        
     }
 
     public void onBackPressed() {
@@ -522,10 +481,10 @@ public class EaseChatFragment extends EaseBaseFragment {
                         EMChatRoom room = EMClient.getInstance().chatroomManager().getChatRoom(toChatUsername);
                         if (room != null) {
                             titleBar.setTitle(room.getName());
+                            EMLog.d(TAG, "join room success : " + room.getName());
                         } else {
                             titleBar.setTitle(toChatUsername);
                         }
-                        EMLog.d(TAG, "join room success : " + room.getName());
                         addChatRoomChangeListenr();
                         onConversationInit();
                         onMessageListInit();
@@ -596,6 +555,57 @@ public class EaseChatFragment extends EaseBaseFragment {
         });
     }
 
+//EMMessageListener implement method
+    @Override
+    public void onMessageReceived(List<EMMessage> messages) {
+        for (EMMessage message : messages) {
+            String username = null;
+            // 群组消息
+            if (message.getChatType() == ChatType.GroupChat || message.getChatType() == ChatType.ChatRoom) {
+                username = message.getTo();
+            } else {
+                // 单聊消息
+                username = message.getFrom();
+            }
+
+            // 如果是当前会话的消息，刷新聊天页面
+            if (username.equals(toChatUsername)) {
+                messageList.refreshSelectLast();
+                // 声音和震动提示有新消息
+                EaseUI.getInstance().getNotifier().viberateAndPlayTone(message);
+            } else {
+                // 如果消息不是和当前聊天ID的消息
+                EaseUI.getInstance().getNotifier().onNewMsg(message);
+            }
+        }
+    }
+
+    @Override
+    public void onCmdMessageReceived(List<EMMessage> messages) {
+
+    }
+
+    @Override
+    public void onMessageReadAckReceived(List<EMMessage> messages) {
+        if(isMessageListInited) {
+            messageList.refresh();
+        }
+    }
+
+    @Override
+    public void onMessageDeliveryAckReceived(List<EMMessage> messages) {
+        if(isMessageListInited) {
+            messageList.refresh();
+        }
+    }
+
+    @Override
+    public void onMessageChanged(EMMessage emMessage, Object change) {
+        if(isMessageListInited) {
+            messageList.refresh();
+        }
+    }
+
     /**
      * 扩展菜单栏item点击事件
      *
@@ -604,8 +614,8 @@ public class EaseChatFragment extends EaseBaseFragment {
 
         @Override
         public void onClick(int itemId, View view) {
-            if(chatFragmentListener != null){
-                if(chatFragmentListener.onExtendMenuItemClick(itemId, view)){
+            if(chatFragmentHelper != null){
+                if(chatFragmentHelper.onExtendMenuItemClick(itemId, view)){
                     return;
                 }
             }
@@ -627,14 +637,67 @@ public class EaseChatFragment extends EaseBaseFragment {
 
     }
     
+    /**
+     * 输入@人字符串到文本输入框
+     * @param username
+     */
+    protected void inputAtUsername(String username, boolean autoAddAtSymbol){
+        if(EMClient.getInstance().getCurrentUser().equals(username) ||
+                chatType != EaseConstant.CHATTYPE_GROUP){
+            return;
+        }
+        EaseAtMessageHelper.get().addAtUser(username);
+        if(EaseUserUtils.getUserInfo(username) != null){
+            if(autoAddAtSymbol)
+                inputMenu.insertText("@" + EaseUserUtils.getUserInfo(username) + " ");
+            else
+                inputMenu.insertText(EaseUserUtils.getUserInfo(username) + " ");
+        }else{
+            if(autoAddAtSymbol)
+                inputMenu.insertText("@" + username + " ");
+            else
+                inputMenu.insertText(username + " ");
+
+        }
+    }
+    
+    
+    /**
+     * 输入@人字符串到文本输入框
+     * @param username
+     */
+    protected void inputAtUsername(String username){
+        inputAtUsername(username, true);
+    }
+    
 
     //发送消息方法
     //==========================================================================
     protected void sendTextMessage(String content) {
-        System.out.println(content);
-        EMMessage message = EMMessage.createTxtSendMessage(content, toChatUsername);
-        sendMessage(message);
+        if(EaseAtMessageHelper.get().containsAtUsername(content)){
+            sendAtMessage(content);
+        }else{
+            EMMessage message = EMMessage.createTxtSendMessage(content, toChatUsername);
+            sendMessage(message);
+        }
     }
+    
+    /**
+     * 发送@消息(只能是群里的文本类型的消息)
+     * @param content
+     */
+    private void sendAtMessage(String content){
+        if(chatType != EaseConstant.CHATTYPE_GROUP){
+            EMLog.e(TAG, "only support group chat message");
+            return;
+        }
+        EMMessage message = EMMessage.createTxtSendMessage(content, toChatUsername);
+        message.setAttribute(EaseConstant.MESSAGE_ATTR_AT_MSG,
+                EaseAtMessageHelper.get().atListToString(EaseAtMessageHelper.get().getAtMessageUsername(content)));
+        sendMessage(message);
+        
+    }
+    
     
     protected void sendBigExpressionMessage(String name, String identityCode){
         EMMessage message = EaseCommonUtils.createExpressionMessage(toChatUsername, name, identityCode);
@@ -666,13 +729,14 @@ public class EaseChatFragment extends EaseBaseFragment {
         sendMessage(message);
     }
     
+    
     protected void sendMessage(EMMessage message){
         if (message == null) {
             return;
         }
-        if(chatFragmentListener != null){
+        if(chatFragmentHelper != null){
             //设置扩展属性
-            chatFragmentListener.onSetMessageAttributes(message);
+            chatFragmentHelper.onSetMessageAttributes(message);
         }
         // 如果是群聊，设置chattype,默认是单聊
         if (chatType == EaseConstant.CHATTYPE_GROUP){
@@ -834,12 +898,12 @@ public class EaseChatFragment extends EaseBaseFragment {
                 Toast.makeText(getActivity(), R.string.gorup_not_found, 0).show();
                 return;
             }
-            if(chatFragmentListener != null){
-                chatFragmentListener.onEnterToChatDetails();
+            if(chatFragmentHelper != null){
+                chatFragmentHelper.onEnterToChatDetails();
             }
         }else if(chatType == EaseConstant.CHATTYPE_CHATROOM){
-        	if(chatFragmentListener != null){
-        		chatFragmentListener.onEnterToChatDetails();
+        	if(chatFragmentHelper != null){
+        	    chatFragmentHelper.onEnterToChatDetails();
         	}
         }
     }
@@ -930,17 +994,18 @@ public class EaseChatFragment extends EaseBaseFragment {
     }
     
    
-    protected EaseChatFragmentListener chatFragmentListener;
-    public void setChatFragmentListener(EaseChatFragmentListener chatFragmentListener){
-        this.chatFragmentListener = chatFragmentListener;
+    protected EaseChatFragmentHelper chatFragmentHelper;
+    public void setChatFragmentListener(EaseChatFragmentHelper chatFragmentHelper){
+        this.chatFragmentHelper = chatFragmentHelper;
     }
     
-    public interface EaseChatFragmentListener{
+    public interface EaseChatFragmentHelper{
         /**
          * 设置消息扩展属性
          */
         void onSetMessageAttributes(EMMessage message);
         
+
         /**
          * 进入会话详情
          */
@@ -951,6 +1016,12 @@ public class EaseChatFragment extends EaseBaseFragment {
          * @param username
          */
         void onAvatarClick(String username);
+        
+        /**
+         * 用户头像长按事件
+         * @param username
+         */
+        void onAvatarLongClick(String username);
         
         /**
          * 消息气泡框点击事件

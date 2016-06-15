@@ -6,6 +6,7 @@
     android:paddingBottom="7dp"
     android:background="#ededed"
     android:paddingLeft="@dimen/padding_search_bar"
+    android:visibility="gone"
     android:paddingRight="@dimen/padding_search_bar">
 
     <EditText

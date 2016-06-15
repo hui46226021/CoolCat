@@ -2,7 +2,7 @@ package com.zshgif.laugh.cache;
 
 import android.support.v4.util.LruCache;
 
-import java.util.Objects;
+
 
 
 /**
@@ -17,8 +17,8 @@ public class MapCache {
     public static void putObject(String key,Object object){
         cacheMap.put(key,object);
     }
-    public static Objects getObjectForKey(String key){
-       return (Objects) cacheMap.get(key);
+    public static Object getObjectForKey(String key){
+       return cacheMap.get(key);
     }
 
 }

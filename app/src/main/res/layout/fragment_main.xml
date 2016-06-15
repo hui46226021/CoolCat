@@ -1,15 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.zshgif.laugh.wechat.ui.MainFragment">
+    android:background="@color/common_bg"
+    android:orientation="horizontal">
+
+    <LinearLayout
+
+        android:id="@+id/main_bottom"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+
+        android:background="@color/bottom_bar_normal_bg"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/btn_container_conversation"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:layout_weight="1" >
+
+            <Button
+                android:id="@+id/btn_conversation"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/em_main_bottom_item_bg"
+                android:drawableTop="@drawable/em_tab_chat_bg"
+
+                android:paddingBottom="100dip"
+                android:paddingTop="100dp"
+                android:gravity="center"
+                android:scaleType="matrix"
+                android:text="@string/session"
+                android:textColor="@color/em_main_botton_text_color"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/unread_msg_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="-100dp"
+                android:background="@drawable/em_unread_count_bg"
+                android:gravity="center"
+                android:text="7"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                android:visibility="invisible" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btn_container_address_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:layout_weight="1" >
+
+            <Button
+                android:id="@+id/btn_address_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/em_main_bottom_item_bg"
+                android:drawableTop="@drawable/em_tab_contact_list_bg"
+                android:paddingBottom="100dip"
+                android:paddingTop="100dp"
+                android:scaleType="matrix"
+                android:text="@string/address_book"
+                android:textColor="@color/em_main_botton_text_color"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/unread_address_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="-100dp"
+                android:background="@drawable/em_unread_dot"
+                android:visibility="visible" />
+        </LinearLayout>
 
 
-    <fragment
-        android:id="@+id/id_fragment_title"
-        android:name="com.zshgif.laugh.wechat.ui.BlankFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+
+        android:layout_weight="1"/>
+
 
 </LinearLayout>

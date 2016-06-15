@@ -7,6 +7,7 @@
     android:orientation="vertical">
 
     <com.hyphenate.easeui.widget.EaseTitleBar
+        android:visibility="gone"
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

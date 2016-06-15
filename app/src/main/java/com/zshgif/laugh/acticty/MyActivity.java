@@ -28,8 +28,13 @@ import com.zshgif.laugh.fragment.GifPictureFragment;
 
 import com.zshgif.laugh.dao.db.DBHelper;
 import com.zshgif.laugh.cache.DiskLruCacheUtil;
+import com.zshgif.laugh.utils.Constant;
+import com.zshgif.laugh.utils.LogUtils;
+import com.zshgif.laugh.wechat.ui.AddContactActivity;
 import com.zshgif.laugh.wechat.ui.LoginFragment;
 import com.zshgif.laugh.wechat.ui.MainFragment;
+import com.zshgif.laugh.wechat.ui.SettingActivity;
+import com.zshgif.laugh.wechat.ui.SettingsFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,6 +68,8 @@ public class MyActivity extends BaseActivity
   private MyViewPagerAdapter mViewPagerAdapter;
 
   long maxMemory;//当前硬盘里的最大存储
+
+  static MyActivity myActivity;
   /**
    * 图片页面
    */
@@ -82,6 +89,7 @@ public class MyActivity extends BaseActivity
 
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_my);
+    myActivity = this;
     //初始化控件
     ViewUtils.inject(this);
     //启用日志
@@ -165,10 +173,13 @@ public class MyActivity extends BaseActivity
   @Override public boolean onOptionsItemSelected(MenuItem item) {
     int id = item.getItemId();
 
-    if (id == R.id.sign_out) {
-      onBackPressed();
-    }
 
+    if (id == R.id.add_Contact) {
+      startActivity(new Intent(this, AddContactActivity.class));
+    }
+    if(id == R.id.setting){
+      startActivity(new Intent(this,SettingActivity.class));
+    }
     if(id == R.id.set_theme){
       startActivity(new Intent(this,SetThemeActivty.class));
     }
@@ -315,5 +326,18 @@ public class MyActivity extends BaseActivity
 
     dialog.dismiss();
   }
+
+  /**
+   * 当其他地方startActivty的时候调用
+   * @param intent
+     */
+  @Override
+  protected void onNewIntent(Intent intent) {
+    super.onNewIntent(intent);
+
+    mainFragment.onNewIntent(intent);
+
+  }
+
 
 }
