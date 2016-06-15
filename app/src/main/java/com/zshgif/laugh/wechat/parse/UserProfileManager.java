@@ -136,6 +136,11 @@ public class UserProfileManager {
 		return isSuccess;
 	}
 
+	public boolean isUserRegister(final String username) {
+		boolean isSuccess = ParseManager.getInstance().isUserRegister(username);
+		return isSuccess;
+	}
+
 	public void updateCurrentUserRegisterNickName(String username ,final String nickname) {
 		 ParseManager.getInstance().updateRegisterParseNickName(username,nickname);
 

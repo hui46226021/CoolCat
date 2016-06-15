@@ -50,6 +50,6 @@ public class Constant {
      */
     public static final String IS_LOGIN_KEY = "isLoginkey";
 
-
+    public static final String PHONE_CONTACTS_LIST = "phone_contacts_list";
 
 }

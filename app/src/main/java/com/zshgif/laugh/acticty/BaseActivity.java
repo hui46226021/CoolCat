@@ -1,5 +1,7 @@
 package com.zshgif.laugh.acticty;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
@@ -126,4 +128,30 @@ public class BaseActivity extends EaseBaseActivity {
     }
 
 
+
+
+    ProgressDialog progressDialog = null;
+
+    /**
+     * 显示进度对话框
+     */
+    public void showProgressDialog(String message) {
+        closeProgressDialog();
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(this);
+
+            progressDialog.setMessage(message);
+            progressDialog.setCanceledOnTouchOutside(false);
+        }
+        progressDialog.show();
+    }
+
+    /**
+     * 关闭进度对话框
+     */
+    public void closeProgressDialog() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
+    }
 }

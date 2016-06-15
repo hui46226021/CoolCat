@@ -12,13 +12,20 @@
         android:layout_height="wrap_content"
         app:contactItemImage="@drawable/em_new_friends_icon"
         app:contactItemName="@string/Application_and_notify" />
+    <com.zshgif.laugh.wechat.widget.ContactItemView
 
+        android:id="@+id/phone_conteact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:contactItemImage="@drawable/em_groups_icon"
+        app:contactItemName="@string/phone_chat" />
     <com.zshgif.laugh.wechat.widget.ContactItemView
         android:id="@+id/group_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:contactItemImage="@drawable/em_groups_icon"
         app:contactItemName="@string/group_chat" />
+
 
     <com.zshgif.laugh.wechat.widget.ContactItemView
         android:visibility="gone"

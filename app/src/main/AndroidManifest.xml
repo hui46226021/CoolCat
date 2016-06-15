@@ -28,6 +28,10 @@
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
 
     <!-- 环信完 -->
     <application
@@ -85,7 +89,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".wechat.ui.PickAtUserActivity"
             android:screenOrientation="portrait"
@@ -98,35 +102,35 @@
         <activity
             android:name="com.hyphenate.easeui.ui.EaseShowBigImageActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/horizontal_slide"></activity>
+            android:theme="@style/horizontal_slide" />
         <!-- 群组列表 -->
         <activity
             android:name=".wechat.ui.GroupsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
         <!-- 新建群组 -->
         <activity
             android:name=".wechat.ui.NewGroupActivity"
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
         <!-- 公开的群聊列表 -->
         <activity
             android:name=".wechat.ui.PublicGroupsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
         <!-- 群聊简单信息 -->
         <activity
             android:name=".wechat.ui.GroupSimpleDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/horizontal_slide"></activity>
+            android:theme="@style/horizontal_slide" />
         <!-- 公开群搜索信息 -->
         <activity
             android:name=".wechat.ui.PublicGroupsSeachActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/horizontal_slide"></activity>
+            android:theme="@style/horizontal_slide" />
         <activity
             android:name=".wechat.ui.GroupPickContactsActivity"
             android:screenOrientation="portrait"
@@ -140,13 +144,14 @@
         <activity
             android:name=".wechat.ui.AddContactActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateVisible"></activity>
+            android:windowSoftInputMode="stateVisible" />
         <!-- 点击用户头像 -->
         <activity
             android:name=".wechat.ui.UserProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide" />
-        <activity android:name=".wechat.ui.SettingActivity"></activity>
+        <activity android:name=".wechat.ui.SettingActivity" />
+        <activity android:name=".wechat.ui.PhoneContactsActivity"></activity>
     </application>
 
 </manifest>

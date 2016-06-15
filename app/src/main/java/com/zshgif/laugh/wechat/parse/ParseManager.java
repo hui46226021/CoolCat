@@ -52,6 +52,24 @@ public class ParseManager {
 		Parse.initialize(context, ParseAppID, ParseClientKey);
 	}
 
+	public boolean isUserRegister(final String username){
+
+		ParseQuery<ParseObject> pQuery = ParseQuery.getQuery(CONFIG_TABLE_NAME);
+		pQuery.whereEqualTo(CONFIG_USERNAME, username);
+		ParseObject pUser = null;
+		try {
+			 pUser = pQuery.getFirst();
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return false;
+		}
+		if (pUser==null){
+			return false;
+		}else {
+			return true;
+		}
+	}
+
 	public boolean updateParseNickName(final String nickname) {
 		String username = EMClient.getInstance().getCurrentUser();
 		ParseQuery<ParseObject> pQuery = ParseQuery.getQuery(CONFIG_TABLE_NAME);

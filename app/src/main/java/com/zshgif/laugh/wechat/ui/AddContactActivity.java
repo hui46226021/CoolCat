@@ -15,7 +15,9 @@ package com.zshgif.laugh.wechat.ui;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -32,6 +34,7 @@ import com.hyphenate.easeui.ui.EaseBaseActivity;
 import com.hyphenate.easeui.widget.EaseAlertDialog;
 import com.zshgif.laugh.R;
 import com.zshgif.laugh.acticty.BaseActivity;
+import com.zshgif.laugh.utils.LogUtils;
 import com.zshgif.laugh.wechat.DemoHelper;
 
 /**
@@ -64,9 +67,19 @@ public class AddContactActivity extends BaseActivity {
 		searchBtn = (Button) findViewById(R.id.search);
 		avatar = (ImageView) findViewById(R.id.avatar);
 		inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+
+
 	}
-	
-	
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+
+
+	}
+
 	/**
 	 * 查找contact
 	 * @param v
