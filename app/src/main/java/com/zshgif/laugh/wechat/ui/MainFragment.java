@@ -212,7 +212,7 @@ public class MainFragment extends Fragment implements View.OnClickListener{
             public void run() {
                 int count = getUnreadAddressCountTotal();
                 if (count > 0) {
-//					unreadAddressLable.setText(String.valueOf(count));
+					unreadAddressLable.setText(String.valueOf(count));
                     unreadAddressLable.setVisibility(View.VISIBLE);
                 } else {
                     unreadAddressLable.setVisibility(View.INVISIBLE);
@@ -221,6 +221,8 @@ public class MainFragment extends Fragment implements View.OnClickListener{
         });
 
     }
+
+
     /**
      * 获取未读申请与通知消息
      *
@@ -459,6 +461,18 @@ public class MainFragment extends Fragment implements View.OnClickListener{
 
     }
 
+    /**
+     * 被踢回掉
+     * @param intent
+     */
+    public void onNewIntent(Intent intent) {
 
+
+        if (intent.getBooleanExtra(Constant.ACCOUNT_CONFLICT, false) && !isConflictDialogShow) {
+            showConflictDialog();
+        } else if (intent.getBooleanExtra(Constant.ACCOUNT_REMOVED, false) && !isAccountRemovedDialogShow) {
+            showAccountRemovedDialog();
+        }
+    }
 
 }

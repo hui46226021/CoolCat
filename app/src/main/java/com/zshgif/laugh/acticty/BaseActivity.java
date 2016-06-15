@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.hyphenate.easeui.controller.EaseUI;
 import com.hyphenate.easeui.ui.EaseBaseActivity;
 import com.zshgif.laugh.R;
+import com.zshgif.laugh.utils.Constant;
 
 import java.io.InputStream;
 import java.util.HashMap;
@@ -123,4 +124,6 @@ public class BaseActivity extends EaseBaseActivity {
         // onresume时，取消notification显示
 //        EaseUI.getInstance().getNotifier().reset();
     }
+
+
 }

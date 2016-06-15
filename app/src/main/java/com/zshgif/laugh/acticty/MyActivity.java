@@ -28,6 +28,8 @@ import com.zshgif.laugh.fragment.GifPictureFragment;
 
 import com.zshgif.laugh.dao.db.DBHelper;
 import com.zshgif.laugh.cache.DiskLruCacheUtil;
+import com.zshgif.laugh.utils.Constant;
+import com.zshgif.laugh.utils.LogUtils;
 import com.zshgif.laugh.wechat.ui.AddContactActivity;
 import com.zshgif.laugh.wechat.ui.LoginFragment;
 import com.zshgif.laugh.wechat.ui.MainFragment;
@@ -319,5 +321,18 @@ public class MyActivity extends BaseActivity
 
     dialog.dismiss();
   }
+
+  /**
+   * 当其他地方startActivty的时候调用
+   * @param intent
+     */
+  @Override
+  protected void onNewIntent(Intent intent) {
+    super.onNewIntent(intent);
+
+    mainFragment.onNewIntent(intent);
+
+  }
+
 
 }
