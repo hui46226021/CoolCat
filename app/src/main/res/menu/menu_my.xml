@@ -21,8 +21,9 @@
       android:orderInCategory="100"
       app:showAsAction="never"/>
   <item
-      android:id="@+id/sign_out"
-      android:title="@string/sing_out"
+      android:id="@+id/setting"
+      android:title="@string/setting"
       android:orderInCategory="100"
       app:showAsAction="never"/>
+
 </menu>

@@ -33,6 +33,8 @@ import com.zshgif.laugh.utils.LogUtils;
 import com.zshgif.laugh.wechat.ui.AddContactActivity;
 import com.zshgif.laugh.wechat.ui.LoginFragment;
 import com.zshgif.laugh.wechat.ui.MainFragment;
+import com.zshgif.laugh.wechat.ui.SettingActivity;
+import com.zshgif.laugh.wechat.ui.SettingsFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -168,13 +170,13 @@ public class MyActivity extends BaseActivity
   @Override public boolean onOptionsItemSelected(MenuItem item) {
     int id = item.getItemId();
 
-    if (id == R.id.sign_out) {
-      onBackPressed();
-    }
+
     if (id == R.id.add_Contact) {
       startActivity(new Intent(this, AddContactActivity.class));
     }
-
+    if(id == R.id.setting){
+      startActivity(new Intent(this,SettingActivity.class));
+    }
     if(id == R.id.set_theme){
       startActivity(new Intent(this,SetThemeActivty.class));
     }
