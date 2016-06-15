@@ -109,7 +109,7 @@
                 android:layout_marginLeft="10dip"
                 android:layout_marginRight="10dip"
                 android:layout_weight="1"
-                android:background="@drawable/em_button_login_bg"
+                android:background="?attr/colorPrimary"
                 android:gravity="center"
                 android:onClick="login"
                 android:paddingBottom="7dp"

@@ -158,7 +158,9 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/em_button_login_bg"
+
+                android:background="?attr/colorPrimary"
+
                 android:onClick="register"
                 android:paddingBottom="7dp"
                 android:paddingTop="7dp"
@@ -166,6 +168,7 @@
                 android:textColor="@android:color/white"
                 android:textSize="20sp" />
         </LinearLayout>
+        <!--android:background="@drawable/em_button_login_bg"-->
     </LinearLayout>
 
 </LinearLayout>
