@@ -31,4 +31,9 @@
     <string name="delete_msg_when_exit_group">退出群组时删除聊天数据</string>
     <string name="auto_accept_group_invitation">自动同意群组加群邀请</string>
     <string name="adaptive_video_encode">视频自适应码率编码</string>
+    <string name="group_nick">聊天室名称:</string>
+    <string name="group_owner">群主：</string>
+    <string name="serach_group_message">消息搜索</string>
+    <string name="messages_are_empty">聊天记录已被清空</string>
+    <string name="search_contanier">搜索："%s"</string>
 </resources>
