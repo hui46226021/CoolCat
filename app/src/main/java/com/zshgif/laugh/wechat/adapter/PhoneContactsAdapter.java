@@ -42,27 +42,51 @@ public class PhoneContactsAdapter extends ArrayAdapter<PhoneConteacts> {
     public View getView(int position, View convertView, ViewGroup parent) {
         PhoneConteacts phoneConteacts= lsit.get(position);
         Holder holder;
-        if (convertView == null) {
-            holder = new Holder();
-            convertView = LayoutInflater.from(context).inflate(resource, parent, false);
-            holder.phone = (TextView) convertView.findViewById(R.id.phone);
-            holder.name = (TextView) convertView.findViewById(R.id.name);
-            holder.button = (Button) convertView.findViewById(R.id.button);
-            convertView.setTag(holder);
+//        if (convertView == null) {
+//            holder = new Holder();
+//            convertView = LayoutInflater.from(context).inflate(resource, parent, false);
+//            holder.phone = (TextView) convertView.findViewById(R.id.phone);
+//            holder.name = (TextView) convertView.findViewById(R.id.name);
+//            holder.button = (Button) convertView.findViewById(R.id.button);
+//            convertView.setTag(holder);
+//
+//        } else {
+//            holder = (Holder) convertView.getTag();
+//        }
+        holder = new Holder();
+        convertView = LayoutInflater.from(context).inflate(resource, parent, false);
+        holder.phone = (TextView) convertView.findViewById(R.id.phone);
+        holder.name = (TextView) convertView.findViewById(R.id.name);
+        holder.button = (Button) convertView.findViewById(R.id.button);
+        convertView.setTag(holder);
 
-        } else {
-            holder = (Holder) convertView.getTag();
-        }
+
         holder.phone.setText(phoneConteacts.getPhone());
         holder.name.setText(phoneConteacts.getName());
-        holder.button.setText(phoneConteacts.isState()?"添加好友":"邀请好友");
-        holder.button.setBackgroundColor(phoneConteacts.isState()? Color.parseColor("#11cd6e"):Color.parseColor("#a9b7b7"));
+        switch (phoneConteacts.getState()){
+            case 0:
+                holder.button.setText("添加好友");
+                holder.button.setBackgroundColor(Color.parseColor("#11cd6e"));
+                break;
+            case 2:
+                holder.button.setBackgroundColor(Color.parseColor("#e6e6e6"));
+                holder.button.setText("已经添加");
+                holder.button.setTextColor(Color.parseColor("#a9b7b7"));
+                holder.button.setEnabled(false);
+                break;
+            default:
+                holder.button.setText("邀请好友");
+                holder.button.setBackgroundColor(Color.parseColor("#a9b7b7"));
+
+        }
+
+
         final String phone = phoneConteacts.getPhone();
-        final boolean state = phoneConteacts.isState();
+        final int state = phoneConteacts.getState();
         holder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(state){
+                if(state==0){
                     context.addContact(phone);
                 }else {
                     context.shareShow();

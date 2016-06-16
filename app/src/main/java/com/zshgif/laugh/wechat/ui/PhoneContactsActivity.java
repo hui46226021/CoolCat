@@ -20,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.widget.EaseAlertDialog;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.zshgif.laugh.R;
@@ -33,6 +34,7 @@ import com.zshgif.laugh.wechat.bean.PhoneConteacts;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class PhoneContactsActivity extends BaseActivity {
     List<PhoneConteacts> list = null;
@@ -52,6 +54,10 @@ public class PhoneContactsActivity extends BaseActivity {
 
     private int progress =0;
     private  int maxCount=0;
+
+    private int USER_OPEN=0;  //用户已经开启
+    private int USER_UNOPEN=1; //用户未开启
+    private int USER_AADDED = 2; //用户已添加
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +102,8 @@ public class PhoneContactsActivity extends BaseActivity {
                 Cursor cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,PHONES_PROJECTION, null, null, null);
                 maxCount =cursor.getCount();
                 mHandler.sendEmptyMessage(START_QUERY);
+                Map<String, EaseUser>  userMap =DemoHelper.getInstance().getContactList();
+
                 if (cursor.moveToFirst()) {
                     do {
                         /**联系人显示名称**/
@@ -104,9 +112,14 @@ public class PhoneContactsActivity extends BaseActivity {
                         int PHONES_NUMBER_INDEX = 1;
                         String phone = cursor.getString(PHONES_NUMBER_INDEX);
                         String contactName = cursor.getString(PHONES_DISPLAY_NAME_INDEX);
-                        boolean state =  DemoHelper.getInstance().getUserProfileManager().isUserRegister(phone);
+                       int state = 0;
+                        if(DemoHelper.getInstance().getUserProfileManager().isUserRegister(phone)){
+                            state =   userMap.containsKey(phone)?USER_AADDED:USER_OPEN;
+                        }else {
+                            state =USER_UNOPEN;
+                        }
                         PhoneConteacts phoneConteacts = new PhoneConteacts(phone.replace("+86",""),contactName,state);
-                        if (state){
+                        if (state==USER_OPEN){
                             list.add(0,phoneConteacts);
                         }else {
                             list.add(phoneConteacts);
