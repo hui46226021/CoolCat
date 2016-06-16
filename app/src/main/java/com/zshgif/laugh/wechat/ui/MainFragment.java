@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,7 +56,7 @@ public class MainFragment extends Fragment implements View.OnClickListener{
     // 未读通讯录textview
     private TextView unreadAddressLable;
     //按钮集合
-    private Button[] mTabs;
+    private ImageButton[] mTabs;
 
     private boolean isConflictDialogShow;
     private boolean isAccountRemovedDialogShow;
@@ -79,9 +80,9 @@ public class MainFragment extends Fragment implements View.OnClickListener{
 
     private int unReadMessageCount;//未读消息
 
-    private Button setttingButton;//设置按钮
+    private ImageButton setttingButton;//设置按钮
 
-    private Button addContactButton;//添加好友 按钮
+    private ImageButton addContactButton;//添加好友 按钮
 
 
     /**
@@ -196,12 +197,12 @@ public class MainFragment extends Fragment implements View.OnClickListener{
      */
     public void updateUnreadLabel() {
         int count = getUnreadMsgCountTotal();
-        if (count > 0) {
-            unreadLabel.setText(String.valueOf(count));
-            unreadLabel.setVisibility(View.VISIBLE);
-        } else {
-            unreadLabel.setVisibility(View.INVISIBLE);
-        }
+//        if (count > 0) {
+//            unreadLabel.setText(String.valueOf(count));
+//            unreadLabel.setVisibility(View.VISIBLE);
+//        } else {
+//            unreadLabel.setVisibility(View.INVISIBLE);
+//        }
 
         unReadMessageCount = count;
         noticeTital();
@@ -302,10 +303,10 @@ public class MainFragment extends Fragment implements View.OnClickListener{
     private void initView(View view) {
         unreadLabel = (TextView) view.findViewById(R.id.unread_msg_number);
         unreadAddressLable = (TextView) view.findViewById(R.id.unread_address_number);
-        mTabs = new Button[3];
-        mTabs[0] = (Button) view.findViewById(R.id.btn_conversation);
+        mTabs = new ImageButton[3];
+        mTabs[0] = (ImageButton) view.findViewById(R.id.btn_conversation);
 
-        mTabs[1] = (Button) view.findViewById(R.id.btn_address_list);
+        mTabs[1] = (ImageButton) view.findViewById(R.id.btn_address_list);
         mTabs[0].setOnClickListener(this);
         mTabs[1].setOnClickListener(this);
         // 把第一个tab设为选中状态
@@ -315,8 +316,8 @@ public class MainFragment extends Fragment implements View.OnClickListener{
 
 
 
-        setttingButton = (Button) view.findViewById(R.id.setting);
-        addContactButton = (Button) view.findViewById(R.id.add_contact);
+        setttingButton = (ImageButton) view.findViewById(R.id.setting);
+        addContactButton = (ImageButton) view.findViewById(R.id.add_contact);
         setttingButton.setOnClickListener(this);
         addContactButton.setOnClickListener(this);
 

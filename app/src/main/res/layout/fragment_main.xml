@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/common_bg"
+    android:background="?attr/colorPrimary"
     android:orientation="horizontal">
 
     <LinearLayout
@@ -14,59 +15,70 @@
         android:background="?attr/colorPrimary"
         android:orientation="vertical" >
 
+        <FrameLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            >
 
-
-            <Button
+            <ImageButton
                 android:id="@+id/btn_conversation"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:background="?attr/colorPrimary"
-                android:drawableRight="@drawable/em_tab_chat_bg"
-
-                android:paddingRight="13dp"
+                android:src="@drawable/em_tab_chat_bg"
                 android:gravity="center"
-                android:scaleType="matrix"
-
                 android:textColor="@color/em_main_botton_text_color"
                 android:textSize="12sp" />
             <!--android:text="@string/session"-->
-            <TextView
-                android:id="@+id/unread_msg_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="-16dp"
-                android:background="@drawable/em_unread_count_bg"
-                android:gravity="center"
-                android:text="7"
-                android:textColor="@android:color/white"
-                android:textSize="12sp"
-                android:visibility="invisible" />
+        <TextView
+            android:visibility="invisible"
+            android:id="@+id/unread_msg_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/em_unread_count_bg"
+            android:gravity="center"
+            android:text="7"
+            android:layout_alignParentTop="@+id/btn_conversation"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            />
+        </FrameLayout>
 
 
 
+        <FrameLayout
 
-            <Button
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            >
+
+
+
+            <ImageButton
                 android:id="@+id/btn_address_list"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:background="?attr/colorPrimary"
-                android:drawableRight="@drawable/em_tab_contact_list_bg"
-                android:scaleType="matrix"
-                android:paddingRight="13dp"
-                android:textColor="@color/em_main_botton_text_color"
-                android:textSize="12sp" />
+                android:src="@drawable/em_tab_contact_list_bg"
+                android:gravity="center"
+                 />
+
             <!--android:text="@string/address_book"-->
             <TextView
                 android:id="@+id/unread_address_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="-16dp"
+                android:layout_marginLeft="30dp"
+
                 android:background="@drawable/em_unread_dot"
-                android:visibility="visible" />
+                />
+        </FrameLayout>
 
         <LinearLayout
             android:layout_weight="1"
@@ -74,49 +86,34 @@
             android:layout_height="0dp"
             android:orientation="vertical"
             />
-        <Button
+
+
+
+        <ImageButton
             android:id="@+id/add_contact"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:background="?attr/colorPrimary"
-
-            android:scaleType="matrix"
-            android:drawableRight="@drawable/add_c"
-            android:paddingRight="13dp"
-            android:layout_gravity="bottom"
-            android:textColor="@color/em_main_botton_text_color"
-            android:textSize="12sp" />
-        <TextView
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="-16dp"
-            android:background="@drawable/em_unread_count_bg"
+            android:src="@drawable/add_c"
             android:gravity="center"
-            android:text="7"
-            android:textColor="@android:color/white"
-            android:textSize="12sp"
-            android:visibility="invisible" />
-        <Button
+            />
+
+        <ImageButton
             android:id="@+id/setting"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:background="?attr/colorPrimary"
+            android:src="@drawable/em_setting"
+            android:gravity="center"
+            />
 
-            android:scaleType="matrix"
-            android:drawableRight="@drawable/em_setting"
-            android:paddingRight="13dp"
-            android:layout_gravity="bottom"
-            android:textColor="@color/em_main_botton_text_color"
-            android:layout_marginBottom="10dp"
-            android:textSize="12sp" />
 
-    </LinearLayout>
+
+</LinearLayout>
     <RelativeLayout
         android:id="@+id/fragment_container"
         android:layout_width="0dp"
+        android:layout_marginTop="5dp"
         android:layout_height="match_parent"
 
         android:layout_weight="1"/>
