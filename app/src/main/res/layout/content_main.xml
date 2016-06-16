@@ -77,6 +77,8 @@
         android:layout_height="wrap_content"
         app:tabGravity="fill"
         app:tabIndicatorColor="@color/main_white"
+
+    app:tabTextAppearance="@style/MyCustomTextAppearance"
         />
 
   </android.support.design.widget.AppBarLayout>

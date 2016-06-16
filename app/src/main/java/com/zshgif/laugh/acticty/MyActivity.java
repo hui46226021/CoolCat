@@ -13,9 +13,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 
 import com.google.code.microlog4android.config.PropertyConfigurator;
@@ -69,7 +71,7 @@ public class MyActivity extends BaseActivity
 
   long maxMemory;//当前硬盘里的最大存储
 
-  static MyActivity myActivity;
+  public static MyActivity myActivity;
   /**
    * 图片页面
    */
@@ -135,7 +137,7 @@ public class MyActivity extends BaseActivity
     setSupportActionBar(mToolbar);
 
     // 初始化ViewPager的适配器，并设置给它
-    mViewPagerAdapter = new MyViewPagerAdapter(getSupportFragmentManager(), mTitles, mFragments);
+    mViewPagerAdapter = new MyViewPagerAdapter(this,getSupportFragmentManager(), mTitles, mFragments);
     mViewPager.setAdapter(mViewPagerAdapter);
     // 设置ViewPager最大缓存的页面个数
     mViewPager.setOffscreenPageLimit(3);
@@ -148,6 +150,14 @@ public class MyActivity extends BaseActivity
     mTabLayout.setupWithViewPager(mViewPager);
     // 设置Tablayout的Tab显示ViewPager的适配器中的getPageTitle函数获取到的标题
     mTabLayout.setTabsFromPagerAdapter(mViewPagerAdapter);
+
+    for (int i =0;i<mTabLayout.getTabCount();i++){
+      TabLayout.Tab tab = mTabLayout.getTabAt(i);
+      tab.setCustomView(mViewPagerAdapter.getView(i));
+
+    }
+
+
 
     // 设置FloatingActionButton的点击事件
     mFloatingActionButton.setOnClickListener(this);
@@ -255,39 +265,46 @@ public class MyActivity extends BaseActivity
   }
 
 
-
+  /**
+   * 重写返回键 替代HOME键
+   */
   @Override
   public void onBackPressed() {
-    super.onBackPressed();
-    WelcomeActivity.instance.finish();
+    Intent i= new Intent(Intent.ACTION_MAIN);
+
+    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+    i.addCategory(Intent.CATEGORY_HOME);
+
+    startActivity(i);
   }
 
   @Override
   protected void onResume() {
     super.onResume();
-    DiskLruCacheUtil.open(this);
-    maxMemory =DiskLruCacheUtil.size();
-    if ((maxMemory/1024/1024)>=1000){
-      AlertDialog.Builder builder = builder = new AlertDialog.Builder(MyActivity.this);
-      builder.setTitle("提示");
-
-      builder.setMessage("您当前的图片缓存已大于1GB，过多无效的图片缓存会浪费您设备的存储空间");
-//      builder.setCancelable(false);
-      builder.setPositiveButton("清除缓存", new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-//                                //跳转下载链接
-          cleanMemoryProgress();
-          DiskLruCacheUtil.delete(MyActivity.this);
-
-
-
-        }
-      });
-      builder.setNegativeButton("我还要留着离线看", null);
-      builder.create().show();
-      builder.create().dismiss();
-    }
+//    DiskLruCacheUtil.open(this);
+//    maxMemory =DiskLruCacheUtil.size();
+//    if ((maxMemory/1024/1024)>=1000){
+//      AlertDialog.Builder builder = builder = new AlertDialog.Builder(MyActivity.this);
+//      builder.setTitle("提示");
+//
+//      builder.setMessage("您当前的图片缓存已大于1GB，过多无效的图片缓存会浪费您设备的存储空间");
+////      builder.setCancelable(false);
+//      builder.setPositiveButton("清除缓存", new DialogInterface.OnClickListener() {
+//        @Override
+//        public void onClick(DialogInterface dialog, int which) {
+////                                //跳转下载链接
+//          cleanMemoryProgress();
+//          DiskLruCacheUtil.delete(MyActivity.this);
+//
+//
+//
+//        }
+//      });
+//      builder.setNegativeButton("我还要留着离线看", null);
+//      builder.create().show();
+//      builder.create().dismiss();
+//    }
   }
 
   /**
@@ -336,6 +353,42 @@ public class MyActivity extends BaseActivity
     super.onNewIntent(intent);
 
     mainFragment.onNewIntent(intent);
+
+  }
+
+  /**
+   * 闲聊标题布局
+   * @param count
+     */
+  public void setmTitles(int count){
+
+
+      TabLayout.Tab tab = mTabLayout.getTabAt(Constant.CALL__PAGE_LOAC);
+    if(tab.getCustomView()==null){
+      View view = LayoutInflater.from(this).inflate(R.layout.tab_item, null);
+
+      TextView tv= (TextView) view.findViewById(R.id.btn_conversation);
+      tv.setText(mTitles[Constant.CALL__PAGE_LOAC]);
+      TextView img = (TextView) view.findViewById(R.id.unread_msg_number);
+      img.setText(count+"");
+      if (count==0){
+        img.setVisibility(View.INVISIBLE);
+      }else {
+        img.setVisibility(View.VISIBLE);
+      }
+
+      tab.setCustomView(view);
+    }else {
+      View view = tab.getCustomView();
+      TextView img = (TextView) view.findViewById(R.id.unread_msg_number);
+      img.setText(count+"");
+      if (count==0){
+        img.setVisibility(View.INVISIBLE);
+      }else {
+        img.setVisibility(View.VISIBLE);
+      }
+
+    }
 
   }
 

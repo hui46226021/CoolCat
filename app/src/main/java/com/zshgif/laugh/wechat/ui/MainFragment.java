@@ -28,6 +28,7 @@ import com.hyphenate.chat.EMConversation;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.util.EMLog;
 import com.zshgif.laugh.R;
+import com.zshgif.laugh.acticty.MyActivity;
 import com.zshgif.laugh.cache.MapCache;
 import com.zshgif.laugh.utils.Constant;
 import com.zshgif.laugh.wechat.DemoHelper;
@@ -73,6 +74,11 @@ public class MainFragment extends Fragment implements View.OnClickListener{
     private BroadcastReceiver broadcastReceiver;
     private LocalBroadcastManager broadcastManager;
     private int index;
+
+    private int unReadNoticeCount;//未读通知
+
+    private int unReadMessageCount;//未读消息
+
 
     /**
      * 按钮布局
@@ -173,10 +179,12 @@ public class MainFragment extends Fragment implements View.OnClickListener{
         return view;
     }
 
+
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart() {
+        super.onStart();
         updateUnreadAddressLable();
+        updateUnreadLabel();
     }
 
     /**
@@ -190,6 +198,9 @@ public class MainFragment extends Fragment implements View.OnClickListener{
         } else {
             unreadLabel.setVisibility(View.INVISIBLE);
         }
+
+        unReadMessageCount = count;
+        noticeTital();
     }
     /**
      * 获取未读消息数
@@ -219,6 +230,12 @@ public class MainFragment extends Fragment implements View.OnClickListener{
                 } else {
                     unreadAddressLable.setVisibility(View.INVISIBLE);
                 }
+
+               unReadNoticeCount = count;
+                noticeTital();
+
+
+
             }
         });
 
@@ -477,4 +494,10 @@ public class MainFragment extends Fragment implements View.OnClickListener{
         }
     }
 
+    /**
+     * 通知主页标题显示未读
+     */
+    public void noticeTital(){
+        MyActivity.myActivity.setmTitles(unReadMessageCount+unReadNoticeCount);
+    }
 }

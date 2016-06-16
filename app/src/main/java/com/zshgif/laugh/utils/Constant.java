@@ -51,5 +51,9 @@ public class Constant {
     public static final String IS_LOGIN_KEY = "isLoginkey";
 
     public static final String PHONE_CONTACTS_LIST = "phone_contacts_list";
+    /**
+     * 聊天页面的位置
+     */
+    public static final int CALL__PAGE_LOAC = 2;
 
 }
