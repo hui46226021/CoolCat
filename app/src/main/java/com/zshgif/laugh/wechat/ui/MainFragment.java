@@ -79,6 +79,10 @@ public class MainFragment extends Fragment implements View.OnClickListener{
 
     private int unReadMessageCount;//未读消息
 
+    private Button setttingButton;//设置按钮
+
+    private Button addContactButton;//添加好友 按钮
+
 
     /**
      * 按钮布局
@@ -307,6 +311,15 @@ public class MainFragment extends Fragment implements View.OnClickListener{
         // 把第一个tab设为选中状态
         mTabs[0].setSelected(true);
         buttonLayout = (LinearLayout) view.findViewById(R.id.main_bottom);
+
+
+
+
+        setttingButton = (Button) view.findViewById(R.id.setting);
+        addContactButton = (Button) view.findViewById(R.id.add_contact);
+        setttingButton.setOnClickListener(this);
+        addContactButton.setOnClickListener(this);
+
     }
 
 
@@ -393,6 +406,12 @@ public class MainFragment extends Fragment implements View.OnClickListener{
             case R.id.btn_address_list:
                 index = 1;
                 break;
+            case R.id.setting:
+                startActivity(new Intent(getActivity(),SettingActivity.class));
+                return;
+            case R.id.add_contact:
+                startActivity(new Intent(getActivity(),AddContactActivity.class));
+                return;
 
 
         }

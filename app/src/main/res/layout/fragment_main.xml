@@ -21,9 +21,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/colorPrimary"
-                android:drawableBottom="@drawable/em_tab_chat_bg"
+                android:drawableRight="@drawable/em_tab_chat_bg"
 
-                android:paddingBottom="10dp"
+                android:paddingRight="13dp"
                 android:gravity="center"
                 android:scaleType="matrix"
 
@@ -45,21 +45,16 @@
                 android:visibility="invisible" />
 
 
-        <LinearLayout
-            android:id="@+id/btn_container_address_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+
 
             <Button
                 android:id="@+id/btn_address_list"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:background="?attr/colorPrimary"
-                android:drawableBottom="@drawable/em_tab_contact_list_bg"
+                android:drawableRight="@drawable/em_tab_contact_list_bg"
                 android:scaleType="matrix"
-                android:paddingBottom="10dp"
+                android:paddingRight="13dp"
                 android:textColor="@color/em_main_botton_text_color"
                 android:textSize="12sp" />
             <!--android:text="@string/address_book"-->
@@ -72,8 +67,51 @@
                 android:layout_marginTop="-16dp"
                 android:background="@drawable/em_unread_dot"
                 android:visibility="visible" />
-        </LinearLayout>
 
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            />
+        <Button
+            android:id="@+id/add_contact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+
+            android:scaleType="matrix"
+            android:drawableRight="@drawable/add_c"
+            android:paddingRight="13dp"
+            android:layout_gravity="bottom"
+            android:textColor="@color/em_main_botton_text_color"
+            android:textSize="12sp" />
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="-16dp"
+            android:background="@drawable/em_unread_count_bg"
+            android:gravity="center"
+            android:text="7"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            android:visibility="invisible" />
+        <Button
+            android:id="@+id/setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+
+            android:scaleType="matrix"
+            android:drawableRight="@drawable/em_setting"
+            android:paddingRight="13dp"
+            android:layout_gravity="bottom"
+            android:textColor="@color/em_main_botton_text_color"
+            android:layout_marginBottom="10dp"
+            android:textSize="12sp" />
 
     </LinearLayout>
     <RelativeLayout
