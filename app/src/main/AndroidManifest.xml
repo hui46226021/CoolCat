@@ -102,7 +102,7 @@
         <activity
             android:name="com.hyphenate.easeui.ui.EaseShowBigImageActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/horizontal_slide" />
+            android:theme="@style/AppTheme" />
         <!-- 群组列表 -->
         <activity
             android:name=".wechat.ui.GroupsActivity"
