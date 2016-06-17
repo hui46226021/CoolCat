@@ -16,6 +16,7 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -45,7 +46,8 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 	private TextView tvUsername;
 	private ProgressDialog dialog;
 	private RelativeLayout rlNickName;
-	
+	private Button startSession;
+	String username;
 	
 	
 	@Override
@@ -63,12 +65,17 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 		tvNickName = (TextView) findViewById(R.id.user_nickname);
 		rlNickName = (RelativeLayout) findViewById(R.id.rl_nickname);
 		iconRightArrow = (ImageView) findViewById(R.id.ic_right_arrow);
+		startSession = (Button) findViewById(R.id.startSession);
 	}
 	
 	private void initListener() {
 		Intent intent = getIntent();
-		String username = intent.getStringExtra("username");
+		username = intent.getStringExtra("username");
 		boolean enableUpdate = intent.getBooleanExtra("setting", false);
+		boolean isStartSession =  intent.getBooleanExtra("isStartSession", false);
+		if(!isStartSession){
+			startSession.setVisibility(View.GONE);
+		}
 		if (enableUpdate) {
 			headPhotoUpdate.setVisibility(View.VISIBLE);
 			iconRightArrow.setVisibility(View.VISIBLE);
@@ -293,5 +300,14 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
 		return baos.toByteArray();
+	}
+
+	/**
+	 * 发起会话按钮
+	 * @param view
+     */
+	public void buttonOnClick(View view){
+		startActivity(new Intent(this, ChatActivity.class).putExtra("userId", username));
+		finish();
 	}
 }

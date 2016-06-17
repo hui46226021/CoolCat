@@ -62,6 +62,7 @@ public class MyActivity extends BaseActivity
   private FloatingActionButton mFloatingActionButton;
 
 
+  private AppBarLayout mAppBarLayout2;
   // TabLayout中的tab标题
   private String[] mTitles;
   // 填充到ViewPager中的Fragment
@@ -104,6 +105,7 @@ public class MyActivity extends BaseActivity
 
     // 对各种控件进行设置、适配、填充数据
     configViews();
+
 
 
   }

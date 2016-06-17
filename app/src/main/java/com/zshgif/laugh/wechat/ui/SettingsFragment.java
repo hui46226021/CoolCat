@@ -362,7 +362,7 @@ public class SettingsFragment extends Fragment implements OnClickListener {
 //						startActivity(new Intent(getActivity(), LoginActivity.class));
 
 						getActivity().finish();
-						System.exit(0);
+						MyActivity.myActivity.finish();
 						
 					}
 				});
