@@ -264,6 +264,13 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
         JSONObject dataObject =jsonObject.getJSONObject("data");
         JSONArray dataArray =dataObject.getJSONArray("data");
         for (int i = 0;i<dataArray.length();i++ ){
+            if(i==3){
+                /**
+                 * 刷新的时候往第四个位置插入一个 空的对象   在适配器里如果 到空的这个就放一张广告
+                 */
+                list.add(null);
+            }
+
             JSONObject jsonObjectItem = dataArray.getJSONObject(i);
             //图片项目type=1  广告type=5
             if (jsonObjectItem.getInt("type")!=1){
@@ -293,6 +300,7 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
             }
 
         }
+
         setToastMessage("更新了"+list.size()+"组图片└(^o^)┘");
         gifPaictureAdapter.notifyDataSetChanged();
         listview.setSelection(0);
@@ -419,14 +427,21 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
             gifitemBean.setComments(commentsBean);
         }
         list.add(gifitemBean);
+
         DBHelper.insertIntoGifitemBean(gifitemBean);
 
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        saveId();
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
-        saveId();
+
     }
 
     public void saveId(){

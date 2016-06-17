@@ -238,6 +238,10 @@ public class DuanZiFragment extends BaseFragment  implements SwipeRefreshLayout.
         JSONObject dataObject =jsonObject.getJSONObject("data");
         JSONArray dataArray =dataObject.getJSONArray("data");
         for (int i = 0;i<dataArray.length();i++ ){
+
+            if(i==7){
+                list.add(null);
+            }
             JSONObject jsonObjectItem = dataArray.getJSONObject(i);
             //图片项目type=1  广告type=5
             if (jsonObjectItem.getInt("type")!=1){
@@ -333,8 +337,14 @@ public class DuanZiFragment extends BaseFragment  implements SwipeRefreshLayout.
     @Override
     public void onDestroy() {
         super.onDestroy();
-            saveId();
+
     }
+    @Override
+    public void onStop() {
+        super.onStop();
+        saveId();
+    }
+
 
     public void saveId(){
         try {

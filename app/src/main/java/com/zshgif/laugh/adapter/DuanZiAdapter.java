@@ -1,8 +1,10 @@
 package com.zshgif.laugh.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zshgif.laugh.model.DuanZiBean;
@@ -19,7 +22,12 @@ import com.zshgif.laugh.R;
 import com.zshgif.laugh.fragment.BaseFragment;
 import com.zshgif.laugh.listener.NetworkBitmapCallbackListener;
 import com.zshgif.laugh.http.HttpPictureUtils;
+import com.zshgif.laugh.utils.LogUtils;
 import com.zshgif.laugh.view.RoundedImageView;
+
+import net.youmi.android.spot.CustomerSpotView;
+import net.youmi.android.spot.SpotDialogListener;
+import net.youmi.android.spot.SpotManager;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -43,6 +51,10 @@ public class DuanZiAdapter extends ArrayAdapter<DuanZiBean> {
      * 所有图片集合
      */
     private List<DuanZiBean> gifitemBeanList;
+    /**
+     * 原生插屏控件
+     */
+    CustomerSpotView mCustomerSpotView = null;
     /**
      * 内部图片集合
      */
@@ -74,6 +86,14 @@ public class DuanZiAdapter extends ArrayAdapter<DuanZiBean> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         onScreen = position;
+
+        /**
+         * 公用
+         */
+        DuanZiBean  duanZiBean =  gifitemBeanList.get(position);
+        if (duanZiBean==null) {
+            return setNativeSpotAd(convertView);
+        }
         GifPaictureHodler holder = null;
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(
@@ -84,9 +104,16 @@ public class DuanZiAdapter extends ArrayAdapter<DuanZiBean> {
             holder = (GifPaictureHodler) convertView.getTag();
         }
         /**
-         * 公用
+         * 如果holder等于null说明此convertView 是之前广告用过的 要重新加载下布局
          */
-        DuanZiBean  duanZiBean =  gifitemBeanList.get(position);
+        if(holder==null){
+            convertView = LayoutInflater.from(getContext()).inflate(
+                    resourceId, null);
+            holder = new GifPaictureHodler(convertView);
+            convertView.setTag(holder);
+        }
+
+
         geiBitmap(duanZiBean.getReleaseUser().getUserProfile(),holder.user_profile,position);
         holder.user_name.setText(duanZiBean.getReleaseUser().getUsername());
         holder.tital.setText(duanZiBean.getContent());
@@ -193,5 +220,83 @@ public class DuanZiAdapter extends ArrayAdapter<DuanZiBean> {
             return false;
         }
         return true;
+    }
+
+    /**
+     * 设置原生插屏广告
+     */
+    public View setNativeSpotAd(View convertView) {
+        convertView = LayoutInflater.from(getContext()).inflate(
+                R.layout.item_ymad, null);
+
+        final RelativeLayout mNativeAdLayout = (RelativeLayout) convertView.findViewById(R.id.rl_native_ad);
+
+
+        // 设置插屏动画的横竖屏展示方式，如果设置了横屏，则在有广告资源的情况下会是优先使用横屏图
+        SpotManager.getInstance(context)
+                .setSpotOrientation(SpotManager.ORIENTATION_LANDSCAPE);
+
+
+
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //切换到子线程获取原生控件
+                mCustomerSpotView = SpotManager.getInstance(context)
+                        .cacheCustomerSpot(context, new SpotDialogListener() {
+                            @Override
+                            public void onShowSuccess() {
+                                Log.i("", "原生插屏展示成功");
+                            }
+
+                            @Override
+                            public void onShowFailed() {
+                                Log.i("", "原生插屏展示失败");
+                            }
+
+                            @Override
+                            public void onSpotClosed() {
+                                Log.i("", "原生插屏被关闭");
+                            }
+
+                            @Override
+                            public void onSpotClick(boolean isWebPath) {
+                                Log.i("", "原生插屏被点击，isWebPath = " + isWebPath);
+                            }
+                        });
+                //获取成功
+                Activity activity = (Activity)context;
+                if (mCustomerSpotView != null) {
+                    //切换到UI线程
+
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            RelativeLayout.LayoutParams params =
+                                    new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                                            ViewGroup.LayoutParams.MATCH_PARENT);
+                            params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+                            if (mNativeAdLayout != null) {
+                                mNativeAdLayout.removeAllViews();
+                                mNativeAdLayout.addView(mCustomerSpotView, params);
+                            }
+                        }
+                    });
+                } else {
+                    //获取失败
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+//                            convertView.setVisibility(View.GONE);
+                            LogUtils.e("失败","失败");
+                        }
+                    });
+                }
+            }
+        }).start();
+
+        return convertView;
+
     }
 }

@@ -5,7 +5,12 @@ import android.database.Cursor;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.AnimationUtils;
+import android.widget.RelativeLayout;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.domain.EaseUser;
@@ -16,12 +21,20 @@ import com.zshgif.laugh.utils.LogUtils;
 import com.zshgif.laugh.wechat.DemoHelper;
 import com.zshgif.laugh.wechat.bean.PhoneConteacts;
 
+import net.youmi.android.AdManager;
+import net.youmi.android.spot.SplashView;
+import net.youmi.android.spot.SpotDialogListener;
+import net.youmi.android.spot.SpotManager;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * 启动也
+ */
 public class WelcomeActivity extends AppCompatActivity {
     public static WelcomeActivity instance;
     private static final int sleepTime = 2000;
@@ -83,6 +96,13 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        /**
+         * 有米广告
+         * appId 和 appSecret 分别为应用的发布 ID 和密钥，由有米后台自动生成，通过在有米后台 > 应用详细信息 可以获得。
+         isTestModel : 是否开启测试模式，true 为是，false 为否。（上传有米审核及发布到市场版本，请设置为 false）
+         */
+        AdManager.getInstance(this).init("83694273f3f3d3f0","b7d0da8fea76b6dc",false);
+        setupSplashAd();
     }
 
     @Override
@@ -106,29 +126,96 @@ public class WelcomeActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                     }
-                    //进入主页面
-                    startActivity(new Intent(WelcomeActivity.this,MyActivity.class));
                     MapCache.putObject(Constant.IS_LOGIN_KEY,true);
-                    finish();
+                    //进入主页面
+                    /**
+                     * 通过有米广告进入主页了
+                     */
+//                    startActivity(new Intent(WelcomeActivity.this,MyActivity.class));
+//
+//                    finish();
                 }else {
+                    MapCache.putObject(Constant.IS_LOGIN_KEY,false);
                     try {
                         Thread.sleep(sleepTime);
                     } catch (InterruptedException e) {
                     }
-                    startActivity(new Intent(WelcomeActivity.this,MyActivity.class));
-                    MapCache.putObject(Constant.IS_LOGIN_KEY,false);
-                    finish();
+//                    startActivity(new Intent(WelcomeActivity.this,MyActivity.class));
+//
+//                    finish();
                 }
             }
         }).start();
 
 
-
     }
+
+
 
     @Override
     protected void onRestart() {
         super.onRestart();
         startActivity(new Intent(WelcomeActivity.this,MyActivity.class));
+    }
+
+    /**
+     * 设置开屏广告
+     */
+    private void setupSplashAd() {
+        /**
+         * 自定义模式
+         */
+        SplashView splashView = new SplashView(this, null);
+        // 设置是否显示倒计时，默认显示
+        splashView.setShowReciprocal(true);
+        // 设置是否显示关闭按钮，默认不显示
+        splashView.hideCloseBtn(true);
+//        //传入跳转的intent，若传入intent，初始化时目标activity应传入null
+        Intent intent = new Intent(this, MyActivity.class);
+        splashView.setIntent(intent);
+        //展示失败后是否直接跳转，默认直接跳转
+        splashView.setIsJumpTargetWhenFail(true);
+        //获取开屏视图
+        View splash = splashView.getSplashView();
+
+        final RelativeLayout splashLayout = (RelativeLayout) findViewById(R.id.rl_splash);
+        //		splashLayout.setVisibility(View.GONE);
+        //添加开屏视图到布局中
+        RelativeLayout.LayoutParams params =
+                new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        params.addRule(RelativeLayout.ABOVE, R.id.view_divider);
+        splashLayout.addView(splash, params);
+        //显示开屏
+        SpotManager.getInstance(this)
+                .showSplashSpotAds(this, splashView, new SpotDialogListener() {
+
+                    @Override
+                    public void onShowSuccess() {
+                        LogUtils.e("dd", "开屏展示成功");
+                        splashLayout.setVisibility(View.VISIBLE);
+                        splashLayout.startAnimation(AnimationUtils.loadAnimation(WelcomeActivity.this, R.anim.anim_splash_enter));
+                    }
+
+                    @Override
+                    public void onShowFailed() {
+                        Log.i("", "开屏展示失败");
+                    }
+
+                    @Override
+                    public void onSpotClosed() {
+                        Log.i("", "开屏被关闭");
+                    }
+
+                    @Override
+                    public void onSpotClick(boolean isWebPath) {
+                        Log.i("", "开屏被点击");
+                    }
+                });
+
+        /**
+         * 默认模式
+         */
+        // SpotManager.getInstance(this).showSplashSpotAds(this,
+        // MainActivity.class);
     }
 }

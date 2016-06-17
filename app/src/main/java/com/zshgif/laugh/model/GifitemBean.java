@@ -299,4 +299,28 @@ public class GifitemBean {
         releaseUser.setNETid(NETid);
         DBHelper.insertIntoReleaseUser(releaseUser);
     }
+
+    @Override
+    public String toString() {
+        return "GifitemBean{" +
+                "id=" + id +
+                ", NETid=" + NETid +
+                ", content='" + content + '\'' +
+                ", category_name='" + category_name + '\'' +
+                ", firstOne='" + firstOne + '\'' +
+                ", gifUrl='" + gifUrl + '\'' +
+                ", width=" + width +
+                ", height=" + height +
+                ", type=" + type +
+                ", digg_count=" + digg_count +
+                ", bury_count=" + bury_count +
+                ", comments_count=" + comments_count +
+                ", share_url='" + share_url + '\'' +
+                ", daoSession=" + daoSession +
+                ", myDao=" + myDao +
+                ", large_image_list=" + large_image_list +
+                ", comments=" + comments +
+                ", releaseUser=" + releaseUser +
+                '}';
+    }
 }
