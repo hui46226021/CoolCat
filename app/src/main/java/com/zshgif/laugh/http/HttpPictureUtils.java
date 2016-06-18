@@ -53,23 +53,9 @@ public class HttpPictureUtils {
            new AsyncTask<Void,Integer,byte[]>() {
             @Override
             protected byte[] doInBackground(Void... voids) {
-                //让控件先出现30毫秒再开始加载图片 要不卡顿
+
                 System.gc();
-                if (!isload(position,baseFragment)){
-                    return null;
-                };
 
-
-
-                try {
-                    Thread.sleep(30);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                if (!isload(position,baseFragment)){
-
-                    return null;
-                };
                 byte[]  bytes = null;
 
                 bytes = mMemoryCache.get(url);
@@ -93,7 +79,6 @@ public class HttpPictureUtils {
 
                 }
                 if (!isload(position,baseFragment)){
-
                     return null;
                 };
 
@@ -202,7 +187,11 @@ public class HttpPictureUtils {
                            listener.onHttpFinish(null);
 
                }}
-           }.execute();
+               /**
+                * executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); 线程将异步执行
+                * execute()   线程将同步执行
+                */
+           }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
 
     }

@@ -272,13 +272,23 @@ public class MyActivity extends BaseActivity
    */
   @Override
   public void onBackPressed() {
-    Intent i= new Intent(Intent.ACTION_MAIN);
+    /**
+     * 替代hone键
+     */
+//    Intent i= new Intent(Intent.ACTION_MAIN);
+//
+//    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//
+//    i.addCategory(Intent.CATEGORY_HOME);
+//
+//    startActivity(i);
+    showAlertDialog("确定退出应用？", "退出", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        finish();
+      }
+    });
 
-    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-    i.addCategory(Intent.CATEGORY_HOME);
-
-    startActivity(i);
   }
 
   @Override

@@ -171,25 +171,29 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
          */
         switch (gifitemBean.getType()) {
             case 1:
+                //普通图片
                 holder.picture.setVisibility(View.VISIBLE);
                 calculateHeight(holder.picture, ((double) gifitemBean.getHeight()) / ((double) gifitemBean.getWidth()));
                 geiBitmap(gifitemBean.getFirstOne(), holder.picture, position);
                 break;
             case 2:
+                //动图
                 holder.picture.setVisibility(View.VISIBLE);
                 calculateHeight(holder.picture, ((double) gifitemBean.getHeight()) / ((double) gifitemBean.getWidth()));
                 calculateHeight(holder.gif_picture, ((double) gifitemBean.getHeight()) / ((double) gifitemBean.getWidth()));
                 geiBitmap(gifitemBean.getFirstOne(), holder.picture, position);
+
                 geiGifPicture(gifitemBean.getGifUrl(), holder.gif_picture, holder.picture, position, holder.progressBar);
+
                 break;
             case 5:
-                holder.picture.setVisibility(View.GONE);
-                holder.gif_picture.setVisibility(View.GONE);
-                holder.gridView.setVisibility(View.VISIBLE);
-                String[] from = {"image"};
-                int[] to = {R.id.image};
-                getData(gifitemBean.getLarge_image_list());
-                holder.gridView.setAdapter(new SimpleAdapter(context, data_list, R.layout.gridview, from, to));
+//                holder.picture.setVisibility(View.GONE);
+//                holder.gif_picture.setVisibility(View.GONE);
+//                holder.gridView.setVisibility(View.VISIBLE);
+//                String[] from = {"image"};
+//                int[] to = {R.id.image};
+//                getData(gifitemBean.getLarge_image_list());
+//                holder.gridView.setAdapter(new SimpleAdapter(context, data_list, R.layout.gridview, from, to));
                 break;
         }
 
@@ -197,20 +201,24 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
         return convertView;
     }
 
-
-    public List<Map<String, Object>> getData(List<PictureBean> list) {
-        //cion和iconName的长度是相同的，这里任选其一都可以
-        for (int i = 0; i < list.size(); i++) {
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("image", R.drawable.loadimage);
-            data_list.add(map);
-        }
-
-        return data_list;
-    }
+    /**
+     * 适配多图那种 暂时没用
+     * @param list
+     * @return
+     */
+//    public List<Map<String, Object>> getData(List<PictureBean> list) {
+//        //cion和iconName的长度是相同的，这里任选其一都可以
+//        for (int i = 0; i < list.size(); i++) {
+//            Map<String, Object> map = new HashMap<String, Object>();
+//            map.put("image", R.drawable.loadimage);
+//            data_list.add(map);
+//        }
+//
+//        return data_list;
+//    }
 
     /**
-     * 适配缓存
+     * hodler
      */
     public class GifPaictureHodler {
 
@@ -253,12 +261,15 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
         }
     }
 
+    /**
+     * 获取普通图片
+     * @param url
+     * @param imageView
+     * @param position
+     */
     void geiBitmap(String url, final ImageView imageView, final int position) {
         imageView.setTag(url);
-        if (!isload(position)) {
 
-            return;
-        }
         HttpPictureUtils.getNetworkBitmap(null, imageView, baseFragment, position, url, new NetworkBitmapCallbackListener() {
 
             @Override
@@ -267,11 +278,6 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
                 if (bytes == null) {
                     return;
                 }
-                if (!isload(position)) {
-                    return;
-                }
-
-
                 WeakReference weakReference = new WeakReference(BitmapFactory.decodeByteArray(bytes, 0, bytes.length));//弱引用
                 imageView.setImageBitmap((Bitmap) weakReference.get());
                 queue.offer((Bitmap) weakReference.get());
@@ -285,6 +291,14 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
         });
     }
 
+    /**
+     * 获取 GIF图片
+     * @param url
+     * @param gifImageView
+     * @param imageView
+     * @param position
+     * @param progressBar
+     */
     void geiGifPicture(String url, final GifImageView gifImageView, final ImageView imageView, final int position, final ProgressBar progressBar) {
 
 
@@ -303,10 +317,9 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
                 if (!isload(position)) {
                     return;
                 }
-//                bytes =null;
+
 
                 try {
-
                     WeakReference weakReference = new WeakReference(new GifDrawable(bytes));//弱引用
                     bytes = null;
                     gifImageView.setImageDrawable((Drawable) weakReference.get());
@@ -343,14 +356,15 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
     boolean isload(int position) {
 
         if (position < baseFragment.FIRST_ONE || position > baseFragment.LAST_ONE) {
-//            LogUtils.e("当前"+position,"第一个"+baseFragment.FIRST_ONE+"--"+"最后一个"+baseFragment.LAST_ONE);
             return false;
         }
 
         return true;
     }
 
-
+    /**
+     * 销毁Bitmap(
+     */
     synchronized void recycleBitmap() {
         if (queue.size() > 20) {
 
@@ -366,6 +380,9 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
         }
     }
 
+    /**
+     * 销毁GIF图片
+     */
     synchronized void stopGifDrawable() {
         LogUtils.e("queue_gif长度", "" + queue_gif.size());
         if (queue_gif.size() > 5) {

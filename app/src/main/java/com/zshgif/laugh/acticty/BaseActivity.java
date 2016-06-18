@@ -2,12 +2,14 @@ package com.zshgif.laugh.acticty;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.inputmethod.InputMethodManager;
@@ -46,7 +48,7 @@ public class BaseActivity extends EaseBaseActivity {
      * @param event
      * @return
      */
-    public boolean onTouchEvent(MotionEvent event) {
+    public  boolean onTouchEvent(MotionEvent event) {
         if (null != this.getCurrentFocus()) {
             /**
              * 点击空白位置 隐藏软键盘
@@ -153,5 +155,17 @@ public class BaseActivity extends EaseBaseActivity {
         if (progressDialog != null) {
             progressDialog.dismiss();
         }
+    }
+
+
+    public void showAlertDialog(String message,String button,DialogInterface.OnClickListener listener){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("提示");
+        builder.setMessage(message);
+        builder.setCancelable(false);
+        builder.setPositiveButton(button, listener);
+        builder.setNegativeButton("取消",null);
+        builder.create().show();
+        return;
     }
 }

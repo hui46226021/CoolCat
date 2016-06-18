@@ -91,7 +91,7 @@ public class HttpUtils {
      * @param listener
      */
 
-    public static void sendHttpRequestDoPost(final String address, final Map<String, String> param, final HttpCallbackListener listener, final Activity activty) {
+    public static void sendHttpRequestDoPost(final String address, final Map<String, String> param, final HttpCallbackListener listener) {
         if (!NetWorkUtils.isConn(ContextUtil.getInstance())) {
             return;
         }
@@ -99,7 +99,7 @@ public class HttpUtils {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                doPostSynchroonized(address, param, listener,activty);
+                doPostSynchroonized(address, param, listener);
             }
         }).start();
     }
@@ -111,7 +111,7 @@ public class HttpUtils {
      * @param param
      * @param listener
      */
-    public static synchronized void doPostSynchroonized(final String address, final Map<String, String> param, final HttpCallbackListener listener,final Activity activty) {
+    public static synchronized void doPostSynchroonized(final String address, final Map<String, String> param, final HttpCallbackListener listener) {
 
         LogUtils.e("url", address);
         Set<String> set = param.keySet();
@@ -135,25 +135,19 @@ public class HttpUtils {
             if (listener != null) {
                 // 回调onFinish()方法
                 LogUtils.e("url返回", response);
-                activty.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        listener.onHttpFinish(response.toString());
-                    }
-                });
+
+                listener.onHttpFinish(response.toString());
+
 
             }
         } catch (final SocketTimeoutException e) {
 
             if (listener != null) {
 
-                activty.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
+
                         listener.onHttpError(e);
                         e.printStackTrace();
-                    }
-                });
+
 
 
 
@@ -162,14 +156,12 @@ public class HttpUtils {
 
             if (listener != null) {
 
-                activty.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
+
                         listener.onHttpError(e);
                         e.printStackTrace();
                     }
-                });
-            }
+
+
         }
     }
 

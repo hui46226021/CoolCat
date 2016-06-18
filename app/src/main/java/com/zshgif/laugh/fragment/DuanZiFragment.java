@@ -207,7 +207,7 @@ public class DuanZiFragment extends BaseFragment  implements SwipeRefreshLayout.
             @Override
             public void onHttpFinish(String response) {
 
-                mSwipeRefreshLayout.setRefreshing(false);
+
                 try {
                     analysisJSON(response);
                 } catch (JSONException e) {
@@ -220,7 +220,7 @@ public class DuanZiFragment extends BaseFragment  implements SwipeRefreshLayout.
             public void onHttpError(Exception e) {
                 mSwipeRefreshLayout.setRefreshing(false);
             }
-        },getActivity());
+        });
     }
 
     /**
@@ -231,7 +231,12 @@ public class DuanZiFragment extends BaseFragment  implements SwipeRefreshLayout.
     void analysisJSON(String response) throws JSONException {
         JSONObject jsonObject = new JSONObject(response);
         if(!"success".equals(jsonObject.getString("message"))){
-            setToastMessage("服务器异常");
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    setToastMessage("服务器异常");
+                }
+            });
             return;
         }
         list.clear();
@@ -257,10 +262,20 @@ public class DuanZiFragment extends BaseFragment  implements SwipeRefreshLayout.
 
 
         }
-        setToastMessage("更新了"+list.size()+"条段子└(^o^)┘");
-        duanZiAdapter.notifyDataSetChanged();
-        listview.setSelection(0);
-        FIRST_ONE =0;
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    mSwipeRefreshLayout.setRefreshing(false);
+                    setToastMessage("更新了"+list.size()+"条段子└(^o^)┘");
+                    duanZiAdapter.notifyDataSetChanged();
+                    listview.setSelection(0);
+                    FIRST_ONE =0;
+                }catch (Exception e){}
+
+            }
+        });
+
     }
 
     /**
