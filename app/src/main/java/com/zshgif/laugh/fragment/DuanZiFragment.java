@@ -167,7 +167,14 @@ public class DuanZiFragment extends BaseFragment  implements SwipeRefreshLayout.
                     List<DuanZiBean> listload= DBHelper.loadAllDuanZiBeanDaoPushTen(id) ;
                     if (listload.size()>0){
                         list.addAll(listload) ;
-                        duanZiAdapter.notifyDataSetChanged();
+
+
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                duanZiAdapter.notifyDataSetChanged();
+                            }
+                        });
                     }
 
                 }

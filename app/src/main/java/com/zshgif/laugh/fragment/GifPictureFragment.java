@@ -176,7 +176,13 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
                         List listload=  DBHelper.loadAllGifitemBeanPushTen(id);
                         if (listload.size()>0){
                             list.addAll(listload) ;
-                            gifPaictureAdapter.notifyDataSetChanged();
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    gifPaictureAdapter.notifyDataSetChanged();
+                                }
+                            });
+
                         }
 
                     }
