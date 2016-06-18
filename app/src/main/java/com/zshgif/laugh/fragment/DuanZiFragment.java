@@ -52,6 +52,8 @@ public class DuanZiFragment extends BaseFragment  implements SwipeRefreshLayout.
 
     public long first_one_id =6496629855l;
 
+
+
     /**
      * 图片对象 集合
      */
@@ -90,12 +92,14 @@ public class DuanZiFragment extends BaseFragment  implements SwipeRefreshLayout.
         if(!initOk || !isVisible) {
             return;
         }
+        super.lazyLoad();
         initData();
         settingView();
 
     }
     @Override
     protected void unlazyLoad() {
+        super.unlazyLoad();
         saveId();
     }
     /**
@@ -273,11 +277,20 @@ public class DuanZiFragment extends BaseFragment  implements SwipeRefreshLayout.
             @Override
             public void run() {
                 try {
+                    /**
+                     * 当前页面在上面
+                     */
                     mSwipeRefreshLayout.setRefreshing(false);
-                    setToastMessage("更新了"+list.size()+"条段子└(^o^)┘");
-                    duanZiAdapter.notifyDataSetChanged();
-                    listview.setSelection(0);
                     FIRST_ONE =0;
+                    if(pageState==true){
+
+                        setToastMessage("更新了"+list.size()+"条段子└(^o^)┘");
+                        duanZiAdapter.notifyDataSetChanged();
+                        listview.setSelection(0);
+
+
+                    }
+
                 }catch (Exception e){}
 
             }

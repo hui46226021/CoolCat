@@ -97,6 +97,7 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
         if(!initOk || !isVisible) {
             return;
         }
+        super.lazyLoad();
         initData();
             settingView();
 
@@ -104,6 +105,7 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
 
     @Override
     protected void unlazyLoad() {
+        super.unlazyLoad();
         saveId();
     }
 
@@ -320,11 +322,18 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mSwipeRefreshLayout.setRefreshing(false);
-                FIRST_ONE =0;
-                setToastMessage("更新了"+list.size()+"组图片└(^o^)┘");
-                gifPaictureAdapter.notifyDataSetChanged();
-                listview.setSelection(0);
+                try {
+                    mSwipeRefreshLayout.setRefreshing(false);
+                    FIRST_ONE =0;
+                    if(pageState==true){
+
+                        setToastMessage("更新了"+list.size()+"组图片└(^o^)┘");
+                        gifPaictureAdapter.notifyDataSetChanged();
+                        listview.setSelection(0);
+                    }
+                }catch (Exception e){}
+
+
             }
         });
 

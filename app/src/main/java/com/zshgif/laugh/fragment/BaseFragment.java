@@ -30,6 +30,10 @@ public class BaseFragment  extends LazyFragment {
      * @param message
      */
     public boolean  initOk;
+    /**
+     * 页面状态
+     */
+    public Boolean pageState;
 
     public void setToastMessage(String message){
         Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
@@ -43,12 +47,12 @@ public class BaseFragment  extends LazyFragment {
 
     @Override
     protected void lazyLoad() {
-
+        pageState  =true;
     }
 
     @Override
     protected void unlazyLoad() {
-
+        pageState  =false;
     }
     int setThemeColor1(){
         switch (preferences.getInt("theme",2)){
