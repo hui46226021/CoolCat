@@ -182,7 +182,7 @@ public class UserProfileManager {
 		PreferenceManager.getInstance().setCurrentUserNick(nickname);
 	}
 
-	private void setCurrentUserAvatar(String avatar) {
+	public void setCurrentUserAvatar(String avatar) {
 		getCurrentUserInfo().setAvatar(avatar);
 		PreferenceManager.getInstance().setCurrentUserAvatar(avatar);
 	}
