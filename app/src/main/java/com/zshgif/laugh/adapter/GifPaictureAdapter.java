@@ -300,13 +300,7 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
      * @param progressBar
      */
     void geiGifPicture(String url, final GifImageView gifImageView, final ImageView imageView, final int position, final ProgressBar progressBar) {
-
-
         gifImageView.setTag(url);
-        if (!isload(position)) {
-
-            return;
-        }
         HttpPictureUtils.getNetworkBitmap(progressBar, gifImageView, baseFragment, position, url, new NetworkBitmapCallbackListener() {
             @Override
             public void onHttpFinish(byte[] bytes) {

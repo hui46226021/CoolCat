@@ -280,9 +280,9 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
         JSONObject dataObject =jsonObject.getJSONObject("data");
         JSONArray dataArray =dataObject.getJSONArray("data");
         for (int i = 0;i<dataArray.length();i++ ){
-            if(i==3){
+            if(i==6){
                 /**
-                 * 刷新的时候往第四个位置插入一个 空的对象   在适配器里如果 到空的这个就放一张广告
+                 * 刷新的时候往第7个位置插入一个 空的对象   在适配器里如果 到空的这个就放一张广告
                  */
                 list.add(null);
             }
