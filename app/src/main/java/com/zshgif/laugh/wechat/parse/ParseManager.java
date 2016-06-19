@@ -272,21 +272,27 @@ public class ParseManager {
             public void onSuccess(List<hxuser> object) {
 
                 for (hxuser hxuser_user : object) {
-                    EaseUser user = DemoHelper.getInstance().getUserProfileManager().getCurrentUserInfo();
-
-
+//                    EaseUser user = DemoHelper.getInstance().getUserProfileManager().getCurrentUserInfo();
+                    String nick = hxuser_user.getNickname();
+                    String avatar = hxuser_user.getAvatar();
+                    EaseUser user = DemoHelper.getInstance().getContactList().get(username);
 
                     if (user != null) {
                         user.setNick(hxuser_user.getNickname());
                         if (hxuser_user.getAvatar() != null) {
                             user.setAvatar(hxuser_user.getAvatar());
                         }
-                        callback.onSuccess(user);
+
                     }else {
-                        callback.onError(0, "");
+
+                        user = new EaseUser(username);
+                        user.setNick(nick);
+                        if (hxuser_user.getAvatar() != null) {
+                            user.setAvatar(hxuser_user.getAvatar());
+                        }
                     }
 
-
+                    callback.onSuccess(user);
                 }
 
                 if(object==null||object.size()==0){
