@@ -55,5 +55,11 @@ public class Constant {
      * 聊天页面的位置
      */
     public static final int CALL__PAGE_LOAC = 2;
+    /**
+     * 有米广告
+     */
+    public static final boolean YM_STATE = false;//发布状态
+    public static final String YM_APP_ID = "83694273f3f3d3f0";//appid
+    public static final String YM_APP_SIGN = "b7d0da8fea76b6dc";//签名
 
 }

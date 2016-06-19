@@ -101,7 +101,8 @@ public class WelcomeActivity extends AppCompatActivity {
          * appId 和 appSecret 分别为应用的发布 ID 和密钥，由有米后台自动生成，通过在有米后台 > 应用详细信息 可以获得。
          isTestModel : 是否开启测试模式，true 为是，false 为否。（上传有米审核及发布到市场版本，请设置为 false）
          */
-        AdManager.getInstance(this).init("83694273f3f3d3f0","b7d0da8fea76b6dc",false);
+        AdManager.getInstance(this).init(Constant.YM_APP_ID,Constant.YM_APP_SIGN,Constant.YM_STATE);
+        SpotManager.getInstance(instance).loadSpotAds();
         setupSplashAd();
     }
 
