@@ -19,3 +19,9 @@
 -keep class com.hyphenate.** {*;}
 -dontwarn  com.hyphenate.**
 #环信完
+#有米广告
+-dontwarn net.youmi.android.**
+-keep class net.youmi.android.** {
+    *;
+}
+#有米广告完

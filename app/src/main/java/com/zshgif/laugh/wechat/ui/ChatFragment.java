@@ -242,20 +242,23 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
         //设置自定义listview item提供者
         return new CustomChatRowProvider();
     }
-  
 
+    /**
+     * 进入群详情页
+     */
     @Override
     public void onEnterToChatDetails() {
-//        if (chatType == Constant.CHATTYPE_GROUP) {
-//            EMGroup group = EMClient.getInstance().groupManager().getGroup(toChatUsername);
-//            if (group == null) {
-//                Toast.makeText(getActivity(), R.string.gorup_not_found, Toast.LENGTH_LONG).show();
-//                return;
-//            }
-//            startActivityForResult(
-//                    (new Intent(getActivity(), GroupDetailsActivity.class).putExtra("groupId", toChatUsername)),
-//                    REQUEST_CODE_GROUP_DETAIL);
-//        }else if(chatType == Constant.CHATTYPE_CHATROOM){
+        if (chatType == Constant.CHATTYPE_GROUP) {
+            EMGroup group = EMClient.getInstance().groupManager().getGroup(toChatUsername);
+            if (group == null) {
+                Toast.makeText(getActivity(), R.string.gorup_not_found, Toast.LENGTH_LONG).show();
+                return;
+            }
+            startActivityForResult(
+                    (new Intent(getActivity(), GroupDetailsActivity.class).putExtra("groupId", toChatUsername)),
+                    REQUEST_CODE_GROUP_DETAIL);
+        }
+//        else if(chatType == Constant.CHATTYPE_CHATROOM){
 //        	startActivityForResult(new Intent(getActivity(), ChatRoomDetailsActivity.class).putExtra("roomId", toChatUsername), REQUEST_CODE_GROUP_DETAIL);
 //        }
     }

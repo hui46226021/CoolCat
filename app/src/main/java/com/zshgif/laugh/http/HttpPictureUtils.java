@@ -17,6 +17,9 @@ import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by Administrator on 2016/5/17.
@@ -26,7 +29,7 @@ public class HttpPictureUtils {
      * 图片缓存技术的核心类，用于缓存所有下载好的图片，在程序内存达到设定值时会将最少最近使用的图片移除掉。
      */
 
-
+    private static List<String> list = new LinkedList<>();
     private static LruCache<String, byte[]> mMemoryCache ;
     static {
 //        // 获取应用程序最大可用内存
@@ -50,26 +53,16 @@ public class HttpPictureUtils {
                 return;
             }
 
+
+
+
+
            new AsyncTask<Void,Integer,byte[]>() {
             @Override
             protected byte[] doInBackground(Void... voids) {
-                //让控件先出现30毫秒再开始加载图片 要不卡顿
+
                 System.gc();
-                if (!isload(position,baseFragment)){
-                    return null;
-                };
 
-
-
-                try {
-                    Thread.sleep(30);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                if (!isload(position,baseFragment)){
-
-                    return null;
-                };
                 byte[]  bytes = null;
 
                 bytes = mMemoryCache.get(url);
@@ -93,11 +86,19 @@ public class HttpPictureUtils {
 
                 }
                 if (!isload(position,baseFragment)){
-
                     return null;
                 };
+                /**
+                 * 判断次URL 是否正在加载
+                 */
+                if(list.contains(url)){
+                    LogUtils.e("重复加载",url);
+                    return null;
+                }else {
 
+                    list.add(url);
 
+                }
 
                 LogUtils.e("网络获取图片",url);
                 URL myFileURL;
@@ -160,6 +161,7 @@ public class HttpPictureUtils {
                         try {
                             is.close();
                             output.close();
+                            list.remove(url);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -187,10 +189,20 @@ public class HttpPictureUtils {
 
                 super.onProgressUpdate(values);
                 if (progressBar!=null){
-                    progressBar.setVisibility(View.VISIBLE);
-                    progressBar.setProgress(values[0]);
+
+                        progressBar.setVisibility(View.VISIBLE);
+                        progressBar.setProgress(values[0]);
                     if (values[0]==100){
                         progressBar.setVisibility(View.INVISIBLE);
+                    }
+
+                    try {
+                        if(!view.getTag().toString().equals(url)){
+                            this.cancel(true);
+                            list.remove(url);
+                        }
+                    }catch (Exception e){
+
                     }
                 }
             }
@@ -202,7 +214,11 @@ public class HttpPictureUtils {
                            listener.onHttpFinish(null);
 
                }}
-           }.execute();
+               /**
+                * executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); 线程将异步执行
+                * execute()   线程将同步执行
+                */
+           }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
 
     }

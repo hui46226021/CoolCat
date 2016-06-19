@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
+import com.hyphenate.easeui.widget.EaseAlertDialog;
 import com.zshgif.laugh.model.CommentsBean;
 import com.zshgif.laugh.model.GifitemBean;
 import com.zshgif.laugh.model.PictureBean;
@@ -96,6 +97,7 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
         if(!initOk || !isVisible) {
             return;
         }
+        super.lazyLoad();
         initData();
             settingView();
 
@@ -103,6 +105,7 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
 
     @Override
     protected void unlazyLoad() {
+        super.unlazyLoad();
         saveId();
     }
 
@@ -165,19 +168,28 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
                 /**
                  * 当最后一个是倒数第五个的时候 加载
                  */
-                if (listview.getLastVisiblePosition() == (list.size()-1-5)){
-                    /**
-                     * 根据当前屏幕里最后一个 元素 的 数据库id 查询 后5到后25条
-                     * 因为当前屏幕下面应该还有5个
-                     */
-                  int id = Integer.parseInt(list.get(LAST_ONE).getId()+"");
-                  List listload=  DBHelper.loadAllGifitemBeanPushTen(id);
-                    if (listload.size()>0){
-                        list.addAll(listload) ;
-                        gifPaictureAdapter.notifyDataSetChanged();
-                    }
+                try {
+                    if (listview.getLastVisiblePosition() == (list.size()-1-5)){
+                        /**
+                         * 根据当前屏幕里最后一个 元素 的 数据库id 查询 后5到后25条
+                         * 因为当前屏幕下面应该还有5个
+                         */
+                        int id = Integer.parseInt(list.get(LAST_ONE).getId()+"");
+                        List listload=  DBHelper.loadAllGifitemBeanPushTen(id);
+                        if (listload.size()>0){
+                            list.addAll(listload) ;
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    gifPaictureAdapter.notifyDataSetChanged();
+                                }
+                            });
 
-                }
+                        }
+
+                    }
+                }catch (Exception e){}
+
 
 
             }
@@ -233,7 +245,7 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
             @Override
             public void onHttpFinish(String response) {
 
-                mSwipeRefreshLayout.setRefreshing(false);
+
                 try {
                     analysisJSON(response);
                 } catch (Exception e) {
@@ -246,7 +258,7 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
             public void onHttpError(Exception e) {
                 mSwipeRefreshLayout.setRefreshing(false);
             }
-        },getActivity());
+        });
     }
 
     /**
@@ -257,13 +269,26 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
     void analysisJSON(String response) throws JSONException {
         JSONObject jsonObject = new JSONObject(response);
         if(!"success".equals(jsonObject.getString("message"))){
-            setToastMessage("服务器异常");
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    setToastMessage("服务器异常");
+                }
+            });
+
             return;
         }
         list.clear();
         JSONObject dataObject =jsonObject.getJSONObject("data");
         JSONArray dataArray =dataObject.getJSONArray("data");
         for (int i = 0;i<dataArray.length();i++ ){
+            if(i==6){
+                /**
+                 * 刷新的时候往第7个位置插入一个 空的对象   在适配器里如果 到空的这个就放一张广告
+                 */
+                list.add(null);
+            }
+
             JSONObject jsonObjectItem = dataArray.getJSONObject(i);
             //图片项目type=1  广告type=5
             if (jsonObjectItem.getInt("type")!=1){
@@ -293,10 +318,26 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
             }
 
         }
-        setToastMessage("更新了"+list.size()+"组图片└(^o^)┘");
-        gifPaictureAdapter.notifyDataSetChanged();
-        listview.setSelection(0);
-        FIRST_ONE =0;
+
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    mSwipeRefreshLayout.setRefreshing(false);
+                    FIRST_ONE =0;
+                    if(pageState==true){
+
+                        setToastMessage("更新了"+list.size()+"组图片└(^o^)┘");
+                        gifPaictureAdapter.notifyDataSetChanged();
+                        listview.setSelection(0);
+                    }
+                }catch (Exception e){}
+
+
+            }
+        });
+
+
     }
 
     /**
@@ -419,14 +460,21 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
             gifitemBean.setComments(commentsBean);
         }
         list.add(gifitemBean);
+
         DBHelper.insertIntoGifitemBean(gifitemBean);
 
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        saveId();
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
-        saveId();
+
     }
 
     public void saveId(){

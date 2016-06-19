@@ -7,7 +7,7 @@ package com.zshgif.laugh.wechat.bean;
 public class PhoneConteacts {
     private String phone;//手机号
     private String name;//名字
-    private boolean state;//状态
+    private int state;//状态  0开启  1关闭 2 已添加
 
     public String getPhone() {
         return phone;
@@ -25,16 +25,15 @@ public class PhoneConteacts {
         this.name = name;
     }
 
-    public boolean isState() {
+    public int getState() {
         return state;
     }
 
-    public void setState(boolean state) {
+    public void setState(int state) {
         this.state = state;
     }
 
-
-    public PhoneConteacts(String phone, String name, boolean state) {
+    public PhoneConteacts(String phone, String name, int state) {
         this.phone = phone;
         this.name = name;
         this.state = state;

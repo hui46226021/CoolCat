@@ -52,6 +52,8 @@ public class DuanZiFragment extends BaseFragment  implements SwipeRefreshLayout.
 
     public long first_one_id =6496629855l;
 
+
+
     /**
      * 图片对象 集合
      */
@@ -90,12 +92,14 @@ public class DuanZiFragment extends BaseFragment  implements SwipeRefreshLayout.
         if(!initOk || !isVisible) {
             return;
         }
+        super.lazyLoad();
         initData();
         settingView();
 
     }
     @Override
     protected void unlazyLoad() {
+        super.unlazyLoad();
         saveId();
     }
     /**
@@ -167,7 +171,14 @@ public class DuanZiFragment extends BaseFragment  implements SwipeRefreshLayout.
                     List<DuanZiBean> listload= DBHelper.loadAllDuanZiBeanDaoPushTen(id) ;
                     if (listload.size()>0){
                         list.addAll(listload) ;
-                        duanZiAdapter.notifyDataSetChanged();
+
+
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                duanZiAdapter.notifyDataSetChanged();
+                            }
+                        });
                     }
 
                 }
@@ -207,7 +218,7 @@ public class DuanZiFragment extends BaseFragment  implements SwipeRefreshLayout.
             @Override
             public void onHttpFinish(String response) {
 
-                mSwipeRefreshLayout.setRefreshing(false);
+
                 try {
                     analysisJSON(response);
                 } catch (JSONException e) {
@@ -220,7 +231,7 @@ public class DuanZiFragment extends BaseFragment  implements SwipeRefreshLayout.
             public void onHttpError(Exception e) {
                 mSwipeRefreshLayout.setRefreshing(false);
             }
-        },getActivity());
+        });
     }
 
     /**
@@ -231,13 +242,22 @@ public class DuanZiFragment extends BaseFragment  implements SwipeRefreshLayout.
     void analysisJSON(String response) throws JSONException {
         JSONObject jsonObject = new JSONObject(response);
         if(!"success".equals(jsonObject.getString("message"))){
-            setToastMessage("服务器异常");
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    setToastMessage("服务器异常");
+                }
+            });
             return;
         }
         list.clear();
         JSONObject dataObject =jsonObject.getJSONObject("data");
         JSONArray dataArray =dataObject.getJSONArray("data");
         for (int i = 0;i<dataArray.length();i++ ){
+
+            if(i==7){
+                list.add(null);
+            }
             JSONObject jsonObjectItem = dataArray.getJSONObject(i);
             //图片项目type=1  广告type=5
             if (jsonObjectItem.getInt("type")!=1){
@@ -253,10 +273,29 @@ public class DuanZiFragment extends BaseFragment  implements SwipeRefreshLayout.
 
 
         }
-        setToastMessage("更新了"+list.size()+"条段子└(^o^)┘");
-        duanZiAdapter.notifyDataSetChanged();
-        listview.setSelection(0);
-        FIRST_ONE =0;
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    /**
+                     * 当前页面在上面
+                     */
+                    mSwipeRefreshLayout.setRefreshing(false);
+                    FIRST_ONE =0;
+                    if(pageState==true){
+
+                        setToastMessage("更新了"+list.size()+"条段子└(^o^)┘");
+                        duanZiAdapter.notifyDataSetChanged();
+                        listview.setSelection(0);
+
+
+                    }
+
+                }catch (Exception e){}
+
+            }
+        });
+
     }
 
     /**
@@ -333,8 +372,14 @@ public class DuanZiFragment extends BaseFragment  implements SwipeRefreshLayout.
     @Override
     public void onDestroy() {
         super.onDestroy();
-            saveId();
+
     }
+    @Override
+    public void onStop() {
+        super.onStop();
+        saveId();
+    }
+
 
     public void saveId(){
         try {
