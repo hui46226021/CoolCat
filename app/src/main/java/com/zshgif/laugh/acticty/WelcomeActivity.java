@@ -32,6 +32,8 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import io.vov.vitamio.Vitamio;
+
 /**
  * 启动也
  */
@@ -104,6 +106,10 @@ public class WelcomeActivity extends AppCompatActivity {
         AdManager.getInstance(this).init(Constant.YM_APP_ID,Constant.YM_APP_SIGN,Constant.YM_STATE);
         SpotManager.getInstance(instance).loadSpotAds();
         setupSplashAd();
+        /**
+         * 初始化视频播放
+         */
+        Vitamio.isInitialized(getApplicationContext());
     }
 
     @Override

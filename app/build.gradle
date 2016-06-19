@@ -58,4 +58,5 @@ dependencies {
     compile 'com.parse.bolts:bolts-android:1.2.0'
     compile files('libs/YoumiSdk_v6.1.0_2016-02-26.jar')
 
+    compile project(path: ':initActivity')
 }

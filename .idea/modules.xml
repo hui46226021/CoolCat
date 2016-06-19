@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/CoolCat.iml" filepath="$PROJECT_DIR$/CoolCat.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/easeui/easeUI.iml" filepath="$PROJECT_DIR$/easeui/easeUI.iml" />
+      <module fileurl="file://$PROJECT_DIR$/initActivity/initActivity.iml" filepath="$PROJECT_DIR$/initActivity/initActivity.iml" />
       <module fileurl="file://$PROJECT_DIR$/laugh.iml" filepath="$PROJECT_DIR$/laugh.iml" />
     </modules>
   </component>
