@@ -312,12 +312,12 @@ public class VideoView extends SurfaceView implements MediaController.MediaPlaye
 
   @Override
   protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-//    int width = getDefaultSize(mVideoWidth, widthMeasureSpec);
-//    int height = getDefaultSize(mVideoHeight, heightMeasureSpec);
-//    setMeasuredDimension(width, height);
+    int width = getDefaultSize(mVideoWidth, widthMeasureSpec);
+    int height = getDefaultSize(mVideoHeight, heightMeasureSpec);
+    setMeasuredDimension(width, height);
 //      int measuredHeight = measureHeight(heightMeasureSpec);
 //      int measuredWidth = measureWidth(widthMeasureSpec);
-      setMeasuredDimension(720, 720);
+//      setMeasuredDimension(720, 720);
 
   }
 

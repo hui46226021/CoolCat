@@ -30,6 +30,7 @@ import com.zshgif.laugh.fragment.GifPictureFragment;
 
 import com.zshgif.laugh.dao.db.DBHelper;
 import com.zshgif.laugh.cache.DiskLruCacheUtil;
+import com.zshgif.laugh.fragment.VideoFragment;
 import com.zshgif.laugh.utils.Constant;
 import com.zshgif.laugh.utils.LogUtils;
 import com.zshgif.laugh.wechat.ui.AddContactActivity;
@@ -85,6 +86,10 @@ public class MyActivity extends BaseActivity
    * 聊天页面
    */
   private MainFragment mainFragment;
+  /**
+   * 视频页面
+   */
+  private VideoFragment videoFragment;
 
   private int currentPage=0;//0 图片页面  1 段子页面
 
@@ -123,11 +128,11 @@ public class MyActivity extends BaseActivity
     gifPictureFragment = GifPictureFragment.newInstance();
     mFragments.add(0, gifPictureFragment);
     duanZiFragment = DuanZiFragment.newInstance();
-    mFragments.add(1,duanZiFragment);
-
-
+    videoFragment = VideoFragment.newInstance();
+    mFragments.add(1,videoFragment);
+    mFragments.add(2,duanZiFragment);
     mainFragment = MainFragment.newInstance();
-    mFragments.add(2,mainFragment);
+    mFragments.add(3,mainFragment);
   }
 
   /**
@@ -225,7 +230,7 @@ public class MyActivity extends BaseActivity
   @Override public void onPageSelected(int position) {
     mToolbar.setTitle(mTitles[position]);
     currentPage =position;
-    if (position==0||position==1){
+    if (position==0||position==1||position==2){
       mFloatingActionButton.setVisibility(View.VISIBLE);
     }else {
       mFloatingActionButton.setVisibility(View.GONE);
@@ -258,6 +263,9 @@ public class MyActivity extends BaseActivity
             gifPictureFragment.refreshPage();
             break;
           case 1:
+            videoFragment.refreshPage();
+            break;
+          case 2:
             duanZiFragment.refreshPage();
             break;
         }

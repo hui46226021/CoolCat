@@ -1,29 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/black_deep"
+    android:layout_height="match_parent">
+
+
+<FrameLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:background="@color/black_deep"
-    android:orientation="vertical" >
+
+    android:orientation="vertical">
 
 
 
     <io.vov.vitamio.widget.VideoView
-
-        android:gravity="center"
         android:layout_gravity="center"
         android:id="@+id/surface_view"
-        android:layout_width="300dp"
-        android:layout_height="150dp" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <FrameLayout
+        android:visibility="gone"
+        android:id="@+id/startPage"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/picture"
+
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"/>
+        <ImageView
+            android:layout_gravity="center"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/startvideo"
+            android:scaleType="centerCrop"/>
+    </FrameLayout>
 
 
+</FrameLayout>
+    <ImageButton
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/videocancel"
 
-    <!--<Button-->
-        <!--android:id="@+id/button1"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:onClick="openVideo"-->
-        <!--android:text="Open Video1" />-->
-
-
-</LinearLayout>
+        android:background="@null"
+        android:onClick="closeVideo"
+        />
+    </FrameLayout>
