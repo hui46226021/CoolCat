@@ -76,12 +76,15 @@
 
         android:background="@drawable/loadimage"
         android:scaleType="centerCrop"/>
-      <ImageView
+      <ImageButton
+          android:id="@+id/imageButton_video"
       android:layout_gravity="center"
-      android:layout_width="50dp"
-      android:layout_height="50dp"
-      android:background="@drawable/startvideo"
-      android:scaleType="centerCrop"/>
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+          android:padding="20dp"
+          android:src="@drawable/mybutton_background"
+          android:background="@null"
+      android:scaleType="centerInside"/>
 </FrameLayout>
   <LinearLayout
       android:id="@+id/comments_layout"

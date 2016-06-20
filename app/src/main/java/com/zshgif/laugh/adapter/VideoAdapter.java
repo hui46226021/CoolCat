@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -140,7 +141,7 @@ public class VideoAdapter extends ArrayAdapter<GifitemBean> {
         holder.type.setText(gifitemBean.getCategory_name());
         holder.picture.setVisibility(View.GONE);
        final String pictureurl = gifitemBean.getFirstOne();
-        holder.picture.setOnClickListener(new View.OnClickListener() {
+        holder.imageButton_video.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
               Activity activity = (Activity) context;
@@ -214,6 +215,7 @@ public class VideoAdapter extends ArrayAdapter<GifitemBean> {
         Button digg_count;//点赞按钮
         Button bury_count;//鄙视按钮
         Button comment_count;//评论按钮
+        ImageButton imageButton_video;//播放视频按钮
 
 
         public GifPaictureHodler(View view) {
@@ -230,6 +232,7 @@ public class VideoAdapter extends ArrayAdapter<GifitemBean> {
             digg_count = (Button) view.findViewById(R.id.digg_count);
             bury_count = (Button) view.findViewById(R.id.bury_count);
             comment_count = (Button) view.findViewById(R.id.comment_count);
+            imageButton_video = (ImageButton) view.findViewById(R.id.imageButton_video);
 
 
 
