@@ -203,4 +203,10 @@ public class UserProfileManager {
 		return PreferenceManager.getInstance().getCurrentUserAvatar();
 	}
 
+	/**
+	 * 获取审核状态
+	 */
+	public void getExamineState(){
+		ParseManager.getInstance().getExamineState();
+	}
 }
