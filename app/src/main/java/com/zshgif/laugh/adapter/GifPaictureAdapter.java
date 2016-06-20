@@ -342,7 +342,7 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
         LinearLayout.LayoutParams linearParams = (LinearLayout.LayoutParams) view.getLayoutParams();
         if (ratio > 0) {
             linearParams.weight = (int) (ContextUtil.getInstance().getScreenWidth() * 0.9);
-            linearParams.height = (int) (ContextUtil.getInstance().getScreenWidth() * 0.9 * ratio);
+            linearParams.height = (int) (ContextUtil.getInstance().getScreenWidth() * 0.9 * ratio+100);
         }
         view.setLayoutParams(linearParams);
     }
