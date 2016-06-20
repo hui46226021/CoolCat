@@ -25,11 +25,13 @@ import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.zshgif.laugh.R;
 import com.zshgif.laugh.adapter.MyViewPagerAdapter;
+import com.zshgif.laugh.cache.MapCache;
 import com.zshgif.laugh.fragment.DuanZiFragment;
 import com.zshgif.laugh.fragment.GifPictureFragment;
 
 import com.zshgif.laugh.dao.db.DBHelper;
 import com.zshgif.laugh.cache.DiskLruCacheUtil;
+import com.zshgif.laugh.fragment.VideoFragment;
 import com.zshgif.laugh.utils.Constant;
 import com.zshgif.laugh.utils.LogUtils;
 import com.zshgif.laugh.wechat.ui.AddContactActivity;
@@ -85,6 +87,10 @@ public class MyActivity extends BaseActivity
    * 聊天页面
    */
   private MainFragment mainFragment;
+  /**
+   * 视频页面
+   */
+  private VideoFragment videoFragment;
 
   private int currentPage=0;//0 图片页面  1 段子页面
 
@@ -115,19 +121,33 @@ public class MyActivity extends BaseActivity
    */
   private void initData() {
 
-    // Tab的标题采用string-array的方法保存，在res/values/arrays.xml中写
-    mTitles = getResources().getStringArray(R.array.tab_titles);
+
 
     //初始化填充到ViewPager中的Fragment集合
     mFragments = new ArrayList<>();
+
+    if ((Boolean) MapCache.getObjectForKey(Constant.EXAMINENAME)){
+      //当前正在审核
+      mTitles = new String[]{"酷猫闲聊"};
+      mainFragment = MainFragment.newInstance();
+      mFragments.add(0,mainFragment);
+      return;
+    }
+    // Tab的标题采用string-array的方法保存，在res/values/arrays.xml中写
+    mTitles = getResources().getStringArray(R.array.tab_titles);
+
     gifPictureFragment = GifPictureFragment.newInstance();
     mFragments.add(0, gifPictureFragment);
     duanZiFragment = DuanZiFragment.newInstance();
-    mFragments.add(1,duanZiFragment);
-
-
+    videoFragment = VideoFragment.newInstance();
+    mFragments.add(1,videoFragment);
+    mFragments.add(2,duanZiFragment);
     mainFragment = MainFragment.newInstance();
-    mFragments.add(2,mainFragment);
+    mFragments.add(3,mainFragment);
+
+
+
+
   }
 
   /**
@@ -225,7 +245,7 @@ public class MyActivity extends BaseActivity
   @Override public void onPageSelected(int position) {
     mToolbar.setTitle(mTitles[position]);
     currentPage =position;
-    if (position==0||position==1){
+    if (position==0||position==1||position==2){
       mFloatingActionButton.setVisibility(View.VISIBLE);
     }else {
       mFloatingActionButton.setVisibility(View.GONE);
@@ -258,6 +278,9 @@ public class MyActivity extends BaseActivity
             gifPictureFragment.refreshPage();
             break;
           case 1:
+            videoFragment.refreshPage();
+            break;
+          case 2:
             duanZiFragment.refreshPage();
             break;
         }
@@ -375,7 +398,15 @@ public class MyActivity extends BaseActivity
   public void setmTitles(int count){
 
 
-      TabLayout.Tab tab = mTabLayout.getTabAt(Constant.CALL__PAGE_LOAC);
+      TabLayout.Tab tab =null;
+    if ((Boolean) MapCache.getObjectForKey(Constant.EXAMINENAME)){
+      //当前正在审核
+      tab  =   mTabLayout.getTabAt(0);
+      mFloatingActionButton.setVisibility(View.GONE);
+    }else {
+      tab  =   mTabLayout.getTabAt(Constant.CALL__PAGE_LOAC);
+    }
+
     if(tab.getCustomView()==null){
       View view = LayoutInflater.from(this).inflate(R.layout.tab_item, null);
 

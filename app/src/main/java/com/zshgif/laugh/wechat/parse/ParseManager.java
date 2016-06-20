@@ -14,9 +14,12 @@ import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.util.EMLog;
 
 import com.zshgif.laugh.acticty.ContextUtil;
+import com.zshgif.laugh.cache.MapCache;
+import com.zshgif.laugh.utils.Constant;
 import com.zshgif.laugh.utils.LogUtils;
 import com.zshgif.laugh.wechat.DemoHelper;
 import com.zshgif.laugh.wechat.bean.hxuser;
+import com.zshgif.laugh.wechat.bean.state;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -390,7 +393,6 @@ public class ParseManager {
     String filename =null;
     private void bytToFile(byte[] bytes){
 
-
         filename = System.currentTimeMillis()+"hehe.jpg";
         File fileFolder = new File(filePath);
         if (!fileFolder.exists()) { // 如果目录不存在，则创建一个名为"finger"的目录
@@ -427,6 +429,36 @@ public class ParseManager {
                 LogUtils.e("删除头像","失败");
             }
         });
+    }
+
+    /**
+     * 获取审核状态
+     */
+    public void getExamineState(){
+        BmobQuery<state> bmobQuery = new BmobQuery<state>();
+        bmobQuery.addWhereEqualTo("name", Constant.EXAMINENAME);
+        bmobQuery.setLimit(1);
+        bmobQuery.findObjects(ContextUtil.getInstance(), new FindListener<state>() {
+            @Override
+            public void onSuccess(List<state> object) {
+
+
+                if (object == null || object.size() == 0) {
+                    MapCache.putObject( Constant.EXAMINENAME,false);
+                }else {
+                    //状态对象
+                    state  stateObject= object.get(0);
+                    MapCache.putObject( Constant.EXAMINENAME,stateObject.isState());
+                }
+            }
+
+            @Override
+            public void onError(int code, String msg) {
+
+
+            }
+        });
+
     }
 }
 

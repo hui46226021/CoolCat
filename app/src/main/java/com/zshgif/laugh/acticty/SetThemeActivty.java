@@ -31,7 +31,7 @@ public class SetThemeActivty extends BaseActivity {
     }
 
     private void initToolbar() {
-        mToolbar = (Toolbar) findViewById(R.id.id_toolbar);
+
         mToolbar.setTitle("设置主题颜色");
         // 设置显示Toolbar
         setSupportActionBar(mToolbar);

@@ -2,10 +2,13 @@ package com.zshgif.laugh.wechat.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
@@ -29,6 +32,9 @@ import com.zshgif.laugh.R;
 import com.zshgif.laugh.utils.Constant;
 import com.zshgif.laugh.wechat.db.InviteMessgeDao;
 
+import net.youmi.android.banner.AdSize;
+import net.youmi.android.banner.AdView;
+
 /**
  * 会话页面
  */
@@ -39,11 +45,29 @@ public class ConversationListFragment extends EaseConversationListFragment {
     @Override
     protected void initView() {
         super.initView();
+
         View errorView = (LinearLayout) View.inflate(getActivity(),R.layout.em_chat_neterror_item, null);
         errorItemContainer.addView(errorView);
         errorText = (TextView) errorView.findViewById(R.id.tv_connect_errormsg);
     }
-    
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        View  view =   inflater.inflate(com.hyphenate.easeui.R.layout.ease_fragment_conversation_list, container, false);
+
+        /**
+         * 有米广告
+         */
+        AdView adView = new AdView(getActivity(), AdSize.FIT_SCREEN);
+// 获取要嵌入广告条的布局
+        LinearLayout adLayout=(LinearLayout)view.findViewById(R.id.adLayout);
+// 将广告条加入到布局中
+        adLayout.addView(adView);
+
+        return view;
+    }
+
     @Override
     protected void setUpView() {
         super.setUpView();

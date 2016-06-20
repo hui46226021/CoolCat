@@ -5,8 +5,9 @@
 
   <string-array name="tab_titles">
     <item>趣图</item>
+    <item>视频</item>
     <item>段子</item>
-    <item>闲扯</item>
+    <item>闲聊</item>
 
   </string-array>
 </resources>

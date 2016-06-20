@@ -41,6 +41,7 @@ import android.widget.TextView;
 
 import java.lang.reflect.Method;
 
+import io.vov.vitamio.MediaListener;
 import io.vov.vitamio.utils.Log;
 import io.vov.vitamio.utils.StringUtils;
 
@@ -97,6 +98,7 @@ public class MediaController extends FrameLayout {
   private AudioManager mAM;
   private OnShownListener mShownListener;
   private OnHiddenListener mHiddenListener;
+  private MediaListener mMediaListener;
   @SuppressLint("HandlerLeak")
   private Handler mHandler = new Handler() {
     @Override
@@ -172,10 +174,12 @@ public class MediaController extends FrameLayout {
     initController(context);
   }
 
-  public MediaController(Context context) {
+  public MediaController(Context context,MediaListener mMediaListener) {
     super(context);
     if (!mFromXml && initController(context))
-      initFloatingWindow();
+    {initFloatingWindow();}
+
+    this.mMediaListener =mMediaListener;
   }
 
   private boolean initController(Context context) {
@@ -460,10 +464,19 @@ public class MediaController extends FrameLayout {
   }
 
   private void doPauseResume() {
-    if (mPlayer.isPlaying())
+    if (mPlayer.isPlaying()){
+      mMediaListener.pause();
       mPlayer.pause();
+
+    }
+
+
     else
+    {
       mPlayer.start();
+      mMediaListener.start();
+    }
+
     updatePausePlay();
   }
 

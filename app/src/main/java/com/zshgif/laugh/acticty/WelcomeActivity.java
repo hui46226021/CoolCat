@@ -52,7 +52,10 @@ public class WelcomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_welcome);
 
         instance =this;
-
+        /**
+         * 获取审核状态
+         */
+        DemoHelper.getInstance().getUserProfileManager().getExamineState();
 
         new Thread(new Runnable() {
             @Override
@@ -110,6 +113,7 @@ public class WelcomeActivity extends AppCompatActivity {
          * 初始化视频播放
          */
         Vitamio.isInitialized(getApplicationContext());
+
     }
 
     @Override

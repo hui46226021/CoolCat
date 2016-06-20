@@ -7,4 +7,8 @@
 /captures
 /app/build/*
 /easeUI/build/*
+/initActivity/build/*
+*.apk
+*.jks
+
 

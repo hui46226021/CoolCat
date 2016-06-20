@@ -61,23 +61,20 @@
             android:icon="@mipmap/logo"
 
             android:screenOrientation="portrait">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        </activity>
-        <activity
-            android:name=".acticty.VideoViewDemo"
-            android:icon="@mipmap/logo"
-
-          >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".acticty.VideoViewActivty"
+            android:icon="@mipmap/logo"
+            android:configChanges="keyboardHidden|orientation"
+
+          />
+
+
 
         <activity android:name=".acticty.SetThemeActivty" />
 
