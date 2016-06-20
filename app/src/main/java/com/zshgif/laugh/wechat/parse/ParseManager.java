@@ -376,7 +376,6 @@ public class ParseManager {
     String filename =null;
     private void bytToFile(byte[] bytes){
 
-
         filename = System.currentTimeMillis()+"hehe.jpg";
         File fileFolder = new File(filePath);
         if (!fileFolder.exists()) { // 如果目录不存在，则创建一个名为"finger"的目录
