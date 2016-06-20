@@ -2,6 +2,7 @@ package com.zshgif.laugh.wechat.parse;
 
 import android.content.Context;
 import android.os.Environment;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.android.gms.plus.model.people.Person;
@@ -13,6 +14,7 @@ import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.util.EMLog;
 
 import com.zshgif.laugh.acticty.ContextUtil;
+import com.zshgif.laugh.utils.LogUtils;
 import com.zshgif.laugh.wechat.DemoHelper;
 import com.zshgif.laugh.wechat.bean.hxuser;
 
@@ -29,6 +31,7 @@ import java.util.List;
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.listener.DeleteListener;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
@@ -269,21 +272,27 @@ public class ParseManager {
             public void onSuccess(List<hxuser> object) {
 
                 for (hxuser hxuser_user : object) {
+//                    EaseUser user = DemoHelper.getInstance().getUserProfileManager().getCurrentUserInfo();
+                    String nick = hxuser_user.getNickname();
+                    String avatar = hxuser_user.getAvatar();
                     EaseUser user = DemoHelper.getInstance().getContactList().get(username);
-
-
 
                     if (user != null) {
                         user.setNick(hxuser_user.getNickname());
                         if (hxuser_user.getAvatar() != null) {
                             user.setAvatar(hxuser_user.getAvatar());
                         }
-                        callback.onSuccess(user);
+
                     }else {
-                        callback.onError(0, "");
+
+                        user = new EaseUser(username);
+                        user.setNick(nick);
+                        if (hxuser_user.getAvatar() != null) {
+                            user.setAvatar(hxuser_user.getAvatar());
+                        }
                     }
 
-
+                    callback.onSuccess(user);
                 }
 
                 if(object==null||object.size()==0){
@@ -327,6 +336,7 @@ public class ParseManager {
             }
         });
 
+
         return "";
     }
 
@@ -340,6 +350,10 @@ public class ParseManager {
             public void onSuccess(List<hxuser> object) {
 
                 for (hxuser hxuser_user : object) {
+                    if (!TextUtils.isEmpty(hxuser_user.getAvatar())){
+                        //如果之前有头像 删除之前的头像
+                        deleteeAvatar(hxuser_user.getAvatar());
+                    }
                     hxuser_user.setAvatar(url);
                     hxuser_user.update(ContextUtil.getInstance(), hxuser_user.getObjectId(), new UpdateListener() {
 
@@ -391,6 +405,27 @@ public class ParseManager {
             e.printStackTrace();
         }
 
+    }
+
+
+    private void deleteeAvatar(String url){
+        /**
+         * 删除原来的图片
+         */
+        BmobFile file = new BmobFile();
+        file.setUrl(url);//此url是上传文件成功之后通过bmobFile.getUrl()方法获取的。
+        file.delete(ContextUtil.getInstance(), new DeleteListener() {
+
+            @Override
+            public void onSuccess() {
+                LogUtils.e("删除头像","成功");
+            }
+
+            @Override
+            public void onFailure(int code, String msg) {
+                LogUtils.e("删除头像","失败");
+            }
+        });
     }
 }
 

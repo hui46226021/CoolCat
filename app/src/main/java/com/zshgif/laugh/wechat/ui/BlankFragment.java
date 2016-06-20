@@ -1,4 +1,4 @@
-package com.zshgif.laugh.wechat.ui;
+ package com.zshgif.laugh.wechat.ui;
 
 import android.content.Context;
 import android.net.Uri;
