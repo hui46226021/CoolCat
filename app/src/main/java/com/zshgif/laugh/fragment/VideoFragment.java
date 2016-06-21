@@ -25,6 +25,7 @@ import com.zshgif.laugh.model.CommentsBean;
 import com.zshgif.laugh.model.GifitemBean;
 import com.zshgif.laugh.model.PictureBean;
 import com.zshgif.laugh.model.ReleaseUser;
+import com.zshgif.laugh.model.VideoBean;
 import com.zshgif.laugh.utils.Constant;
 import com.zshgif.laugh.utils.LogUtils;
 
@@ -56,9 +57,9 @@ public class VideoFragment extends BaseFragment  implements SwipeRefreshLayout.O
 
 
     /**
-     * 图片对象 集合
+     * 视频对象 集合
      */
-    private List<GifitemBean> list = new ArrayList<GifitemBean>();
+    private List<VideoBean> list = new ArrayList<VideoBean>();
     /**
      * 适配器
      */
@@ -115,7 +116,7 @@ public class VideoFragment extends BaseFragment  implements SwipeRefreshLayout.O
         /**
          * 根据之前推出时候保存的 项目ID
          */
-        preferences = getActivity().getSharedPreferences("gifpicture", getActivity().MODE_PRIVATE);
+        preferences = getActivity().getSharedPreferences("video", getActivity().MODE_PRIVATE);
        int item_id = (int) preferences.getLong("item_id",-1l);
         if (item_id==-1){
             //如果之前 没有保存的ID 就刷新下
@@ -125,17 +126,17 @@ public class VideoFragment extends BaseFragment  implements SwipeRefreshLayout.O
         /**
          * 查询 id前7个到最后一个倒叙
          */
-        list=  DBHelper.loadAllGifitemBean(item_id);
-        if (list.size()==0){
-            return;
-        }
-        /**
-         * 将当前第一个 项目的 段子ID 记录
-         */
-        try{ first_one_id = list.get(0).getNETid();}catch (Exception e){}
-        for (GifitemBean gg:list){
-            LogUtils.e("查询出",gg.getId()+"");
-        }
+//        list=  DBHelper.loadAllGifitemBean(item_id);
+//        if (list.size()==0){
+//            return;
+//        }
+//        /**
+//         * 将当前第一个 项目的 段子ID 记录
+//         */
+//        try{ first_one_id = list.get(0).getNETid();}catch (Exception e){}
+//        for (GifitemBean gg:list){
+//            LogUtils.e("查询出",gg.getId()+"");
+//        }
     }
 
     /**
@@ -220,27 +221,43 @@ public class VideoFragment extends BaseFragment  implements SwipeRefreshLayout.O
 
         }
         HashMap<String,String> param = new HashMap<>();
-        param.put("group_id",first_one_id+"");
-        param.put("item_id",first_one_id+"");
-        param.put("count","30");
-        param.put("offset","0");
-        param.put("iid","4079531978");
-        param.put("device_id","5807013269");
-        param.put("ac","wifi");
-        param.put("channel","smartisan");
-        param.put("aid","7");
-        param.put("app_name","joke_essay");
-        param.put("version_code","500");
-        param.put("version_name","5.0.0");
-        param.put("device_platform","android");
-        param.put("ssmix","a");
-        param.put("device_type","YQ601");
-        param.put("os_api","22");
-        param.put("os_version","5.1.1");
-        param.put("uuid","865790020929429");
-        param.put("openudid","ea45d1407bdfba67");
-        param.put("manifest_version_code","500");
-        HttpUtils.sendHttpRequestDoPost(Constant.GET_PICTriURE_LIST_URL, param, new HttpCallbackListener() {
+//        param.put("group_id",first_one_id+"");
+//        param.put("item_id",first_one_id+"");
+//        param.put("count","30");
+//        param.put("offset","0");
+//        param.put("iid","4079531978");
+//        param.put("device_id","5807013269");
+//        param.put("ac","wifi");
+//        param.put("channel","smartisan");
+//        param.put("aid","7");
+//        param.put("app_name","joke_essay");
+//        param.put("version_code","500");
+//        param.put("version_name","5.0.0");
+//        param.put("device_platform","android");
+//        param.put("ssmix","a");
+//        param.put("device_type","YQ601");
+//        param.put("os_api","22");
+//        param.put("os_version","5.1.1");
+//        param.put("uuid","865790020929429");
+//        param.put("openudid","ea45d1407bdfba67");
+//        param.put("manifest_version_code","500");
+//        param.put("mpic","1");
+//        param.put("webp","1");
+//        param.put("essence","1");
+//        param.put("content_type","-104");
+//        param.put("message_cursor","-1");
+//        param.put("longitude","121.590876");
+//        param.put("latitude","37.381673");
+//        param.put("bd_longitude","121.595578");
+//        param.put("bd_latitude","37.382084");
+//        param.put("bd_city","%E7%83%9F%E5%8F%B0%E5%B8%82");
+//        param.put("am_longitude","37.382169");
+//        param.put("am_city","%E7%83%9F%E5%8F%B0%E5%B8%82");
+//        param.put("am_loc_time","1466424241620");
+
+
+
+        HttpUtils.sendHttpRequestDoPost(Constant.GET_VOIDE, param, new HttpCallbackListener() {
             @Override
             public void onHttpFinish(String response) {
 
@@ -255,7 +272,10 @@ public class VideoFragment extends BaseFragment  implements SwipeRefreshLayout.O
 
             @Override
             public void onHttpError(Exception e) {
-                mSwipeRefreshLayout.setRefreshing(false);
+                try {
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }catch (Exception e1){}
+
             }
         });
     }
@@ -294,21 +314,24 @@ public class VideoFragment extends BaseFragment  implements SwipeRefreshLayout.O
                 continue;
             }
             JSONObject group =jsonObjectItem.getJSONObject("group");
-            int type = group.getInt("media_type");
-            switch (type){
-                case 1:
-                    //普通单张 图片
-                    singlePicture(group,jsonObjectItem.getJSONArray("comments"));
-                    break;
-                case 2:
-                    //GIF 图片
-                    singlePicture(group,jsonObjectItem.getJSONArray("comments"));
-                    break;
-                case 3:
+            singlePicture(group,jsonObjectItem.getJSONArray("comments"));
 
-                default:
-                    LogUtils.e("其他 media_type=",type+"");
-            }
+//            int type = group.getInt("media_type");
+//
+//            switch (type){
+//                case 1:
+//
+//                    singlePicture(group,jsonObjectItem.getJSONArray("comments"));
+//                    break;
+//                case 2:
+//
+//                    singlePicture(group,jsonObjectItem.getJSONArray("comments"));
+//                    break;
+//                case 3:
+//                    singlePicture(group,jsonObjectItem.getJSONArray("comments"));
+//                default:
+//                    LogUtils.e("其他 media_type=",type+"");
+//            }
 
         }
 
@@ -337,41 +360,38 @@ public class VideoFragment extends BaseFragment  implements SwipeRefreshLayout.O
      * 单张图片解析 media_type =1  media_type =2 GIF
      */
     private void singlePicture(JSONObject jsonObject,JSONArray comments){
-        GifitemBean gifitemBean = new GifitemBean();
+
+        VideoBean videoBean = new VideoBean();
         try {
-            gifitemBean.setType(jsonObject.getInt("media_type"));//图片类型
-            gifitemBean.setNETid(jsonObject.getLong("id"));
-            gifitemBean.setContent(jsonObject.getString("text"));//图片描述
-            gifitemBean.setCategory_name(jsonObject.getString("category_name"));//分类
-            gifitemBean.setDigg_count(jsonObject.getInt("digg_count"));
-            gifitemBean.setBury_count(jsonObject.getInt("bury_count"));
-            gifitemBean.setComments_count(jsonObject.getInt("comment_count"));
-            gifitemBean.setShare_url(jsonObject.getString("share_url"));
+            videoBean.setType(jsonObject.getInt("media_type"));//图片类型
+            videoBean.setNETid(jsonObject.getLong("id"));
+            videoBean.setContent(jsonObject.getString("text"));//图片描述
+            videoBean.setCategory_name(jsonObject.getString("category_name"));//分类
+            videoBean.setDigg_count(jsonObject.getInt("digg_count"));
+            videoBean.setBury_count(jsonObject.getInt("bury_count"));
+            videoBean.setComments_count(jsonObject.getInt("comment_count"));
+            videoBean.setShare_url(jsonObject.getString("share_url"));
+            videoBean.setVideoUrl(jsonObject.getString("mp4_url"));
+            videoBean.setTimeLenth(jsonObject.getInt("duration"));
 
 
-
-            if (jsonObject.getInt("media_type")==2){
+            if (jsonObject.getInt("media_type")==3){
                 // type =3的时候有个GIF的地址
-                String firstOne = jsonObject.getJSONObject("middle_image").getJSONArray("url_list").getJSONObject(0).getString("url");//第一张图片
-                gifitemBean.setFirstOne(firstOne);
-                String gifUrl = jsonObject.getJSONObject("large_image").getJSONArray("url_list").getJSONObject(0).getString("url");//gifUrl
-                gifitemBean.setGifUrl(gifUrl);
+                String firstOne = jsonObject.getJSONObject("medium_cover").getJSONArray("url_list").getJSONObject(2).getString("url");//第一张图片
+                videoBean.setFirstOne(firstOne);
+
 
             }
-            if(jsonObject.getInt("media_type")==1){
-                // type =1单张图片
-                String firstOne = jsonObject.getJSONObject("large_image").getJSONArray("url_list").getJSONObject(0).getString("url");//第一张图片
-                gifitemBean.setFirstOne(firstOne);
-            }
 
-            gifitemBean.setWidth(jsonObject.getJSONObject("large_image").getInt("width"));
-            gifitemBean.setHeight(jsonObject.getJSONObject("large_image").getInt("height"));
+
+            videoBean.setWidth(jsonObject.getJSONObject("origin_video").getInt("width"));
+            videoBean.setHeight(jsonObject.getJSONObject("origin_video").getInt("height"));
 
 
             /**
              * 发布者和评论  最后将项目对象放到集合
              */
-            releaseUserAndcomments(gifitemBean,jsonObject.getJSONObject("user"),comments);
+            releaseUserAndcomments(videoBean,jsonObject.getJSONObject("user"),comments);
 
 
         } catch (JSONException e) {
@@ -381,56 +401,14 @@ public class VideoFragment extends BaseFragment  implements SwipeRefreshLayout.O
 
     }
 
-    /**
-     * 多张图片解析 type =5
-     */
-    private void morePicture(JSONObject jsonObject,JSONArray comments){
-        GifitemBean gifitemBean = new GifitemBean();
-        try {
-            gifitemBean.setType(jsonObject.getInt("type"));//图片类型
-            gifitemBean.setNETid(jsonObject.getLong("id"));
-            gifitemBean.setContent(jsonObject.getString("text"));//图片描述
-            gifitemBean.setCategory_name(jsonObject.getString("category_name"));//分类
-            gifitemBean.setDigg_count(jsonObject.getInt("digg_count"));
-            gifitemBean.setBury_count(jsonObject.getInt("bury_count"));
-            gifitemBean.setComments_count(jsonObject.getInt("comment_count"));
-            gifitemBean.setShare_url(jsonObject.getString("share_url"));
 
-
-            JSONArray thumbImageList = jsonObject.getJSONArray("thumb_image_list");
-            JSONArray largeImageList = jsonObject.getJSONArray("large_image_list");
-            JSONObject thumbImage = null;
-            JSONObject largeImage = null;
-            List<PictureBean> picturelist =  new ArrayList<>();
-            for (int i = 0;i<thumbImageList.length();i++){
-                largeImage =largeImageList.getJSONObject(i);
-                String largeImageUrl = largeImage.getString("url");
-                thumbImage =thumbImageList.getJSONObject(i);
-                String thumbImageUrl = thumbImage.getString("url");
-                PictureBean pictureBean =   new PictureBean();
-                pictureBean.setLargeImage(largeImageUrl);
-                pictureBean.setThumbImage(thumbImageUrl);
-                picturelist.add(pictureBean);
-            }
-//            gifitemBean.setLarge_image_list(picturelist);
-
-            /**
-             * 发布者和评论  最后将项目对象放到集合
-             */
-            releaseUserAndcomments(gifitemBean,jsonObject.getJSONObject("user"),comments);
-        } catch (JSONException e) {
-            LogUtils.e("错误的JSON",jsonObject.toString());
-            e.printStackTrace();
-        }
-    }
 
     /**
      * 发布者和评论者
-     * @param gifitemBean
      * @param userObject
      * @param comments
      */
-    private void releaseUserAndcomments(GifitemBean gifitemBean,JSONObject userObject,JSONArray comments) throws JSONException {
+    private void releaseUserAndcomments(VideoBean videoBean,JSONObject userObject,JSONArray comments) throws JSONException {
         /**
          * 发布者
          */
@@ -438,7 +416,7 @@ public class VideoFragment extends BaseFragment  implements SwipeRefreshLayout.O
         releaseUser.setUserProfile(userObject.getString("avatar_url"));
         releaseUser.setUsername(userObject.getString("name"));
 
-        gifitemBean.setReleaseUser(releaseUser);
+        videoBean.setReleaseUser(releaseUser);
 
         /**
          * 评论这信息
@@ -450,11 +428,13 @@ public class VideoFragment extends BaseFragment  implements SwipeRefreshLayout.O
             commentsBean.setCommentUserName(commentsJson.getString("user_name"));
             commentsBean.setCommentUserProfile(commentsJson.getString("avatar_url"));
 
-            gifitemBean.setComments(commentsBean);
+            videoBean.setComments(commentsBean);
         }
-        list.add(gifitemBean);
-
-        DBHelper.insertIntoGifitemBean(gifitemBean);
+        list.add(videoBean);
+        /**
+         * 插入数据库
+         */
+//        DBHelper.insertIntoGifitemBean(gifitemBean);
 
     }
 

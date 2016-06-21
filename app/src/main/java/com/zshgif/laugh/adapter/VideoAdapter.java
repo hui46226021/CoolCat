@@ -28,6 +28,7 @@ import com.zshgif.laugh.fragment.BaseFragment;
 import com.zshgif.laugh.http.HttpPictureUtils;
 import com.zshgif.laugh.listener.NetworkBitmapCallbackListener;
 import com.zshgif.laugh.model.GifitemBean;
+import com.zshgif.laugh.model.VideoBean;
 import com.zshgif.laugh.utils.LogUtils;
 import com.zshgif.laugh.view.RoundedImageView;
 
@@ -48,10 +49,10 @@ import pl.droidsonroids.gif.GifImageView;
 
 
 /**
- * GIF图片适配器
+ * 视频适配器
  * Created by zhush on 2016/5/15
  */
-public class VideoAdapter extends ArrayAdapter<GifitemBean> {
+public class VideoAdapter extends ArrayAdapter<VideoBean> {
     private int resourceId;
     private Context context;
     private int onScreen;
@@ -64,16 +65,13 @@ public class VideoAdapter extends ArrayAdapter<GifitemBean> {
     /**
      * 所有图片集合
      */
-    private List<GifitemBean> gifitemBeanList;
+    private List<VideoBean> gifitemBeanList;
     /**
      * 图片队列   最多存放20个图片对象 当图片超过20个的时候 取出一个recycle()
      */
     private Queue<Bitmap> queue = new LinkedList<Bitmap>();
 
-    /**
-     * GIF图片队列   最多存放3个图片对象 当图片超过3个的时候 停止动画
-     */
-    private Queue<GifDrawable> queue_gif = new LinkedList<GifDrawable>();
+
     /**
      * 内部图片集合
      */
@@ -90,7 +88,7 @@ public class VideoAdapter extends ArrayAdapter<GifitemBean> {
     }
 
 
-    public VideoAdapter(Context context, int resource, List<GifitemBean> objects, BaseFragment baseFragment) {
+    public VideoAdapter(Context context, int resource, List<VideoBean> objects, BaseFragment baseFragment) {
         super(context, resource, objects);
         this.context = context;
         resourceId = resource;
@@ -107,9 +105,9 @@ public class VideoAdapter extends ArrayAdapter<GifitemBean> {
         /**
          * 公用
          */
-        GifitemBean gifitemBean = gifitemBeanList.get(position);
+        VideoBean videoBean = gifitemBeanList.get(position);
 
-        if (gifitemBean==null) {
+        if (videoBean==null) {
             return setNativeSpotAd(convertView);
         }
         onScreen = position;
@@ -133,23 +131,39 @@ public class VideoAdapter extends ArrayAdapter<GifitemBean> {
         }
 
 
-        holder.user_name.setText(gifitemBean.getReleaseUser().getUsername());
-        holder.tital.setText(gifitemBean.getContent());
-        holder.digg_count.setText(gifitemBean.getDigg_count() + "");
-        holder.bury_count.setText(gifitemBean.getBury_count() + "");
-        holder.comment_count.setText(gifitemBean.getComments_count() + "");
-        holder.type.setText(gifitemBean.getCategory_name());
+        holder.user_name.setText(videoBean.getReleaseUser().getUsername());
+        holder.tital.setText(videoBean.getContent());
+        holder.digg_count.setText(videoBean.getDigg_count() + "");
+        holder.bury_count.setText(videoBean.getBury_count() + "");
+        holder.comment_count.setText(videoBean.getComments_count() + "");
+        holder.type.setText(videoBean.getCategory_name());
         holder.picture.setVisibility(View.GONE);
-       final String pictureurl = gifitemBean.getFirstOne();
+       final String pictureurl = videoBean.getFirstOne();
+        final String videoUrl = videoBean.getVideoUrl();
         holder.imageButton_video.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
               Activity activity = (Activity) context;
                 Intent intent =  new Intent(context, VideoViewActivty.class);
                 intent.putExtra("pictureurl",pictureurl);
+                intent.putExtra("videourl",videoUrl);
                 activity.startActivity(intent);
             }
         });
+        int time = videoBean.getTimeLenth();
+        int yu= time%60;
+        String sec = null;
+        if(yu<10){
+            sec = "0"+yu;
+        }else {
+            sec=yu+"";
+        }
+        if(yu==0){
+            sec = "00";
+        }
+
+
+        holder.timelenth.setText("时长：0"+time/60+"."+sec);
 
         /**
          * 初始化默认图片
@@ -158,37 +172,39 @@ public class VideoAdapter extends ArrayAdapter<GifitemBean> {
         holder.picture.setImageResource(R.drawable.bg);
         holder.comments_user_profile.setImageResource(R.drawable.mrtx);
         holder.user_profile.setImageResource(R.drawable.mrtx);
-        geiBitmap(gifitemBean.getReleaseUser().getUserProfile(), holder.user_profile, position);
+        geiBitmap(videoBean.getReleaseUser().getUserProfile(), holder.user_profile, position);
         /**
          * 评论
          */
-        if (gifitemBean.getComments() != null) {
+        if (videoBean.getComments() != null) {
             holder.comments_layout.setVisibility(View.VISIBLE);
-            holder.comments_user.setText(gifitemBean.getComments().getCommentUserName());
-            holder.comments_text.setText(gifitemBean.getComments().getComment());
-            geiBitmap(gifitemBean.getComments().getCommentUserProfile(), holder.comments_user_profile, position);
+            holder.comments_user.setText(videoBean.getComments().getCommentUserName());
+            holder.comments_text.setText(videoBean.getComments().getComment());
+            geiBitmap(videoBean.getComments().getCommentUserProfile(), holder.comments_user_profile, position);
         } else {
             holder.comments_layout.setVisibility(View.GONE);
         }
         /**
          * 图片处理
          */
-        switch (gifitemBean.getType()) {
-            case 1:
-                //普通图片
-                holder.picture.setVisibility(View.VISIBLE);
-                calculateHeight(holder.picture, ((double) gifitemBean.getHeight()) / ((double) gifitemBean.getWidth()));
-                geiBitmap(gifitemBean.getFirstOne(), holder.picture, position);
-                break;
-            case 2:
-                //动图
-                holder.picture.setVisibility(View.VISIBLE);
-                calculateHeight(holder.picture, ((double) gifitemBean.getHeight()) / ((double) gifitemBean.getWidth()));
-                geiBitmap(gifitemBean.getFirstOne(), holder.picture, position);
-                break;
 
-        }
-
+        holder.picture.setVisibility(View.VISIBLE);
+        calculateHeight(holder.picture, ((double) videoBean.getHeight()) / ((double) videoBean.getWidth()));
+        geiBitmap(videoBean.getFirstOne(), holder.picture, position);
+//        switch (videoBean.getType()) {
+//            case 1:
+//                //普通图片
+//
+//                break;
+//            case 2:
+//                //动图
+//                holder.picture.setVisibility(View.VISIBLE);
+//                calculateHeight(holder.picture, ((double) videoBean.getHeight()) / ((double) videoBean.getWidth()));
+//                geiBitmap(videoBean.getFirstOne(), holder.picture, position);
+//                break;
+//
+//        }
+//
 
         return convertView;
     }
@@ -216,6 +232,7 @@ public class VideoAdapter extends ArrayAdapter<GifitemBean> {
         Button bury_count;//鄙视按钮
         Button comment_count;//评论按钮
         ImageButton imageButton_video;//播放视频按钮
+        TextView timelenth;
 
 
         public GifPaictureHodler(View view) {
@@ -233,7 +250,7 @@ public class VideoAdapter extends ArrayAdapter<GifitemBean> {
             bury_count = (Button) view.findViewById(R.id.bury_count);
             comment_count = (Button) view.findViewById(R.id.comment_count);
             imageButton_video = (ImageButton) view.findViewById(R.id.imageButton_video);
-
+            timelenth = (TextView) view.findViewById(R.id.timelenth);
 
 
         }

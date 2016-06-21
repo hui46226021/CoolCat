@@ -90,9 +90,9 @@ public class VideoViewActivty extends BaseActivity {
 	
 	void playfunction(){
 
-		 String path = "http://i.snssdk.com/neihan/video/playback/?video_id=fea5e92a71a048ea9719839b293ddab9&quality=480p&line=0&is_gif=0.mp4";
+//		 String path = "http://i.snssdk.com/neihan/video/playback/?video_id=42b6499198f84c0bbf2a72d1b87a9ea9&quality=720p&line=0&is_gif=0";
 
-//		String path =getIntent().getStringExtra("URL");
+		String path =getIntent().getStringExtra("videourl");
 
 
 		mVideoView = (io.vov.vitamio.widget.VideoView) findViewById(R.id.surface_view);

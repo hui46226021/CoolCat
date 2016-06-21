@@ -68,12 +68,10 @@
       android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/picture"
-        android:visibility="gone"
         android:layout_gravity="center"
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:background="@drawable/loadimage"
         android:scaleType="centerCrop"/>
       <ImageButton
@@ -85,6 +83,25 @@
           android:src="@drawable/mybutton_background"
           android:background="@null"
       android:scaleType="centerInside"/>
+    <LinearLayout
+        android:background="#79000000"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:orientation="horizontal"
+        android:layout_marginRight="13dp"
+        android:layout_marginLeft="13dp"
+        android:gravity="right"
+        ><TextView
+
+        android:id="@+id/timelenth"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:text="时长：22.22"
+        android:gravity="center"
+        android:layout_marginRight="16dp"
+        android:textColor="@color/main_white"
+        /></LinearLayout>
 </FrameLayout>
   <LinearLayout
       android:id="@+id/comments_layout"
