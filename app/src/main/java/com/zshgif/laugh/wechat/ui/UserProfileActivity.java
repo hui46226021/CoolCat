@@ -29,8 +29,10 @@ import com.hyphenate.chat.EMClient;
 
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.utils.EaseUserUtils;
+import com.hyphenate.easeui.utils.HttpPictureUtils;
 import com.zshgif.laugh.R;
 import com.zshgif.laugh.acticty.BaseActivity;
+import com.zshgif.laugh.listener.UserProfileListener;
 import com.zshgif.laugh.wechat.DemoHelper;
 
 import java.io.ByteArrayOutputStream;
@@ -87,9 +89,10 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 		}
 		if(username != null){
     		if (username.equals(EMClient.getInstance().getCurrentUser())) {
-    			tvUsername.setText(EMClient.getInstance().getCurrentUser());
-    			EaseUserUtils.setUserNick(username, tvNickName);
-                EaseUserUtils.setUserAvatar(this, username, headAvatar);
+
+				tvUsername.setText(EMClient.getInstance().getCurrentUser());
+				EaseUserUtils.setUserNick(username, tvNickName);
+				EaseUserUtils.setUserAvatar(UserProfileActivity.this, username, headAvatar);
 
     		} else {
     			tvUsername.setText(username);
@@ -131,6 +134,33 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 
 	}
 
+
+	public void asyncFetchUserInfoMy(){
+		DemoHelper.getInstance().getUserProfileManager().asyncGetCurrentUserInfoMy(new EMValueCallBack<EaseUser>() {
+
+			@Override
+			public void onSuccess(EaseUser value) {
+				if(value != null){
+					DemoHelper.getInstance().getUserProfileManager().setCurrentUserNick(value.getNick());
+					DemoHelper.getInstance().getUserProfileManager().setCurrentUserAvatar(value.getAvatar());
+
+							tvUsername.setText(EMClient.getInstance().getCurrentUser());
+							EaseUserUtils.setUserNick(username, tvNickName);
+							EaseUserUtils.setUserAvatar(UserProfileActivity.this, username, headAvatar);
+
+
+				}
+			}
+
+			@Override
+			public void onError(int error, String errorMsg) {
+
+			}
+		});
+
+	}
+
+
 	public void asyncFetchUserInfo(String username){
 		DemoHelper.getInstance().getUserProfileManager().asyncGetUserInfo(username, new EMValueCallBack<EaseUser>() {
 
@@ -143,7 +173,8 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 				    }
 					tvNickName.setText(user.getNick());
 					if(!TextUtils.isEmpty(user.getAvatar())){
-						 Glide.with(UserProfileActivity.this).load(user.getAvatar()).placeholder(R.drawable.em_default_avatar).into(headAvatar);
+						HttpPictureUtils.ggetAvatarBitmap(user.getAvatar(),headAvatar,UserProfileActivity.this, com.hyphenate.easeui.R.drawable.ease_default_avatar);
+//						 Glide.with(UserProfileActivity.this).load(user.getAvatar()).placeholder(R.drawable.em_default_avatar).into(headAvatar);
 					}else{
 					    Glide.with(UserProfileActivity.this).load(R.drawable.em_default_avatar).into(headAvatar);
 					}
@@ -192,29 +223,38 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 
 			@Override
 			public void run() {
-				boolean updatenick = DemoHelper.getInstance().getUserProfileManager().updateCurrentUserNickName(nickName);
-				if (UserProfileActivity.this.isFinishing()) {
-					return;
-				}
-				if (!updatenick) {
-					runOnUiThread(new Runnable() {
-						public void run() {
-							Toast.makeText(UserProfileActivity.this, getString(R.string.toast_updatenick_fail), Toast.LENGTH_SHORT)
-									.show();
-							dialog.dismiss();
+				DemoHelper.getInstance().getUserProfileManager().updateCurrentUserNickName(nickName, new UserProfileListener() {
+					@Override
+					public void setSuccess(Boolean success) {
+						if (UserProfileActivity.this.isFinishing()) {
+							return;
 						}
-					});
-				} else {
-					runOnUiThread(new Runnable() {
-						@Override
-						public void run() {
-							dialog.dismiss();
-							Toast.makeText(UserProfileActivity.this, getString(R.string.toast_updatenick_success), Toast.LENGTH_SHORT)
-									.show();
-							tvNickName.setText(nickName);
+						if (success){
+
+
+							runOnUiThread(new Runnable() {
+								@Override
+								public void run() {
+									dialog.dismiss();
+									DemoHelper.getInstance().getUserProfileManager().setCurrentUserNick(nickName);
+									Toast.makeText(UserProfileActivity.this, getString(R.string.toast_updatenick_success), Toast.LENGTH_SHORT)
+											.show();
+									tvNickName.setText(nickName);
+								}
+							});
+						}else {
+							runOnUiThread(new Runnable() {
+								public void run() {
+									Toast.makeText(UserProfileActivity.this, getString(R.string.toast_updatenick_fail), Toast.LENGTH_SHORT)
+											.show();
+									dialog.dismiss();
+								}
+							});
 						}
-					});
-				}
+					}
+				});
+
+
 			}
 		}).start();
 	}

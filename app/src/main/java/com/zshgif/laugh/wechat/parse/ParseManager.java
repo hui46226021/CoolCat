@@ -15,6 +15,7 @@ import com.hyphenate.util.EMLog;
 
 import com.zshgif.laugh.acticty.ContextUtil;
 import com.zshgif.laugh.cache.MapCache;
+import com.zshgif.laugh.listener.UserProfileListener;
 import com.zshgif.laugh.utils.Constant;
 import com.zshgif.laugh.utils.LogUtils;
 import com.zshgif.laugh.wechat.DemoHelper;
@@ -71,51 +72,51 @@ public class ParseManager {
         Bmob.initialize(ContextUtil.getInstance(), "7c29f2e1a4468734731d8e7ec0de2335");
     }
 
-    static boolean isUserRegister;
+//    static boolean isUserRegister;
+//
+//    /**
+//     * 查询是否注册过
+//     * @param username
+//     * @return
+//     */
+//    public boolean isUserRegister(final String username) {
+//
+//
+//        BmobQuery<hxuser> bmobQuery = new BmobQuery<hxuser>();
+//        bmobQuery.addWhereEqualTo(CONFIG_USERNAME, username);
+//        bmobQuery.setLimit(1);
+//        bmobQuery.findObjects(ContextUtil.getInstance(), new FindListener<hxuser>() {
+//            @Override
+//            public void onSuccess(List<hxuser> object) {
+//
+//
+//                if (object == null || object.size() == 0) {
+//                    isUserRegister = false;
+//                }else {
+//                    isUserRegister = true;
+//                    LogUtils.e("ddddddd",isUserRegister+"查出结果");
+//                }
+//            }
+//
+//            @Override
+//            public void onError(int code, String msg) {
+//                isUserRegister = false;
+//
+//            }
+//        });
+//        LogUtils.e("ddddddd",isUserRegister+"没查出结果");
+//        return isUserRegister;
+//
+//    }
 
-    /**
-     * 查询是否注册过
-     * @param username
-     * @return
-     */
-    public boolean isUserRegister(final String username) {
 
-
-        BmobQuery<hxuser> bmobQuery = new BmobQuery<hxuser>();
-        bmobQuery.addWhereEqualTo(CONFIG_USERNAME, username);
-        bmobQuery.setLimit(1);
-        bmobQuery.findObjects(ContextUtil.getInstance(), new FindListener<hxuser>() {
-            @Override
-            public void onSuccess(List<hxuser> object) {
-
-
-                if (object == null || object.size() == 0) {
-                    isUserRegister = false;
-                }else {
-                    isUserRegister = true;
-                    LogUtils.e("ddddddd",isUserRegister+"查出结果");
-                }
-            }
-
-            @Override
-            public void onError(int code, String msg) {
-                isUserRegister = false;
-
-            }
-        });
-        LogUtils.e("ddddddd",isUserRegister+"没查出结果");
-        return isUserRegister;
-
-    }
-
-    boolean updateParseNickName;
 
     /**
      * 更新昵称
      * @param nickname
      * @return
      */
-    public boolean updateParseNickName(final String nickname) {
+    public void updateParseNickName(final String nickname,final UserProfileListener userProfileListener) {
         String username = EMClient.getInstance().getCurrentUser();
         BmobQuery<hxuser> bmobQuery = new BmobQuery<hxuser>();
         bmobQuery.addWhereEqualTo(CONFIG_USERNAME, username);
@@ -131,37 +132,32 @@ public class ParseManager {
 
                         @Override
                         public void onSuccess() {
-                            // TODO Auto-generated method stub
-
-
-                            Log.i("bmob", "更新成功：");
-                            updateParseNickName = true;
+                            userProfileListener.setSuccess(true);
                         }
 
                         @Override
                         public void onFailure(int code, String msg) {
                             // TODO Auto-generated method stub
                             Log.i("bmob", "更新失败：" + msg);
-                            updateParseNickName = false;
+                            userProfileListener.setSuccess(false);
                         }
                     });
                 }
                 if (object == null || object.size() == 0) {
-                    updateParseNickName = false;
+                    userProfileListener.setSuccess(false);
                 }
 
-                LogUtils.e("ddddddd",updateParseNickName+"查出结果");
+
             }
 
             @Override
             public void onError(int code, String msg) {
-                updateParseNickName = false;
+                userProfileListener.setSuccess(false);
 
             }
         });
 
-        LogUtils.e("ddddddd",updateParseNickName+"没查出结果");
-        return updateParseNickName;
+
 
 
     }

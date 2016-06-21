@@ -6,6 +6,7 @@ import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMClient;
 
 import com.hyphenate.easeui.domain.EaseUser;
+import com.zshgif.laugh.listener.UserProfileListener;
 import com.zshgif.laugh.wechat.DemoHelper;
 import com.zshgif.laugh.wechat.DemoHelper.DataSyncListener;
 import com.zshgif.laugh.wechat.bean.hxuser;
@@ -116,7 +117,7 @@ public class UserProfileManager {
 	}
 	//获取最近联系人
 	public synchronized EaseUser getCurrentUserInfo() {
-		if (currentUser == null) {
+
 			//获取当前用户
 			String username = EMClient.getInstance().getCurrentUser();
 			currentUser = new EaseUser(username);
@@ -125,22 +126,22 @@ public class UserProfileManager {
 			currentUser.setNick((nick != null) ? nick : username);
 			//化身？
 			currentUser.setAvatar(getCurrentUserAvatar());
-		}
+
 		return currentUser;
 	}
 
-	public boolean updateCurrentUserNickName(final String nickname) {
-		boolean isSuccess = ParseManager.getInstance().updateParseNickName(nickname);
-		if (isSuccess) {
-			setCurrentUserNick(nickname);
-		}
-		return isSuccess;
+	public void updateCurrentUserNickName(final String nickname, UserProfileListener userProfileListener) {
+		 ParseManager.getInstance().updateParseNickName(nickname,userProfileListener);
+
+
+
+
 	}
 
-	public boolean isUserRegister(final String username) {
-		boolean isSuccess = ParseManager.getInstance().isUserRegister(username);
-		return isSuccess;
-	}
+//	public boolean isUserRegister(final String username) {
+//		boolean isSuccess = ParseManager.getInstance().isUserRegister(username);
+//		return isSuccess;
+//	}
 
 	public void updateCurrentUserRegisterNickName(String username ,final String nickname) {
 		 ParseManager.getInstance().updateRegisterParseNickName(username,nickname);
@@ -175,10 +176,19 @@ public class UserProfileManager {
 		});
 
 	}
+
+	/**
+	 * 同步知己数据
+	 * @param callback
+     */
+	public void asyncGetCurrentUserInfoMy(final EMValueCallBack<EaseUser> callback) {
+		ParseManager.getInstance().asyncGetCurrentUserInfo(callback);
+
+	}
 	public void asyncGetUserInfo(final String username, final EMValueCallBack<EaseUser> callback){
 		ParseManager.getInstance().asyncGetUserInfo(username, callback);
 	}
-	private void setCurrentUserNick(String nickname) {
+	public void setCurrentUserNick(String nickname) {
 		getCurrentUserInfo().setNick(nickname);
 		PreferenceManager.getInstance().setCurrentUserNick(nickname);
 	}

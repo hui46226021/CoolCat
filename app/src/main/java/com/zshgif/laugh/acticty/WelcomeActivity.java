@@ -39,7 +39,7 @@ import io.vov.vitamio.Vitamio;
  */
 public class WelcomeActivity extends AppCompatActivity {
     public static WelcomeActivity instance;
-    private static final int sleepTime = 2000;
+    private static final int sleepTime = 4500;
     List<PhoneConteacts> list = new ArrayList<>();
     private int USER_OPEN=0;  //用户已经开启
     private int USER_UNOPEN=1; //用户未开启
@@ -108,6 +108,8 @@ public class WelcomeActivity extends AppCompatActivity {
          */
         AdManager.getInstance(this).init(Constant.YM_APP_ID,Constant.YM_APP_SIGN,Constant.YM_STATE);
         SpotManager.getInstance(instance).loadSpotAds();
+        //关闭日志
+        AdManager.getInstance(this).setEnableDebugLog(false);
         setupSplashAd();
         /**
          * 初始化视频播放
@@ -142,18 +144,18 @@ public class WelcomeActivity extends AppCompatActivity {
                     /**
                      * 通过有米广告进入主页了
                      */
-//                    startActivity(new Intent(WelcomeActivity.this,MyActivity.class));
+                    startActivity(new Intent(WelcomeActivity.this,MyActivity.class));
 //
-//                    finish();
+                    finish();
                 }else {
                     MapCache.putObject(Constant.IS_LOGIN_KEY,false);
                     try {
                         Thread.sleep(sleepTime);
                     } catch (InterruptedException e) {
                     }
-//                    startActivity(new Intent(WelcomeActivity.this,MyActivity.class));
+                    startActivity(new Intent(WelcomeActivity.this,MyActivity.class));
 //
-//                    finish();
+                    finish();
                 }
             }
         }).start();
@@ -182,10 +184,10 @@ public class WelcomeActivity extends AppCompatActivity {
         // 设置是否显示关闭按钮，默认不显示
         splashView.hideCloseBtn(true);
 //        //传入跳转的intent，若传入intent，初始化时目标activity应传入null
-        Intent intent = new Intent(this, MyActivity.class);
-        splashView.setIntent(intent);
-        //展示失败后是否直接跳转，默认直接跳转
-        splashView.setIsJumpTargetWhenFail(true);
+//        Intent intent = new Intent(this, MyActivity.class);
+//        splashView.setIntent(intent);
+//        //展示失败后是否直接跳转，默认直接跳转
+//        splashView.setIsJumpTargetWhenFail(true);
         //获取开屏视图
         View splash = splashView.getSplashView();
 
