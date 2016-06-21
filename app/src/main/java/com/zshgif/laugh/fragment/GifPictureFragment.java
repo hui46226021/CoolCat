@@ -70,24 +70,17 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
 
     public static GifPictureFragment newInstance() {
         instance = new GifPictureFragment();
-
         return instance;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         //初始化控件
         View view = inflater.inflate(R.layout.fragment_gif_picture, container, false);
-
         ViewUtils.inject(this, view);
-
         initOk =true;//初始化完成
         lazyLoad();
         return view;
@@ -98,14 +91,25 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
             return;
         }
         super.lazyLoad();
-        initData();
+        //数据只加载一次
+        if(!loadOk){
+            initData();
             settingView();
+            loadOk =true;
+        }
+
 
     }
 
+    /**
+     * 切换页面保存当前页面的ID
+     */
     @Override
     protected void unlazyLoad() {
         super.unlazyLoad();
+        if(!initOk) {
+            return;
+        }
         saveId();
     }
 
@@ -113,15 +117,21 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
      * 初始化数据
      */
     void initData(){
+        //如果当前集合里有只不做任何操作
+        if(list.size()>0){
+            return;
+        }
         /**
          * 根据之前推出时候保存的 项目ID
          */
         preferences = getActivity().getSharedPreferences("gifpicture", getActivity().MODE_PRIVATE);
+
        int item_id = (int) preferences.getLong("item_id",-1l);
         if (item_id==-1){
             //如果之前 没有保存的ID 就刷新下
             mSwipeRefreshLayout.setRefreshing(true);
             onRefresh();
+            return;
         }
         /**
          * 查询 id前7个到最后一个倒叙
@@ -134,9 +144,7 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
          * 将当前第一个 项目的 段子ID 记录
          */
         try{ first_one_id = list.get(0).getNETid();}catch (Exception e){}
-        for (GifitemBean gg:list){
-            LogUtils.e("查询出",gg.getId()+"");
-        }
+
     }
 
     /**
@@ -419,7 +427,7 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
                 pictureBean.setThumbImage(thumbImageUrl);
                 picturelist.add(pictureBean);
             }
-//            gifitemBean.setLarge_image_list(picturelist);
+
 
             /**
              * 发布者和评论  最后将项目对象放到集合
@@ -465,16 +473,13 @@ public class GifPictureFragment extends BaseFragment  implements SwipeRefreshLay
 
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        saveId();
-    }
+
 
     @Override
     public void onDestroy() {
         super.onDestroy();
 
+        saveId();
     }
 
     public void saveId(){

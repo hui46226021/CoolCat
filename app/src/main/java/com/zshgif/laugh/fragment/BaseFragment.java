@@ -29,7 +29,9 @@ public class BaseFragment  extends LazyFragment {
      * 弹出吐丝
      * @param message
      */
-    public boolean  initOk;
+    public boolean  initOk; //页面初始化完成
+
+    public boolean loadOk;//加载完成
     /**
      * 页面状态
      */

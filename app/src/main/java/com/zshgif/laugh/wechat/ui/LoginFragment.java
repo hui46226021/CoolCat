@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.zshgif.laugh.R;
 import com.zshgif.laugh.acticty.ContextUtil;
 import com.zshgif.laugh.fragment.LazyFragment;
+import com.zshgif.laugh.utils.LogUtils;
 import com.zshgif.laugh.wechat.DemoHelper;
 import com.zshgif.laugh.wechat.db.DemoDBManager;
 
@@ -73,6 +75,16 @@ public class LoginFragment extends LazyFragment implements View.OnClickListener{
       View view =  inflater.inflate(R.layout.fragment_login, container, false);
         ViewUtils.inject(this, view);
         init();
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /**
+                 * 点击空白位置 隐藏软键盘
+                 */
+                InputMethodManager mInputMethodManager = (InputMethodManager) getActivity().getSystemService(getActivity().INPUT_METHOD_SERVICE);
+                 mInputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+            }
+        });
         return view;
     }
 
@@ -232,4 +244,6 @@ public class LoginFragment extends LazyFragment implements View.OnClickListener{
                 break;
         }
     }
+
+
 }

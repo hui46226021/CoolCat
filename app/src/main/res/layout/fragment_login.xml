@@ -8,10 +8,11 @@
 
 
     <RelativeLayout
+        android:layout_marginTop="150dp"
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_gravity="center"
-        android:gravity="center"
+
         android:layout_weight="3" >
 
         <RelativeLayout
@@ -80,7 +81,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_below="@id/rl_password"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
@@ -90,26 +91,25 @@
             <Button
                 android:id="@+id/register_button"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dip"
-                android:layout_marginRight="10dip"
+                android:layout_height="50dp"
+                android:layout_marginRight="5dip"
                 android:layout_weight="1"
-                android:background="@drawable/em_button_register_bg"
+                android:background="@drawable/loginorregister"
                 android:gravity="center"
                 android:paddingBottom="7dp"
                 android:paddingTop="7dp"
                 android:text="@string/register"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
                 android:textSize="18sp" />
 
             <Button
                 android:id="@+id/login_button"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dip"
-                android:layout_marginRight="10dip"
+                android:layout_height="50dp"
+                android:layout_marginLeft="5dip"
+
                 android:layout_weight="1"
-                android:background="?attr/colorPrimary"
+                android:background="@drawable/loginorregister"
                 android:gravity="center"
                 android:onClick="login"
                 android:paddingBottom="7dp"

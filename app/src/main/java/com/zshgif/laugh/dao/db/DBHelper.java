@@ -2,6 +2,7 @@ package com.zshgif.laugh.dao.db;
 
 import android.content.Context;
 
+import com.zshgif.laugh.dao.VideoBeanDao;
 import com.zshgif.laugh.fragment.BaseFragment;
 import com.zshgif.laugh.model.CommentsBean;
 import com.zshgif.laugh.dao.CommentsBeanDao;
@@ -13,6 +14,7 @@ import com.zshgif.laugh.dao.PictureBeanDao;
 import com.zshgif.laugh.model.ReleaseUser;
 import com.zshgif.laugh.dao.ReleaseUserDao;
 import com.zshgif.laugh.acticty.ContextUtil;
+import com.zshgif.laugh.model.VideoBean;
 import com.zshgif.laugh.utils.LogUtils;
 
 import java.util.List;
@@ -31,6 +33,7 @@ public class DBHelper {
     private static GifitemBeanDao gifitemBeanDao;
     private static PictureBeanDao pictureBeanDao;
     private static ReleaseUserDao releaseUserDao;
+    private static VideoBeanDao videoBeanDao;
     private DaoSession mDaoSession;
     private DBHelper() {
     }
@@ -47,7 +50,7 @@ public class DBHelper {
             gifitemBeanDao =instance.mDaoSession.getGifitemBeanDao();
             pictureBeanDao = instance.mDaoSession.getPictureBeanDao();
             releaseUserDao = instance.mDaoSession.getReleaseUserDao();
-
+            videoBeanDao = instance.mDaoSession.getVideoBeanDao();
         }
         return instance;
     }
@@ -60,6 +63,7 @@ public class DBHelper {
         gifitemBeanDao.createTable(mDaoSession.getDatabase(), true);
         pictureBeanDao.createTable(mDaoSession.getDatabase(), true);
         releaseUserDao.createTable(mDaoSession.getDatabase(), true);
+        videoBeanDao.createTable(mDaoSession.getDatabase(), true);
     }
 
     public static void insertIntoGifitemBean(GifitemBean gifitemBean){
@@ -73,6 +77,9 @@ public class DBHelper {
     }
     public static void insertIntoReleaseUser(ReleaseUser releaseUse){
         LogUtils.e("ReleaseUser插入数据库",instance.releaseUserDao.insertOrReplace(releaseUse)+"");
+    }
+    public static void insertIntoVideoBean(VideoBean videoBean){
+        LogUtils.e("videoBean插入数据库",instance.videoBeanDao.insertOrReplace(videoBean)+"");
     }
 
     /** 初始化GifitemBean */
@@ -127,6 +134,30 @@ public class DBHelper {
 
         return all;
     }
+
+
+    /** 查询所有的10条GifitemBean */
+    public static List<VideoBean> loadAllVideoBeanPushTen(int id) {
+
+        QueryBuilder<VideoBean> query = instance.videoBeanDao.queryBuilder()
+                .orderDesc(VideoBeanDao.Properties.Id)
+                .where(VideoBeanDao.Properties.Id.gt(id-25+""),VideoBeanDao.Properties.Id.lt(id-5+""));
+
+        List<VideoBean> all = query.list();
+        return all;
+    }
+
+    /** 查询所有的DuanZiBean */
+    public static List<VideoBean> loadAllVideoBean(int id) {
+        QueryBuilder<VideoBean> query = instance.videoBeanDao.queryBuilder()
+                .orderDesc(VideoBeanDao.Properties.Id)
+                .where(VideoBeanDao.Properties.Id.gt(id- BaseFragment.ALLOWANCE+""));
+
+        List<VideoBean> all = query.list();
+
+        return all;
+    }
+
     /** 查询所有的GifitemBean */
     public static CommentsBean loadCommentsBean(Long id) {
 

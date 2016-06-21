@@ -157,4 +157,6 @@ public class GroupSimpleDetailActivity extends BaseActivity {
 	public void back(View view){
 		finish();
 	}
+
+
 }

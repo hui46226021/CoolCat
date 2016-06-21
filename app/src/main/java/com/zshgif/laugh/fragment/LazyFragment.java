@@ -2,6 +2,8 @@ package com.zshgif.laugh.fragment;
 
 
 import android.support.v4.app.Fragment;
+import android.view.MotionEvent;
+import android.view.inputmethod.InputMethodManager;
 
 /**
  * fragment的懒加载

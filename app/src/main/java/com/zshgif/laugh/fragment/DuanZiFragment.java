@@ -93,19 +93,28 @@ public class DuanZiFragment extends BaseFragment  implements SwipeRefreshLayout.
             return;
         }
         super.lazyLoad();
-        initData();
-        settingView();
+        if(!loadOk){
+            initData();
+            settingView();
+            loadOk =true;
+        }
 
     }
     @Override
     protected void unlazyLoad() {
         super.unlazyLoad();
+        if(!initOk) {
+            return;
+        }
         saveId();
     }
     /**
      * 初始化数据
      */
     void initData(){
+        if(list.size()>0){
+            return;
+        }
         /**
          * 根据之前推出时候保存的 项目ID
          */
@@ -115,6 +124,7 @@ public class DuanZiFragment extends BaseFragment  implements SwipeRefreshLayout.
             //如果之前 没有保存的ID 就刷新下
             mSwipeRefreshLayout.setRefreshing(true);
             onRefresh();
+            return;
         }
 
         /**
@@ -372,12 +382,12 @@ public class DuanZiFragment extends BaseFragment  implements SwipeRefreshLayout.
     @Override
     public void onDestroy() {
         super.onDestroy();
-
+        saveId();
     }
     @Override
     public void onStop() {
         super.onStop();
-        saveId();
+
     }
 
 

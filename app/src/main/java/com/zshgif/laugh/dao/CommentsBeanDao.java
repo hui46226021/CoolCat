@@ -8,6 +8,7 @@ import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;
 import de.greenrobot.dao.internal.DaoConfig;
 
+
 import com.zshgif.laugh.dao.db.DaoSession;
 import com.zshgif.laugh.model.CommentsBean;
 

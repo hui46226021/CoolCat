@@ -37,6 +37,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import io.vov.vitamio.utils.Log;
+
 /**
  * Created by zhush on 2016/5/15
  * gif图片页面.
@@ -98,14 +100,23 @@ public class VideoFragment extends BaseFragment  implements SwipeRefreshLayout.O
             return;
         }
         super.lazyLoad();
-        initData();
+        //数据只加载一次
+        if(!loadOk){
+            initData();
             settingView();
+            loadOk =true;
+        }
 
     }
-
+    /**
+     * 切换页面保存当前页面的ID
+     */
     @Override
     protected void unlazyLoad() {
         super.unlazyLoad();
+        if(!initOk) {
+            return;
+        }
         saveId();
     }
 
@@ -113,6 +124,10 @@ public class VideoFragment extends BaseFragment  implements SwipeRefreshLayout.O
      * 初始化数据
      */
     void initData(){
+        //如果当前集合里有只不做任何操作
+        if(list.size()>0){
+            return;
+        }
         /**
          * 根据之前推出时候保存的 项目ID
          */
@@ -122,21 +137,20 @@ public class VideoFragment extends BaseFragment  implements SwipeRefreshLayout.O
             //如果之前 没有保存的ID 就刷新下
             mSwipeRefreshLayout.setRefreshing(true);
             onRefresh();
+            return;
         }
         /**
          * 查询 id前7个到最后一个倒叙
          */
-//        list=  DBHelper.loadAllGifitemBean(item_id);
-//        if (list.size()==0){
-//            return;
-//        }
-//        /**
-//         * 将当前第一个 项目的 段子ID 记录
-//         */
-//        try{ first_one_id = list.get(0).getNETid();}catch (Exception e){}
-//        for (GifitemBean gg:list){
-//            LogUtils.e("查询出",gg.getId()+"");
-//        }
+        list=  DBHelper.loadAllVideoBean(item_id);
+        if (list.size()==0){
+            return;
+        }
+        /**
+         * 将当前第一个 项目的 段子ID 记录
+         */
+        try{ first_one_id = list.get(0).getNETid();}catch (Exception e){}
+
     }
 
     /**
@@ -175,7 +189,7 @@ public class VideoFragment extends BaseFragment  implements SwipeRefreshLayout.O
                          * 因为当前屏幕下面应该还有5个
                          */
                         int id = Integer.parseInt(list.get(LAST_ONE).getId()+"");
-                        List listload=  DBHelper.loadAllGifitemBeanPushTen(id);
+                        List listload=  DBHelper.loadAllVideoBeanPushTen(id);
                         if (listload.size()>0){
                             list.addAll(listload) ;
                             getActivity().runOnUiThread(new Runnable() {
@@ -316,22 +330,6 @@ public class VideoFragment extends BaseFragment  implements SwipeRefreshLayout.O
             JSONObject group =jsonObjectItem.getJSONObject("group");
             singlePicture(group,jsonObjectItem.getJSONArray("comments"));
 
-//            int type = group.getInt("media_type");
-//
-//            switch (type){
-//                case 1:
-//
-//                    singlePicture(group,jsonObjectItem.getJSONArray("comments"));
-//                    break;
-//                case 2:
-//
-//                    singlePicture(group,jsonObjectItem.getJSONArray("comments"));
-//                    break;
-//                case 3:
-//                    singlePicture(group,jsonObjectItem.getJSONArray("comments"));
-//                default:
-//                    LogUtils.e("其他 media_type=",type+"");
-//            }
 
         }
 
@@ -434,31 +432,30 @@ public class VideoFragment extends BaseFragment  implements SwipeRefreshLayout.O
         /**
          * 插入数据库
          */
-//        DBHelper.insertIntoGifitemBean(gifitemBean);
+        DBHelper.insertIntoVideoBean(videoBean);
 
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        saveId();
-    }
+
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-
+        saveId();
     }
 
     public void saveId(){
         try {
+
             SharedPreferences.Editor editor = preferences.edit();
+            Long saveid = list.get(FIRST_ONE).getId();
             //设置参数
-            editor.putLong("item_id",  list.get(FIRST_ONE).getId());
+            editor.putLong("item_id", saveid);
+            editor.commit();
             //提交
             LogUtils.e("保存",list.get(FIRST_ONE).getId()+"");
         }catch (Exception e){
-
+            e.printStackTrace();
         }
     }
     /**
