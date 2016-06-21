@@ -159,7 +159,10 @@ public class BaseActivity extends EaseBaseActivity {
 
 
     public void showAlertDialog(String message,String button,DialogInterface.OnClickListener listener){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this,android.R.style.Theme_Holo_Light_Dialog);
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this,android.R.style.Theme_DeviceDefault_Dialog);
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this,android.R.style.Theme_Dialog);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this,android.R.style.Theme_DeviceDefault_Dialog_NoActionBar);
         builder.setTitle("提示");
         builder.setMessage(message);
         builder.setCancelable(false);

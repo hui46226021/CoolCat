@@ -8,6 +8,7 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.zshgif.laugh.wechat.DemoHelper;
 import com.zshgif.laugh.wechat.DemoHelper.DataSyncListener;
+import com.zshgif.laugh.wechat.bean.hxuser;
 import com.zshgif.laugh.wechat.utils.PreferenceManager;
 
 import java.util.ArrayList;
@@ -209,4 +210,14 @@ public class UserProfileManager {
 	public void getExamineState(){
 		ParseManager.getInstance().getExamineState();
 	}
+
+	/**
+	 * 获取手机联系人信息
+	 * @param usernames
+	 * @return
+     */
+	public  List<hxuser> getPhoneContactInfos(List<String> usernames){
+		return ParseManager.getInstance().getPhoneContactInfos(usernames);
+	}
+
 }

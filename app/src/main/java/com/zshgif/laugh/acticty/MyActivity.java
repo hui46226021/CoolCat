@@ -216,7 +216,7 @@ public class MyActivity extends BaseActivity
       startActivity(new Intent(this,SetThemeActivty.class));
     }
     if(id == R.id.clear){
-      AlertDialog.Builder builder = builder = new AlertDialog.Builder(MyActivity.this);
+      AlertDialog.Builder builder = new AlertDialog.Builder(this,android.R.style.Theme_DeviceDefault_Dialog_NoActionBar);
       builder.setTitle("提示");
       maxMemory = DiskLruCacheUtil.size();
 

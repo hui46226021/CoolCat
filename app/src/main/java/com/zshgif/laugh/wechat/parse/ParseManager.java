@@ -93,6 +93,7 @@ public class ParseManager {
                     isUserRegister = false;
                 }else {
                     isUserRegister = true;
+                    LogUtils.e("ddddddd",isUserRegister+"查出结果");
                 }
             }
 
@@ -102,6 +103,7 @@ public class ParseManager {
 
             }
         });
+        LogUtils.e("ddddddd",isUserRegister+"没查出结果");
         return isUserRegister;
 
     }
@@ -130,6 +132,8 @@ public class ParseManager {
                         @Override
                         public void onSuccess() {
                             // TODO Auto-generated method stub
+
+
                             Log.i("bmob", "更新成功：");
                             updateParseNickName = true;
                         }
@@ -145,6 +149,8 @@ public class ParseManager {
                 if (object == null || object.size() == 0) {
                     updateParseNickName = false;
                 }
+
+                LogUtils.e("ddddddd",updateParseNickName+"查出结果");
             }
 
             @Override
@@ -153,6 +159,8 @@ public class ParseManager {
 
             }
         });
+
+        LogUtils.e("ddddddd",updateParseNickName+"没查出结果");
         return updateParseNickName;
 
 
@@ -218,6 +226,35 @@ public class ParseManager {
         });
 
 
+    }
+
+
+    /**
+     * 获取手机联系人信息
+     * @param usernames
+     * @param callback
+     */
+    public List<hxuser> getPhoneContactInfos;
+    public  List<hxuser> getPhoneContactInfos(List<String> usernames) {
+
+        BmobQuery<hxuser> bmobQuery = new BmobQuery<hxuser>();
+        bmobQuery.addWhereContainsAll(CONFIG_USERNAME, usernames);
+        bmobQuery.findObjects(ContextUtil.getInstance(), new FindListener<hxuser>() {
+            @Override
+            public void onSuccess(List<hxuser> object) {
+                getPhoneContactInfos = object;
+                LogUtils.e("getPhoneContactInfos","成功");
+            }
+
+            @Override
+            public void onError(int code, String msg) {
+                getPhoneContactInfos = new ArrayList<hxuser>();
+                LogUtils.e("getPhoneContactInfos","失败"+code);
+            }
+        });
+
+        LogUtils.e("getPhoneContactInfos",getPhoneContactInfos+"");
+        return getPhoneContactInfos;
     }
 
     /**

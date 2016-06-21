@@ -455,7 +455,7 @@ public class VideoFragment extends BaseFragment  implements SwipeRefreshLayout.O
             //提交
             LogUtils.e("保存",list.get(FIRST_ONE).getId()+"");
         }catch (Exception e){
-            e.printStackTrace();
+
         }
     }
     /**

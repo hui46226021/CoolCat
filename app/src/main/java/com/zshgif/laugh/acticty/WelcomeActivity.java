@@ -57,43 +57,43 @@ public class WelcomeActivity extends AppCompatActivity {
          */
         DemoHelper.getInstance().getUserProfileManager().getExamineState();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                // 获取手机联系人
-                /**获取库Phon表字段**/
-                String[] PHONES_PROJECTION = new String[] {
-                        ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Photo.PHOTO_ID, ContactsContract.CommonDataKinds.Phone.CONTACT_ID };
-                Cursor cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,PHONES_PROJECTION, null, null, null);
-                Map<String, EaseUser> userMap =DemoHelper.getInstance().getContactList();
-                if (cursor.moveToFirst()) {
-                    do {
-                        /**联系人显示名称**/
-                        int PHONES_DISPLAY_NAME_INDEX = 0;
-                        /**电话号码**/
-                        int PHONES_NUMBER_INDEX = 1;
-                        String phone = cursor.getString(PHONES_NUMBER_INDEX);
-                        String contactName = cursor.getString(PHONES_DISPLAY_NAME_INDEX);
-                        int state = 0;
-                        if(DemoHelper.getInstance().getUserProfileManager().isUserRegister(phone)){
-                            state =   userMap.containsKey(phone)?USER_AADDED:USER_OPEN;
-                        }else {
-                            state =USER_UNOPEN;
-                        }
-                        PhoneConteacts phoneConteacts = new PhoneConteacts(phone.replace("+86",""),contactName,state);
-                        if (state==USER_OPEN){
-                            list.add(0,phoneConteacts);
-                        }else {
-                            list.add(phoneConteacts);
-                        }
-
-
-                        LogUtils.e("添加一个",phoneConteacts.toString());
-                    } while (cursor.moveToNext());
-                    MapCache.putObject(Constant.PHONE_CONTACTS_LIST,list);
-                }
-            }
-        }).start();
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                // 获取手机联系人
+//                /**获取库Phon表字段**/
+//                String[] PHONES_PROJECTION = new String[] {
+//                        ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Photo.PHOTO_ID, ContactsContract.CommonDataKinds.Phone.CONTACT_ID };
+//                Cursor cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,PHONES_PROJECTION, null, null, null);
+//                Map<String, EaseUser> userMap =DemoHelper.getInstance().getContactList();
+//                if (cursor.moveToFirst()) {
+//                    do {
+//                        /**联系人显示名称**/
+//                        int PHONES_DISPLAY_NAME_INDEX = 0;
+//                        /**电话号码**/
+//                        int PHONES_NUMBER_INDEX = 1;
+//                        String phone = cursor.getString(PHONES_NUMBER_INDEX);
+//                        String contactName = cursor.getString(PHONES_DISPLAY_NAME_INDEX);
+//                        int state = 0;
+//                        if(DemoHelper.getInstance().getUserProfileManager().isUserRegister(phone)){
+//                            state =   userMap.containsKey(phone)?USER_AADDED:USER_OPEN;
+//                        }else {
+//                            state =USER_UNOPEN;
+//                        }
+//                        PhoneConteacts phoneConteacts = new PhoneConteacts(phone.replace("+86",""),contactName,state);
+//                        if (state==USER_OPEN){
+//                            list.add(0,phoneConteacts);
+//                        }else {
+//                            list.add(phoneConteacts);
+//                        }
+//
+//
+//                        LogUtils.e("添加一个",phoneConteacts.toString());
+//                    } while (cursor.moveToNext());
+//                    MapCache.putObject(Constant.PHONE_CONTACTS_LIST,list);
+//                }
+//            }
+//        }).start();
     }
 
 

@@ -31,13 +31,18 @@ import com.zshgif.laugh.utils.LogUtils;
 import com.zshgif.laugh.wechat.DemoHelper;
 import com.zshgif.laugh.wechat.adapter.PhoneContactsAdapter;
 import com.zshgif.laugh.wechat.bean.PhoneConteacts;
+import com.zshgif.laugh.wechat.bean.hxuser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class PhoneContactsActivity extends BaseActivity {
-    List<PhoneConteacts> list = null;
+    List<PhoneConteacts> list = null;  //跟后台数据匹配好的集合
+    List<PhoneConteacts> list2 = null; //充手机里查询出来的集合
+    List<String> nameList;
+    List<hxuser> hxuserList;     //后台查询出来的用户集合
     private Toolbar mToolbar;
     private ListView listView;
     private PhoneContactsAdapter phoneContactsAdapter;
@@ -83,15 +88,12 @@ public class PhoneContactsActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        list = (List<PhoneConteacts>) MapCache.getObjectForKey(Constant.PHONE_CONTACTS_LIST);
-        if(list!=null){
-            initListView();
-            return;
-        }
+
 
         list = new ArrayList<>();
-
-
+        list2 = new ArrayList<>();
+        nameList = new ArrayList<>();
+        showProgressDialog("正在加载联系人");
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -101,8 +103,8 @@ public class PhoneContactsActivity extends BaseActivity {
                         ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Photo.PHOTO_ID, ContactsContract.CommonDataKinds.Phone.CONTACT_ID };
                 Cursor cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,PHONES_PROJECTION, null, null, null);
                 maxCount =cursor.getCount();
-                mHandler.sendEmptyMessage(START_QUERY);
-                Map<String, EaseUser>  userMap =DemoHelper.getInstance().getContactList();
+
+
 
                 if (cursor.moveToFirst()) {
                     do {
@@ -112,24 +114,42 @@ public class PhoneContactsActivity extends BaseActivity {
                         int PHONES_NUMBER_INDEX = 1;
                         String phone = cursor.getString(PHONES_NUMBER_INDEX);
                         String contactName = cursor.getString(PHONES_DISPLAY_NAME_INDEX);
-                       int state = 0;
-                        if(DemoHelper.getInstance().getUserProfileManager().isUserRegister(phone)){
-                            state =   userMap.containsKey(phone)?USER_AADDED:USER_OPEN;
-                        }else {
-                            state =USER_UNOPEN;
-                        }
-                        PhoneConteacts phoneConteacts = new PhoneConteacts(phone.replace("+86",""),contactName,state);
-                        if (state==USER_OPEN){
-                            list.add(0,phoneConteacts);
-                        }else {
-                            list.add(phoneConteacts);
-                        }
-                        progress = progress+1;
 
-                        mHandler.sendEmptyMessage(INT_QUERY);
+                        PhoneConteacts phoneConteacts = new PhoneConteacts(phone.replace("+86",""),contactName,0);
+                        list2.add(phoneConteacts);
+                        nameList.add(phone.replace("+86",""));
                         LogUtils.e("添加一个",phoneConteacts.toString());
                     } while (cursor.moveToNext());
-                    mHandler.sendEmptyMessage(END_QUERY);
+
+
+
+                    hxuserList =   DemoHelper.getInstance().getUserProfileManager().getPhoneContactInfos(nameList);
+
+                    if(hxuserList==null){
+                        return;
+                    }
+                    //将开启换新的手机号好友封装到了map里
+                    Map<String, hxuser>  hxuserMap = new HashMap<String, hxuser>();
+                    for(hxuser hxuserObject:hxuserList){
+                        hxuserMap.put(hxuserObject.getUsername(),hxuserObject);
+                    }
+                    //好友集合
+                    Map<String, EaseUser>  userMap =DemoHelper.getInstance().getContactList();
+                    for(PhoneConteacts phoneConteacts :list2){
+                        if(hxuserMap.containsKey(phoneConteacts.getPhone())){
+                          int  state =   userMap.containsKey(phoneConteacts.getPhone())?USER_AADDED:USER_OPEN;
+                            phoneConteacts.setState(USER_UNOPEN);
+                            list.add(0,phoneConteacts);
+                        }else {
+                            phoneConteacts.setState(USER_UNOPEN);
+                            list.add(phoneConteacts);
+                        }
+
+                    }
+
+
+
+
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -197,28 +217,28 @@ public class PhoneContactsActivity extends BaseActivity {
         }).start();
     }
 
-    private Handler mHandler = new Handler(){
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case INT_QUERY:
-                    mProgress.setProgress(progress);
-                    break;
-                case END_QUERY:
-
-                    progressDialog.dismiss();
-                    break;
-                case START_QUERY:
-                    showAlertDialog(maxCount);
-
-                    break;
-                default:
-                    break;
-            }
-        };
-    };
+//    private Handler mHandler = new Handler(){
+//        public void handleMessage(Message msg) {
+//            switch (msg.what) {
+//                case INT_QUERY:
+//                    mProgress.setProgress(progress);
+//                    break;
+//                case END_QUERY:
+//
+//                    progressDialog.dismiss();
+//                    break;
+//                case START_QUERY:
+//                    showAlertDialog(maxCount);
+//
+//                    break;
+//                default:
+//                    break;
+//            }
+//        };
+//    };
 
     void showAlertDialog(int maxCount){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this,android.R.style.Theme_DeviceDefault_Dialog_NoActionBar);
         builder.setTitle("正在同步联系人数据");
 
         final LayoutInflater inflater = LayoutInflater.from(this);

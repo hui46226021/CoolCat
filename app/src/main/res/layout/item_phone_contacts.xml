@@ -3,7 +3,7 @@
 
 
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_height="wrap_content"
 
     android:orientation="horizontal"
 
@@ -12,7 +12,7 @@
 
       android:layout_marginLeft="16dp"
       android:layout_width="0dp"
-      android:layout_height="60dp"
+      android:layout_height="wrap_content"
       android:layout_weight="4"
       android:orientation="vertical"
 
@@ -20,8 +20,8 @@
   <TextView
       android:id="@+id/name"
       android:layout_width="match_parent"
-      android:layout_height="0dp"
-      android:layout_weight="1.8"
+      android:layout_height="wrap_content"
+
       android:gravity="center_vertical"
       android:paddingTop="10dp"
       android:textColor="@color/black_deep"
@@ -30,11 +30,10 @@
   <TextView
       android:id="@+id/phone"
       android:layout_width="match_parent"
-      android:layout_height="0dp"
-      android:layout_weight="1"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="10dp"
       android:gravity="top"
       android:textSize="16sp"
-      android:layout_marginBottom="7dp"
       android:text="15153512896"/>
     </LinearLayout>
   <Button
