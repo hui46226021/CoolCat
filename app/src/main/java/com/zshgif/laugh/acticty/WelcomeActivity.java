@@ -55,6 +55,7 @@ public class WelcomeActivity extends AppCompatActivity {
         /**
          * 获取审核状态
          */
+        MapCache.putObject( Constant.EXAMINENAME,false);
         DemoHelper.getInstance().getUserProfileManager().getExamineState();
 
 //        new Thread(new Runnable() {

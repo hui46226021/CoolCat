@@ -139,9 +139,11 @@ public class MyActivity extends BaseActivity
     gifPictureFragment = GifPictureFragment.newInstance();
     mFragments.add(0, gifPictureFragment);
     duanZiFragment = DuanZiFragment.newInstance();
+
+    mFragments.add(1,duanZiFragment);
+
     videoFragment = VideoFragment.newInstance();
-    mFragments.add(1,videoFragment);
-    mFragments.add(2,duanZiFragment);
+    mFragments.add(2,videoFragment);
     mainFragment = MainFragment.newInstance();
     mFragments.add(3,mainFragment);
 
@@ -277,10 +279,10 @@ public class MyActivity extends BaseActivity
           case 0:
             gifPictureFragment.refreshPage();
             break;
-          case 1:
+          case 2:
             videoFragment.refreshPage();
             break;
-          case 2:
+          case 1:
             duanZiFragment.refreshPage();
             break;
         }

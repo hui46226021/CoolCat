@@ -488,7 +488,7 @@ public class ParseManager {
             @Override
             public void onError(int code, String msg) {
 
-
+                MapCache.putObject( Constant.EXAMINENAME,false);
             }
         });
 

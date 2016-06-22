@@ -54,11 +54,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/ease_mm_listitem"
-        android:visibility="gone" >
+        android:visibility="gone"
+      >
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:gravity="center"
             android:duplicateParentState="true" >
 
             <ImageView
@@ -70,6 +72,25 @@
                 android:scaleType="fitXY"
                 android:src="@drawable/em_default_avatar" />
 
+            <LinearLayout
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/avatar"
+                android:orientation="vertical"
+                >
+            <TextView
+                android:id="@+id/nick_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginLeft="18dp"
+                android:text="hehe"
+                android:layout_above="@id/name"
+
+                android:textColor="#0F0F0F"
+                android:textSize="18sp" />
             <TextView
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
@@ -77,9 +98,11 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="18dp"
                 android:layout_toRightOf="@id/avatar"
+                android:layout_above="@id/name"
+                android:text="15151515151511"
                 android:textColor="#0F0F0F"
-                android:textSize="16sp" />
-
+                android:textSize="14sp" />
+</LinearLayout>
 
             <Button
                 android:id="@+id/indicator"
@@ -93,6 +116,7 @@
                 android:paddingLeft="12dp"
                 android:paddingRight="12dp"
                 android:text="@string/button_add"
+                android:textColor="#0F0F0F"
                 android:textSize="14sp" />
         </RelativeLayout>
     </LinearLayout>

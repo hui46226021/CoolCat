@@ -28,9 +28,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMClient;
 
+import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.ui.EaseBaseActivity;
+import com.hyphenate.easeui.utils.HttpPictureUtils;
 import com.hyphenate.easeui.widget.EaseAlertDialog;
 import com.zshgif.laugh.R;
 import com.zshgif.laugh.acticty.BaseActivity;
@@ -43,12 +47,13 @@ import com.zshgif.laugh.wechat.DemoHelper;
 public class AddContactActivity extends BaseActivity {
 	private EditText editText;
 	private LinearLayout searchedUserLayout;
-	private TextView nameText,mTextView;
+	private TextView nameText,mTextView,nick_name;
 	private Button searchBtn;
 	private ImageView avatar;
 	private InputMethodManager inputMethodManager;
 	private String toAddUsername;
 	private ProgressDialog progressDialog;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +69,7 @@ public class AddContactActivity extends BaseActivity {
 		editText.setHint(strUserName);
 		searchedUserLayout = (LinearLayout) findViewById(R.id.ll_user);
 		nameText = (TextView) findViewById(R.id.name);
+		nick_name= (TextView) findViewById(R.id.nick_name);
 		searchBtn = (Button) findViewById(R.id.search);
 		avatar = (ImageView) findViewById(R.id.avatar);
 		inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -98,11 +104,52 @@ public class AddContactActivity extends BaseActivity {
 			// TODO 从服务器获取此contact,如果不存在提示不存在此用户
 			
 			//服务器存在此用户，显示此用户和添加按钮
-			searchedUserLayout.setVisibility(View.VISIBLE);
-			nameText.setText(toAddUsername);
+
+
+			asyncFetchUserInfo(toAddUsername);
+
+
+//
 			
 		} 
-	}	
+	}
+
+	/**
+	 * 查询用户
+	 * @param username
+     */
+	public void asyncFetchUserInfo(String username){
+		DemoHelper.getInstance().getUserProfileManager().asyncGetUserInfo(username, new EMValueCallBack<EaseUser>() {
+
+			@Override
+			public void onSuccess(EaseUser user) {
+				if (user != null) {
+					DemoHelper.getInstance().saveContact(user);
+					if(isFinishing()){
+						return;
+					}
+
+					if(!TextUtils.isEmpty(user.getAvatar())){
+						HttpPictureUtils.ggetAvatarBitmap(user.getAvatar(),avatar,AddContactActivity.this, com.hyphenate.easeui.R.drawable.ease_default_avatar);
+//						 Glide.with(UserProfileActivity.this).load(user.getAvatar()).placeholder(R.drawable.em_default_avatar).into(headAvatar);
+					}else{
+						Glide.with(AddContactActivity.this).load(R.drawable.em_default_avatar).into(avatar);
+					}
+
+					searchedUserLayout.setVisibility(View.VISIBLE);
+					nameText.setText(toAddUsername);
+					nick_name.setText(user.getNick());
+				}else {
+					new EaseAlertDialog(AddContactActivity.this, R.string.no_This_user).show();
+				}
+			}
+
+			@Override
+			public void onError(int error, String errorMsg) {
+				new EaseAlertDialog(AddContactActivity.this, R.string.no_This_user).show();
+			}
+		});
+	}
 	
 	/**
 	 *  添加contact
