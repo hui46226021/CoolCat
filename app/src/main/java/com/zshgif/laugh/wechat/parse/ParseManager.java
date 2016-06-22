@@ -21,6 +21,7 @@ import com.zshgif.laugh.utils.LogUtils;
 import com.zshgif.laugh.wechat.DemoHelper;
 import com.zshgif.laugh.wechat.bean.hxuser;
 import com.zshgif.laugh.wechat.bean.state;
+import com.zshgif.laugh.wechat.utils.EMVhxuserCallBack;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -228,29 +229,29 @@ public class ParseManager {
     /**
      * 获取手机联系人信息
      * @param usernames
-     * @param callback
+
      */
-    public List<hxuser> getPhoneContactInfos;
-    public  List<hxuser> getPhoneContactInfos(List<String> usernames) {
+
+    public void getPhoneContactInfos(List<String> usernames,final EMVhxuserCallBack eMVhxuserCallBack,final boolean isfinish) {
+
 
         BmobQuery<hxuser> bmobQuery = new BmobQuery<hxuser>();
-        bmobQuery.addWhereContainsAll(CONFIG_USERNAME, usernames);
+        bmobQuery.addWhereContainedIn(CONFIG_USERNAME, usernames);
         bmobQuery.findObjects(ContextUtil.getInstance(), new FindListener<hxuser>() {
             @Override
             public void onSuccess(List<hxuser> object) {
-                getPhoneContactInfos = object;
-                LogUtils.e("getPhoneContactInfos","成功");
+                eMVhxuserCallBack.onSuccess(object,isfinish);
+                LogUtils.e("查询结果",object.toString());
             }
 
             @Override
             public void onError(int code, String msg) {
-                getPhoneContactInfos = new ArrayList<hxuser>();
-                LogUtils.e("getPhoneContactInfos","失败"+code);
+
+                eMVhxuserCallBack.onSuccess(new ArrayList<hxuser>(),isfinish);
+                LogUtils.e("查询结果","查询失败"+code);
             }
         });
 
-        LogUtils.e("getPhoneContactInfos",getPhoneContactInfos+"");
-        return getPhoneContactInfos;
     }
 
     /**

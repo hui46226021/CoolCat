@@ -8,7 +8,7 @@ public class PhoneConteacts {
     private String phone;//手机号
     private String name;//名字
     private int state;//状态  0开启  1关闭 2 已添加
-
+    private String  avatar;//头像
     public String getPhone() {
         return phone;
     }
@@ -46,5 +46,13 @@ public class PhoneConteacts {
                 ", name='" + name + '\'' +
                 ", state=" + state +
                 '}';
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

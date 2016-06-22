@@ -10,6 +10,7 @@ import com.zshgif.laugh.listener.UserProfileListener;
 import com.zshgif.laugh.wechat.DemoHelper;
 import com.zshgif.laugh.wechat.DemoHelper.DataSyncListener;
 import com.zshgif.laugh.wechat.bean.hxuser;
+import com.zshgif.laugh.wechat.utils.EMVhxuserCallBack;
 import com.zshgif.laugh.wechat.utils.PreferenceManager;
 
 import java.util.ArrayList;
@@ -226,8 +227,8 @@ public class UserProfileManager {
 	 * @param usernames
 	 * @return
      */
-	public  List<hxuser> getPhoneContactInfos(List<String> usernames){
-		return ParseManager.getInstance().getPhoneContactInfos(usernames);
+	public  void getPhoneContactInfos(List<String> usernames, EMVhxuserCallBack eMVhxuserCallBack, boolean isfinish){
+		 ParseManager.getInstance().getPhoneContactInfos(usernames,eMVhxuserCallBack,isfinish);
 	}
 
 }

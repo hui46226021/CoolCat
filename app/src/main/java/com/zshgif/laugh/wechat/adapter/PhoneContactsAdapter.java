@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.easeui.utils.HttpPictureUtils;
 import com.hyphenate.easeui.widget.EaseAlertDialog;
 import com.zshgif.laugh.R;
 import com.zshgif.laugh.model.PictureBean;
@@ -42,22 +44,13 @@ public class PhoneContactsAdapter extends ArrayAdapter<PhoneConteacts> {
     public View getView(int position, View convertView, ViewGroup parent) {
         PhoneConteacts phoneConteacts= lsit.get(position);
         Holder holder;
-//        if (convertView == null) {
-//            holder = new Holder();
-//            convertView = LayoutInflater.from(context).inflate(resource, parent, false);
-//            holder.phone = (TextView) convertView.findViewById(R.id.phone);
-//            holder.name = (TextView) convertView.findViewById(R.id.name);
-//            holder.button = (Button) convertView.findViewById(R.id.button);
-//            convertView.setTag(holder);
-//
-//        } else {
-//            holder = (Holder) convertView.getTag();
-//        }
+
         holder = new Holder();
         convertView = LayoutInflater.from(context).inflate(resource, parent, false);
         holder.phone = (TextView) convertView.findViewById(R.id.phone);
         holder.name = (TextView) convertView.findViewById(R.id.name);
         holder.button = (Button) convertView.findViewById(R.id.button);
+        holder.avatar= (ImageView) convertView.findViewById(R.id.avatar);
         convertView.setTag(holder);
 
 
@@ -96,6 +89,12 @@ public class PhoneContactsAdapter extends ArrayAdapter<PhoneConteacts> {
 
             }
         });
+
+        if(!TextUtils.isEmpty(phoneConteacts.getAvatar())){
+            HttpPictureUtils.ggetAvatarBitmap(phoneConteacts.getAvatar(),holder.avatar,context, com.hyphenate.easeui.R.drawable.ease_default_avatar);
+
+        }
+
         return convertView;
     }
 
@@ -104,6 +103,8 @@ public class PhoneContactsAdapter extends ArrayAdapter<PhoneConteacts> {
         TextView phone;
         TextView name;
         Button  button;
+
+        ImageView avatar;
     }
 
 

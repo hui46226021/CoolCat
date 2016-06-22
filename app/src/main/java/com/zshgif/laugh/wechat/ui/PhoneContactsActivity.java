@@ -32,6 +32,7 @@ import com.zshgif.laugh.wechat.DemoHelper;
 import com.zshgif.laugh.wechat.adapter.PhoneContactsAdapter;
 import com.zshgif.laugh.wechat.bean.PhoneConteacts;
 import com.zshgif.laugh.wechat.bean.hxuser;
+import com.zshgif.laugh.wechat.utils.EMVhxuserCallBack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,6 +44,7 @@ public class PhoneContactsActivity extends BaseActivity {
     List<PhoneConteacts> list2 = null; //充手机里查询出来的集合
     List<String> nameList;
     List<hxuser> hxuserList;     //后台查询出来的用户集合
+    List<String> usernameList_50 =new ArrayList<>();//50长度的临时手机号集合
     private Toolbar mToolbar;
     private ListView listView;
     private PhoneContactsAdapter phoneContactsAdapter;
@@ -93,6 +95,7 @@ public class PhoneContactsActivity extends BaseActivity {
         list = new ArrayList<>();
         list2 = new ArrayList<>();
         nameList = new ArrayList<>();
+        hxuserList = new ArrayList<>();
         showProgressDialog("正在加载联系人");
         new Thread(new Runnable() {
             @Override
@@ -118,50 +121,85 @@ public class PhoneContactsActivity extends BaseActivity {
                         PhoneConteacts phoneConteacts = new PhoneConteacts(phone.replace("+86",""),contactName,0);
                         list2.add(phoneConteacts);
                         nameList.add(phone.replace("+86",""));
-                        LogUtils.e("添加一个",phoneConteacts.toString());
+
                     } while (cursor.moveToNext());
 
+                    /**
+                     * 把 通讯录的list  分成50个长度的大小 去查询  后台最多支持同时查询50个长度的条件
+                     */
 
+                    for(int i = 0;i<nameList.size();i++){
+                        String username=nameList.get(i);
+                        usernameList_50.add(username);
+                        //当临时list等于了50或者 到了最后一个的时候 去查询下  查询回来添加到 等待匹配的集合里面   如果当最是最后一个手机号 在回掉里添加  isfinish=true 表示 此次查询完 要开始匹配了
+                        if(usernameList_50.size()==50||i==nameList.size()-1){
+                            boolean isfinish =false;
+                            if(i==nameList.size()-1){
+                                isfinish = true;
+                            }
+                            LogUtils.e("第"+i+"次查询",usernameList_50.toString());
+                              DemoHelper.getInstance().getUserProfileManager().getPhoneContactInfos(usernameList_50, new EMVhxuserCallBack() {
+                                @Override
+                                public void onSuccess(List<hxuser> hxuserlist, boolean isfinish) {
 
-                    hxuserList =   DemoHelper.getInstance().getUserProfileManager().getPhoneContactInfos(nameList);
+                                    hxuserList.addAll(hxuserlist);
 
-                    if(hxuserList==null){
-                        return;
-                    }
-                    //将开启换新的手机号好友封装到了map里
-                    Map<String, hxuser>  hxuserMap = new HashMap<String, hxuser>();
-                    for(hxuser hxuserObject:hxuserList){
-                        hxuserMap.put(hxuserObject.getUsername(),hxuserObject);
-                    }
-                    //好友集合
-                    Map<String, EaseUser>  userMap =DemoHelper.getInstance().getContactList();
-                    for(PhoneConteacts phoneConteacts :list2){
-                        if(hxuserMap.containsKey(phoneConteacts.getPhone())){
-                          int  state =   userMap.containsKey(phoneConteacts.getPhone())?USER_AADDED:USER_OPEN;
-                            phoneConteacts.setState(USER_UNOPEN);
-                            list.add(0,phoneConteacts);
-                        }else {
-                            phoneConteacts.setState(USER_UNOPEN);
-                            list.add(phoneConteacts);
+                                    if(isfinish){
+                                        matching();
+                                    }
+                                }
+                            },isfinish);
+                            usernameList_50.clear();
                         }
 
+
                     }
 
 
 
 
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            closeProgressDialog();
-                            initListView();
-                        }
-                    });
 
                 }
             }
         }).start();
     }
+
+    /**
+     * 比配通讯录和开启的列表
+     */
+    void matching(){
+        if(hxuserList==null){
+            return;
+        }
+        //将开启换新的手机号好友封装到了map里
+        Map<String, hxuser>  hxuserMap = new HashMap<String, hxuser>();
+        for(hxuser hxuserObject:hxuserList){
+            hxuserMap.put(hxuserObject.getUsername(),hxuserObject);
+        }
+        //好友集合
+        Map<String, EaseUser>  userMap =DemoHelper.getInstance().getContactList();
+        for(PhoneConteacts phoneConteacts :list2){
+            if(hxuserMap.containsKey(phoneConteacts.getPhone())){
+                int  state =   userMap.containsKey(phoneConteacts.getPhone())?USER_AADDED:USER_OPEN;
+                phoneConteacts.setState(state);
+                phoneConteacts.setAvatar(hxuserMap.get(phoneConteacts.getPhone()).getAvatar());
+                list.add(0,phoneConteacts);
+            }else {
+                phoneConteacts.setState(USER_UNOPEN);
+                list.add(phoneConteacts);
+            }
+
+        }
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                closeProgressDialog();
+                initListView();
+            }
+        });
+    }
+
 
     void initListView(){
         phoneContactsAdapter = new PhoneContactsAdapter(PhoneContactsActivity.this,R.layout.item_phone_contacts,list);
@@ -201,7 +239,7 @@ public class PhoneContactsActivity extends BaseActivity {
                         public void run() {
                             closeProgressDialog();
                             String s1 = getResources().getString(R.string.send_successful);
-                            Toast.makeText(getApplicationContext(), s1, 1).show();
+                            Toast.makeText(getApplicationContext(), s1, Toast.LENGTH_LONG).show();
                         }
                     });
                 } catch (final Exception e) {
@@ -209,7 +247,7 @@ public class PhoneContactsActivity extends BaseActivity {
                         public void run() {
                             closeProgressDialog();
                             String s2 = getResources().getString(R.string.Request_add_buddy_failure);
-                            Toast.makeText(getApplicationContext(), s2 + e.getMessage(), 1).show();
+                            Toast.makeText(getApplicationContext(), s2 + e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     });
                 }
