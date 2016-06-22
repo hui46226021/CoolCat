@@ -17,7 +17,7 @@
         android:id="@+id/phone_conteact"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:contactItemImage="@drawable/em_groups_icon"
+        app:contactItemImage="@drawable/em_phone_icon"
         app:contactItemName="@string/phone_chat" />
     <com.zshgif.laugh.wechat.widget.ContactItemView
         android:id="@+id/group_item"

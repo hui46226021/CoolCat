@@ -238,6 +238,9 @@ public class EaseConversationListFragment extends EaseBaseFragment{
         for (Pair<Long, EMConversation> sortItem : sortList) {
             list.add(sortItem.second);
         }
+
+
+
         return list;
     }
 

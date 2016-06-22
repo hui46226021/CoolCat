@@ -280,8 +280,8 @@ public class GifPaictureAdapter extends ArrayAdapter<GifitemBean> {
                 }
                 WeakReference weakReference = new WeakReference(BitmapFactory.decodeByteArray(bytes, 0, bytes.length));//弱引用
                 imageView.setImageBitmap((Bitmap) weakReference.get());
-                queue.offer((Bitmap) weakReference.get());
-                recycleBitmap();
+//                queue.offer((Bitmap) weakReference.get());
+//                recycleBitmap();
             }
 
             @Override

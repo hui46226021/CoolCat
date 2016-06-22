@@ -100,9 +100,17 @@ public class EaseConversationAdapater extends ArrayAdapter<EMConversation> {
 
         // 获取与此用户/群组的会话
         EMConversation conversation = getItem(position);
+
+
         // 获取用户username或者群组groupid
         String username = conversation.getUserName();
-        
+        /**
+         * 如果获取到一个null的conversation 说明回话列表里面没有数据 显示一个欢迎信息
+         */
+
+
+
+
         if (conversation.getType() == EMConversationType.GroupChat) {
             String groupId = conversation.getUserName();
             if(EaseAtMessageHelper.get().hasAtMeMsg(groupId)){

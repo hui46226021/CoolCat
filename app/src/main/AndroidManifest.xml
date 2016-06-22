@@ -72,8 +72,8 @@
         <activity
             android:name=".acticty.VideoViewActivty"
             android:icon="@mipmap/logo"
-            android:configChanges="keyboardHidden|orientation"
 
+            android:configChanges="orientation|keyboardHidden"
           />
 
 

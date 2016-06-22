@@ -72,6 +72,7 @@ public class EaseConversationList extends ListView {
         if(helper != null){
             this.conversationListHelper = helper;
         }
+
         adapter = new EaseConversationAdapater(context, 0, conversationList);
         adapter.setCvsListHelper(conversationListHelper);
         adapter.setPrimaryColor(primaryColor);
